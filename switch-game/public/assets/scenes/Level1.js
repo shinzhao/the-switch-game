@@ -51,11 +51,13 @@ export default class Level1 extends Phaser.Scene {
 			y_pos+=45;
 			x_pos=0;
 		}
-		
-		
-
-
+		this.clickedBox();
 
 	}
+	clickedBox(){
+		this.input.on('gameobjectdown', (pointer, gameObject) => {
+				console.log("this is clicked")
+	});
+}	
 	update(time, delta) {}
 }
