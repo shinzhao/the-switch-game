@@ -5,7 +5,7 @@ import Level1 from './scenes/Level1.js';
 var config = {
 	type: Phaser.AUTO,
 	width: 640,
-	height: 640,
+	height: 320,
 	scale: {
 		scale: 'SHOW_ALL',
 		orientation: 'LANDSCAPE'
