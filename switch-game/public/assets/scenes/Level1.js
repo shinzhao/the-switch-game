@@ -48,6 +48,8 @@ export default class Level1 extends Phaser.Scene {
 			y_pos+=45;
 			x_pos=0;
 		}
+
+		//click method
 		this.clickedBox();
 	}
 	clickedBox(){
@@ -55,6 +57,13 @@ export default class Level1 extends Phaser.Scene {
 		for(var i=0;i<36;i++){
 			if(this.gameBoard[i] == i && gameObject.data.get('card_number') == i) {
 				gameObject.destroy();
+				this.box_blank1 = this.add
+					.image(
+						gameObject.x,
+						gameObject.y,
+						'chess_red'
+					)
+					.setOrigin(0, 0).setScale(0.015,0.015);
 		}
 	}	
 			
