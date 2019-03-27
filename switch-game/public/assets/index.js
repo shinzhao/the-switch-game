@@ -42,3 +42,8 @@ function resize() {
 	}
 }
 
+window.onload = () => {
+	resize();
+	window.addEventListener('resize', resize, false);
+};
+
