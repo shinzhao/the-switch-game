@@ -20,7 +20,13 @@ export default class Level1 extends Phaser.Scene {
 	     'f-1','f-2','f-3','f-4','f-5','f-6'];
 
 		this.boardbg = this.add.image(171, 21, 'boardbg').setOrigin(0, 0).setScale(2.0,2.0);
-		this.card=this.add.sprite(171,21,'cards',3).setScale(0.1,0.1).setOrigin(0, 0);
+		var generatecard=Phaser.Math.Between(0, 20);
+		console.log(generatecard)
+		this.card=this.add.sprite(171,21,'cards',generatecard).setScale(0.1,0.1).setOrigin(0, 0);
+		
+		
+
+
 
 	}
 	update(time, delta) {}
