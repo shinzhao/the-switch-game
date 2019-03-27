@@ -2,6 +2,8 @@
 <html lang="en">
   <head>
     <meta charset="utf-8">
+    <title>Login Page</title>
+      <link rel="stylesheet" type="text/css" href="stylesheet.css">
 	<!-- AWS Javascript SDK-->
   <script src="https://code.jquery.com/jquery-1.11.3.min.js"></script> 
   <script src="js/amazon-cognito-auth.min.js"></script>
@@ -9,4 +11,23 @@
   <script src="js/amazon-cognito-identity.min.js"></script>  
   <script src="js/config.js"></script>
   </head>
+  <body>
+      <div group="inputs">
+          <input type="personalname" id="personalnameRegister" placeholder="Name" pattern=".*" required>
+        </div>
+        <div>   
+             <input type="email" id="emailInputRegister" placeholder="Email" pattern=".*" required>
+            </div>
+            <div>
+                <input type="password" id="passwordInputRegister" placeholder="Password" pattern=".*" required>
+            </div>
+            <div>
+                <input type="password"id="confirmationpassword" placeholder="Confirm Password" pattern=".*" required>
+            </div>
+            <div group="buttons">
+                <button id="login" type="button">Login</button>
+                <button id="mainbutton" type="button">Register</button>
+            </div>
+      </div>
+  </body>
 </html>

@@ -1,0 +1,17 @@
+body{
+    text-align: center;
+}
+
+input{
+    height: 20px;
+    width: 280px;
+    padding: 5px;
+    border-radius: 2px;
+}
+button{
+    font-size: 22px;
+    height: 35px;
+    width: 120px;
+    margin-top: 20px;
+    border-radius: 10px;
+}
