@@ -16,12 +16,9 @@ export default class Level1 extends Phaser.Scene {
 		});
 	}
 	create() {
-		this.gameBoard = [0, 'a-1', 'a-2', 'a-3', 'a-4', 'a-5', 'a-6', 
-		'b-1', 'b-2', 'b-3','b-4','b-5','b-6',
-		'c-1','c-2','c-3','c-4','c-5','c-6',
-		'd-1','d-2','d-3','d-4','d-5','d-6',
-		'e-1','e-2','e-3','e-4','e-5','e-6',
-		 'f-1','f-2','f-3','f-4','f-5','f-6'];
+		this.gameBoard = [0,1,2,3,4,5,6,7,8,9,10,
+			11,12,13,14,15,16,17,18,19,20,21,22,
+			23,24,25,26,27,28,29,30,31,32,33,34,35,36];
 		 
         //display board
 		this.boardbg = this.add.image(171, 21, 'boardbg').setOrigin(0, 0).setScale(2.0,2.0);
@@ -52,11 +49,15 @@ export default class Level1 extends Phaser.Scene {
 			x_pos=0;
 		}
 		this.clickedBox();
-
 	}
 	clickedBox(){
 		this.input.on('gameobjectdown', (pointer, gameObject) => {
-				console.log("this is clicked")
+		for(var i=0;i<36;i++){
+			if(this.gameBoard[i] == i && gameObject.data.get('card_number') == i) {
+				gameObject.destroy();
+		}
+	}	
+			
 	});
 }	
 	update(time, delta) {}
