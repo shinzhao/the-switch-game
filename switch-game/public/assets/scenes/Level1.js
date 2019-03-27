@@ -21,13 +21,25 @@ export default class Level1 extends Phaser.Scene {
 		 
         //display board
 		this.boardbg = this.add.image(171, 21, 'boardbg').setOrigin(0, 0).setScale(2.0,2.0);
-		 var x_pos=0;
-		 var y_pos=0;
-		 var card_number=0;
+		 let x_pos=0;
+		 let y_pos=0;
+		 let card_number=0;
+		 let nums=[],
+		     ranNums = [];
+		for(var k=0;k<52;k++){
+			nums.push(k);
+		}
+		let m = nums.length,
+            n = 0;
+		while (m--) {
+			n = Math.floor(Math.random() * (m+1));
+			ranNums.push(nums[n]);
+			nums.splice(n,1);
+		}
 		for(var i=0;i<6;i++){
 		 for(var j=0 ;j<6;j++){
-			var generatecard=Phaser.Math.Between(0, 50);
-			this.card=this.add.sprite(171+x_pos,21+y_pos,'cards',generatecard)
+			var generatecard=ranNums[card_number]
+			this.card=this.add.sprite(177+x_pos,27+y_pos,'cards',generatecard)
 			this.card.setScale(0.1,0.1).setOrigin(0, 0).setInteractive().setDataEnabled().data.set('card_number', card_number);;
 			 x_pos+=45;
 			 card_number++;
