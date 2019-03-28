@@ -48,13 +48,9 @@ export default class Level1 extends Phaser.Scene {
 			y_pos+=45;
 			x_pos=0;
 		}
-		//
+		//add chess
 		this.chess=this.add.image(175,25,'chess_red').setOrigin(0, 0).setScale(0.015,0.015);
-		this.input.on('pointerdown',pointer=>{
-			this.chess.setX(pointer.x)
-			this.chess.setY(pointer.y)
-		}
-		)
+		
 		//click method
 		this.clickedBox();
 	}
@@ -63,11 +59,16 @@ export default class Level1 extends Phaser.Scene {
 		this.input.on('gameobjectdown', (pointer, gameObject) => {
 		for(var i=0;i<36;i++){
 			if(this.gameBoard[i] == i && gameObject.data.get('card_number') == i) {
+				this.chess.setX(gameObject.x)
+			    this.chess.setY(gameObject.y)
 				gameObject.setX(6+arrangepostion);
 				gameObject.setY(40);
 				gameObject.setScale(0.05,0.05)	
 				arrangepostion+=15;	
 		}
+		
+			
+		
 	}	
 			
 	});
