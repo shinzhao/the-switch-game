@@ -52,9 +52,9 @@ export default class Level1 extends Phaser.Scene {
 		this.chess=this.add.image(175,25,'chess_red').setOrigin(0, 0).setScale(0.015,0.015);
 		
 		//click method
-		this.clickedBox();
+		this.clickedBox(ranNums);
 	}
-	clickedBox(){
+	clickedBox(ranNums){
 		var arrangepostion=0;
 		this.input.on('gameobjectdown', (pointer, gameObject) => {
 		for(var i=0;i<36;i++){
@@ -65,6 +65,7 @@ export default class Level1 extends Phaser.Scene {
 				gameObject.setY(40);
 				gameObject.setScale(0.05,0.05)	
 				arrangepostion+=15;	
+				console.log(ranNums[i])
 		}
 		
 			
