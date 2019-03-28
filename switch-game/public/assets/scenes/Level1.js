@@ -53,12 +53,14 @@ export default class Level1 extends Phaser.Scene {
 		this.clickedBox();
 	}
 	clickedBox(){
+		var arrangepostion=0;
 		this.input.on('gameobjectdown', (pointer, gameObject) => {
 		for(var i=0;i<36;i++){
 			if(this.gameBoard[i] == i && gameObject.data.get('card_number') == i) {
-				gameObject.setX(100);
-				gameObject.setY(100);
-				
+				gameObject.setX(6+arrangepostion);
+				gameObject.setY(40);
+				gameObject.setScale(0.05,0.05)	
+				arrangepostion+=15;	
 		}
 	}	
 			
