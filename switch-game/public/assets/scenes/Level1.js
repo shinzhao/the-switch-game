@@ -48,7 +48,13 @@ export default class Level1 extends Phaser.Scene {
 			y_pos+=45;
 			x_pos=0;
 		}
-
+		//
+		this.chess=this.add.image(175,25,'chess_red').setOrigin(0, 0).setScale(0.015,0.015);
+		this.input.on('pointerdown',pointer=>{
+			this.chess.setX(pointer.x)
+			this.chess.setY(pointer.y)
+		}
+		)
 		//click method
 		this.clickedBox();
 	}
