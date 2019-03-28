@@ -56,14 +56,9 @@ export default class Level1 extends Phaser.Scene {
 		this.input.on('gameobjectdown', (pointer, gameObject) => {
 		for(var i=0;i<36;i++){
 			if(this.gameBoard[i] == i && gameObject.data.get('card_number') == i) {
-				gameObject.destroy();
-				this.box_blank1 = this.add
-					.image(
-						gameObject.x,
-						gameObject.y,
-						'chess_red'
-					)
-					.setOrigin(0, 0).setScale(0.015,0.015);
+				gameObject.setX(100);
+				gameObject.setY(100);
+				
 		}
 	}	
 			
