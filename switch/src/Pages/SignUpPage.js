@@ -23,18 +23,35 @@ class SignUpPage extends React.Component{
                 this.state.password===this.state.confirmPassword
             );
     }
-    handlesubmit(){
-
-    }
 
     handleChange(event){
         this.setState({[event.target.id]: event.target.value});
     }
+    handleSubmit = async event => {
+		event.preventDefault();
+
+		this.setState({ isLoading: true });
+
+		try {
+			const newUser = await Auth.signUp({
+				username: this.state.email,
+				password: this.state.password
+			});
+			this.setState({
+				newUser
+			});
+		} catch (e) {
+			alert(e.message);
+		}
+
+		this.setState({ isLoading: false });
+	};
+
     render(){
         return (
             <div>
                 <h1>Sign Up</h1>
-                <form onSubmit={this.handlesubmit}>
+                <form onSubmit={this.handleSubmit}>
                 <FormGroup controlId="email" bsSize="large">
                 <FormLabel>Email</FormLabel>
                 <FormControl autoFocus type="email" value={this.state.email} onChange={this.handleChange}></FormControl>
@@ -47,10 +64,7 @@ class SignUpPage extends React.Component{
                     <FormLabel>Confirm Password</FormLabel>
                     <FormControl autoFocus type="confirmpassword" value={this.state.confirmPassword} onChange={this.onChange}></FormControl>
                 </FormGroup>
-                <FormGroup controlId="confirmationCode" bsSize="large">
-                    <FormLabel>Confirmation Code</FormLabel>
-                    <FormControl autoFocus type="confirmationCode" value={this.state.confirmPassword} onChange={this.handleChange}></FormControl>
-                </FormGroup>
+                <button disabled={!this.validateForm()} type="signup">SignUp</button>
               
                 </form>
             </div>
