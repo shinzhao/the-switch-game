@@ -19,7 +19,7 @@ class SignUpPage extends React.Component{
     }
     validateForm(){
         return (this.state.email.length > 0 && this.state.password.length > 0&&
-                this.state.confirmPassword>0 && this.state.confirmationCode>0&&
+                this.state.confirmPassword>0 &&
                 this.state.password===this.state.confirmPassword
             );
     }
@@ -46,7 +46,7 @@ class SignUpPage extends React.Component{
 
 		this.setState({ isLoading: false });
     };
-    
+
     handleConfirmationSubmit = async event => {
 		event.preventDefault();
 
@@ -64,6 +64,26 @@ class SignUpPage extends React.Component{
 		}
     };
 
+    renderConfirmationForm() {
+        return (
+			<form onSubmit={this.handleConfirmationSubmit}>
+				<FormGroup controlId="confirmationCode" bsSize="large">
+					<FormLabel>Confirmation Code</FormLabel>
+					<FormControl autoFocus type="tel" value={this.state.confirmationCode} onChange={this.handleChange} />
+					
+				</FormGroup>
+				<Button
+					block
+					bsSize="large"
+					disabled={!this.validateConfirmationForm()}
+					type="submit"
+					isLoading={this.state.isLoading}
+					text="Verify"
+					loadingText="Verifying…"
+				/>
+			</form>
+		);
+	}
     render(){
         return (
             <div>
@@ -75,15 +95,22 @@ class SignUpPage extends React.Component{
                 </FormGroup>
                 <FormGroup controlId="password" bsSize="large">
                     <FormLabel>Password</FormLabel>
-                    <FormControl autoFocus type="password" value={this.state.password} onChange={this.handleChange}></FormControl>
+                    <FormControl type="password" value={this.state.password} onChange={this.handleChange}></FormControl>
                 </FormGroup>
                 <FormGroup controlId="confirmPassword" bsSize="large">
                     <FormLabel>Confirm Password</FormLabel>
-                    <FormControl autoFocus type="confirmpassword" value={this.state.confirmPassword} onChange={this.onChange}></FormControl>
+                    <FormControl type="password" value={this.state.confirmPassword} onChange={this.handleChange}></FormControl>
                 </FormGroup>
-                <button disabled={!this.validateForm()} type="signup">SignUp</button>
+                <Button block
+					bsSize="large"
+					disabled={!this.validateForm()}
+					type="submit"
+					isLoading={this.state.isLoading}
+					text="Signup"
+                    loadingText="Signing up…">Sign Up</Button>
+                    
               
-                </form>
+                </form> 
             </div>
             
         );
