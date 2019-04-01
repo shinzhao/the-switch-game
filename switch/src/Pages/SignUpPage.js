@@ -45,7 +45,24 @@ class SignUpPage extends React.Component{
 		}
 
 		this.setState({ isLoading: false });
-	};
+    };
+    
+    handleConfirmationSubmit = async event => {
+		event.preventDefault();
+
+		this.setState({ isLoading: true });
+
+		try {
+			await Auth.confirmSignUp(this.state.email, this.state.confirmationCode);
+			await Auth.signIn(this.state.email, this.state.password);
+
+			this.props.userHasAuthenticated(true);
+			this.props.history.push('/');
+		} catch (e) {
+			alert(e.message);
+			this.setState({ isLoading: false });
+		}
+    };
 
     render(){
         return (
