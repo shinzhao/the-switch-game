@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
 import { Button, FormGroup, FormControl, FormLabel} from 'react-bootstrap';
 import GuestPage from './GuestPage';
 import SignUpPage from './SignUpPage';
+import { Auth } from 'aws-amplify';
 
 class LoginPage extends React.Component {
     constructor(props){

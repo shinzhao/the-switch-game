@@ -1,3 +1,9 @@
+export default{
+    apiGateway:{
+        region:'us-east-2',
+        URL: 'YOUR_API_GATEWAY_URL'
+    }
+}
 window._config = {
     cognito: {
         userPoolId: 'us-east-2_rTMmLIX4K', // e.g. us-east-2_uXboG5pAb
