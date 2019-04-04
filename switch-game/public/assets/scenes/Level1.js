@@ -6,6 +6,7 @@ export default class Level1 extends Phaser.Scene {
 	}
 	preload() {
 		this.load.image('boardbg', '/img/boardbg.png');
+		this.load.image('blank','/img/blank.jpg')
 		this.load.image('chess_red', '/img/chess_1.png');
 		this.load.image('chess_purple', '/img/chess_2.png');
 		this.load.image('chess_blue', '/img/chess_3.png');
@@ -22,9 +23,10 @@ export default class Level1 extends Phaser.Scene {
 		 
         //display board
 		this.boardbg = this.add.image(171, 21, 'boardbg').setOrigin(0, 0).setScale(2.0,2.0);
-		 let x_pos=0;
-		 let y_pos=0;
+		 let x_pos1=0;
+		 let y_pos1=0;
 		 let card_number=0;
+		 //unique random number
 		 let nums=[],
 		     ranNums = [];
 		for(var k=0;k<52;k++){
@@ -38,10 +40,23 @@ export default class Level1 extends Phaser.Scene {
 			nums.splice(n,1);
 		}
 		for(var i=0;i<6;i++){
+			for(var j=0 ;j<6;j++){
+			   this.blank=this.add.image(177+x_pos1,27+y_pos1,'blank')
+			   this.blank.setScale(0.1,0.1).setOrigin(0, 0).setDepth(6);
+				x_pos1+=45;
+				card_number++;
+			 }
+			   y_pos1+=45;
+			   x_pos1=0;
+		   }
+		   let x_pos=0;
+		   let y_pos=0;  
+		//display cards
+		for(var i=0;i<6;i++){
 		 for(var j=0 ;j<6;j++){
 			var generatecard=ranNums[card_number]
 			this.card=this.add.sprite(177+x_pos,27+y_pos,'cards',generatecard)
-			this.card.setScale(0.1,0.1).setOrigin(0, 0).setInteractive().setDataEnabled().data.set('card_number', card_number);;
+			this.card.setScale(0.1,0.1).setOrigin(0, 0).setInteractive().setDataEnabled().data.set('card_number', card_number);
 			 x_pos+=45;
 			 card_number++;
 		  }
@@ -49,7 +64,7 @@ export default class Level1 extends Phaser.Scene {
 			x_pos=0;
 		}
 		//add chess
-		this.chess=this.add.image(175,25,'chess_red').setOrigin(0, 0).setScale(0.015,0.015);
+		this.chess=this.add.image(175,25,'chess_red').setOrigin(0, 0).setScale(0.012,0.012);
 		
 		//click method
 		this.clickedBox(ranNums);
@@ -65,10 +80,10 @@ export default class Level1 extends Phaser.Scene {
 				gameObject.setY(40);
 				gameObject.setScale(0.05,0.05)	
 				arrangepostion+=15;	
+				//find card index 
 				console.log(ranNums[i])
-		}
-		
-			
+				
+		}		
 		
 	}	
 			
