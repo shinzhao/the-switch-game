@@ -29,7 +29,7 @@ export default class Level1 extends Phaser.Scene {
 		for(var i=0;i<6;i++){
 			for(var j=0 ;j<6;j++){
 			   this.blank=this.add.image(177+x_pos1,27+y_pos1,'blank')
-			   this.blank.setScale(0.07,0.1).setOrigin(0, 0);
+			   this.blank.setScale(0.07,0.1).setOrigin(0, 0).setInteractive().setDataEnabled().data.set('blank', 53);
 				x_pos1+=45;
 			 }
 			   y_pos1+=45;
@@ -87,7 +87,11 @@ export default class Level1 extends Phaser.Scene {
 				//find card index 
 				console.log(ranNums[i])
 				
-		}		
+		}
+		if(this.gameBoard[i] == i && gameObject.data.get('blank') == 53) {
+			this.chess.setX(gameObject.x)
+			this.chess.setY(gameObject.y)
+		}	
 		
 	}	
 			
