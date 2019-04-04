@@ -23,35 +23,36 @@ export default class Level1 extends Phaser.Scene {
 		 
         //display board
 		this.boardbg = this.add.image(171, 21, 'boardbg').setOrigin(0, 0).setScale(2.0,2.0);
-		 let x_pos1=0;
-		 let y_pos1=0;
-		 let card_number=0;
-		 //unique random number
-		 let nums=[],
-		     ranNums = [];
-		for(var k=0;k<52;k++){
-			nums.push(k);
-		}
-		let m = nums.length,
-            n = 0;
-		while (m--) {
-			n = Math.floor(Math.random() * (m+1));
-			ranNums.push(nums[n]);
-			nums.splice(n,1);
-		}
+
+		let x_pos1=0;
+		let y_pos1=0;
 		for(var i=0;i<6;i++){
 			for(var j=0 ;j<6;j++){
 			   this.blank=this.add.image(177+x_pos1,27+y_pos1,'blank')
-			   this.blank.setScale(0.1,0.1).setOrigin(0, 0).setDepth(6);
+			   this.blank.setScale(0.07,0.1).setOrigin(0, 0);
 				x_pos1+=45;
-				card_number++;
 			 }
 			   y_pos1+=45;
 			   x_pos1=0;
 		   }
+		 
+		//unique random number
+		let card_number=0;
+		let nums=[],
+		    ranNums = [];
+	   for(var k=0;k<52;k++){
+		nums.push(k);
+	     }
+	    let m = nums.length,
+		    n = 0;
+	while (m--) {
+		n = Math.floor(Math.random() * (m+1));
+		ranNums.push(nums[n]);
+		nums.splice(n,1);
+	}
+	//display board
 		   let x_pos=0;
 		   let y_pos=0;  
-		//display cards
 		for(var i=0;i<6;i++){
 		 for(var j=0 ;j<6;j++){
 			var generatecard=ranNums[card_number]
@@ -65,6 +66,9 @@ export default class Level1 extends Phaser.Scene {
 		}
 		//add chess
 		this.chess=this.add.image(175,25,'chess_red').setOrigin(0, 0).setScale(0.012,0.012);
+
+		
+
 		
 		//click method
 		this.clickedBox(ranNums);
