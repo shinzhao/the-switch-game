@@ -84,7 +84,7 @@ class SignUpPage extends React.Component{
 			</form>
 		);
 	}
-    render(){
+    renderForm(){
         return (
             <div>
                 <h1>Sign Up</h1>
@@ -115,6 +115,11 @@ class SignUpPage extends React.Component{
             
         );
     }
+    render() {
+		return (
+			<div className="Signup">{this.state.newUser === null ? this.renderForm() : this.renderConfirmationForm()}</div>
+		);
+	}
 }
 
 export default SignUpPage;
