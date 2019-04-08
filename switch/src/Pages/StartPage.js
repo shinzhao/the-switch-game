@@ -5,11 +5,11 @@ class StartPage extends React.Component {
     render() {
         return (
             <Router>
-                <Button className="game-rules-button"><Link to="/game-rules">Game Rules</Link></Button>
-                <Button className="profile-button"><Link to="/profile">My Profile</Link></Button>
-                <Button className="enter-room-num-button"><Link to="/room#">Enter Room Number</Link></Button>
-                <Button className="new-room-button"><Link to="/new-room">Create a New Room</Link></Button>
-                <Button className="random-button"><Link to="/random">Random Match</Link></Button>
+                <Button variant="outline-secondary" className="game-rules-button"><Link to="/game-rules">Game Rules</Link></Button>
+                <Button variant="primary" className="profile-button"><Link to="/profile">My Profile</Link></Button>
+                <Button variant="secondary" className="enter-room-num-button"><Link to="/room#">Enter Room Number</Link></Button>
+                <Button variant="secondary" className="new-room-button"><Link to="/new-room">Create a New Room</Link></Button>
+                <Button variant="secondary" className="random-button"><Link to="/random">Random Match</Link></Button>
                 
                 <Route path="/game-rules" component={GameRulesPage} />
                 <Route path="/profile" component={ProfilePage} />
