@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
+import NewRoomPage from './NewRoomPage'
 
 class StartPage extends React.Component {
     render() {
@@ -20,3 +21,5 @@ class StartPage extends React.Component {
         );
     }
 }
+
+export default StartPage;

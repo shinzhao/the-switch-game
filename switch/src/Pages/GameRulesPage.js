@@ -9,3 +9,5 @@ class GameRulesPage extends React.Component {
         );
     }
 }
+
+export default GameRulesPage;
