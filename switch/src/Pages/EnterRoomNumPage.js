@@ -29,6 +29,7 @@ class EnterRoomNumPage extends React.Component {
                         <FormLabel>Room Number: </FormLabel>
                         <FormControl type="number" value={this.state.room_num} onChange={this.handleChange} />
                     </FormGroup>
+                    <Button className="enter-room-button" type="submit">ENTER</Button>
                 </form>
             </div>
         );
