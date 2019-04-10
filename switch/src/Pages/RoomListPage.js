@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
-import NewRoomPage from './NewRoomPage'
+import main from '../App'
 
-class StartPage extends React.Component {
+class RoomListPage extends React.Component {
+    
     render() {
         return (
             <Router>
@@ -22,4 +23,4 @@ class StartPage extends React.Component {
     }
 }
 
-export default StartPage;
+export default RoomListPage;
