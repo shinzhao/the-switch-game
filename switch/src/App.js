@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
 import './App.css';
-import LoginPage from './Pages/LoginPage';
+import bg from './img/background.png'
 
 class App extends Component {
   render() {
     return (
       <div className="App">
-        <LoginPage />
+          <img src={bg} className="App-bg" alt="background"/>
+          <p className="App-header">WELCOME TO SWITCH</p>
       </div>
     );
   }
