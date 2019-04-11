@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
-import GameBoard from 'GameBoard'
+import {GameBoard} from 'GameBoard'
+import Phaser from 'phaser'
 
-class Game extends Component{
+export default class Game extends Component{
+    componentDidMount(){
     let game={
         type: Phaser.AUTO,
 	width: 640,
@@ -11,7 +13,7 @@ class Game extends Component{
 		orientation: 'LANDSCAPE'
 	},
 	resolution: window.devicePixelRatio,
-	pixelArt: true,
+	
 	physics: {
 		default: 'arcade',
 		arcade: {
@@ -21,12 +23,19 @@ class Game extends Component{
 			}
 		}
 	},
-	scene: [Level1]
+    scene: [GameBoard],
+    render:{
+        pixelArt: true,
     }
-    render(){
-        return
-           <GameBoard/>
     }
+}
+shouldComponentUpdate(){
+    return false;
+}
 
+render(){
+    return <div id='phaser-game' />
+}
+    
     
 }
