@@ -10,6 +10,7 @@ class App extends Component {
             enable: false
         };
         this.handleClick = this.handleClick.bind(this);
+        this.showHome = this.showHome.bind(this);
     }
 
     handleClick(){
@@ -18,15 +19,23 @@ class App extends Component {
         });
     }
 
-    render() {
-        return (
+    showHome(){
+        return(
             <div className="App">
               <img src={bg} className="App-bg" alt="background"/>
               <p className="App-header">WELCOME TO SWITCH</p>
               <div>
                 <button onClick={this.handleClick}>Login</button>
-                {this.state.enable ? <Login /> : null}
+
               </div>
+            </div>
+        );
+    }
+
+    render() {
+        return (
+            <div className="App">
+              {this.state.enable ? <Login /> : this.showHome()}
             </div>
         )
     }
