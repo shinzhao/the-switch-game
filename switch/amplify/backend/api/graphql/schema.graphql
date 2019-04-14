@@ -1,0 +1,17 @@
+type player1 @model {
+  id: ID!
+  name: String!
+}
+type player2 @model {
+  id: ID!
+  name: String!
+}
+type player3 @model {
+  id: ID!
+  name: String!
+}
+
+type player4 @model {
+  id: ID!
+  name: String!
+}

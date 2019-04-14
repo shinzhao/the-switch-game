@@ -142,6 +142,15 @@
 					"env": "amplify"
 				}
 			}
+		},
+		"apigraphql": {
+			"Type": "AWS::CloudFormation::Stack",
+			"Properties": {
+				"TemplateURL": "https://s3.amazonaws.com/switch-20190406185124-deployment/amplify-cfn-templates/api/cloudformation-template.json",
+				"Parameters": {
+					"env": "amplify"
+				}
+			}
 		}
 	},
 	"Outputs": {
