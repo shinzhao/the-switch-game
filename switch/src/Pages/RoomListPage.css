@@ -30,16 +30,48 @@
     background-color: #e7e7e7;
     color: black;
     border-radius: 8px;
+    border-color: #e7e7e7;
     padding: 10px 40px;
     font-family: 'Courier New', Courier, monospace;
     font-size: 20px;
     margin: 10px;
     position: relative;
     top: 100px;
+    -webkit-transition-duration: 0.4s;
+    transition-duration: 0.4s;
+}
+
+.button:hover {
+    background-color: #282c34;
+    color: white;
+    border-color: #282c34;
 }
 
 .room-num {
     color: white;
     font-size: 30px;
-    
+}
+
+.room-button {
+    background-color: #555555;
+    color: white;
+    border-color: #555555;
+    padding: 20px;
+    -webkit-transition-duration: 0.4s;
+    transition-duration: 0.4s;
+}
+
+.room-button:hover {
+    background-color: #e7e7e7;
+    color: black;
+    border-color: #e7e7e7;
+}
+
+.room-col {
+
+}
+
+.room-row {
+    margin: 10px;
+    bottom: 1000px;
 }
