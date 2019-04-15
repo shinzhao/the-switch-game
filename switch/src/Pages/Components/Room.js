@@ -1,20 +1,11 @@
 import React, { Component } from 'react';
 
-class Room extends React.Component {
-    constructor(){
-        super();
-        this.state={
-            roomID: null,
-            player_count: null,
-            status: null
-        };
-
-    }
-    render(){
-        return(
-            <div></div>
-        );
-    }
+function Room(props){
+    return(
+        <button className="room-box" onClick={props.onClick}>
+            
+        </button>
+    );
 }
 
 export default Room;

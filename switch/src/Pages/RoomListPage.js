@@ -11,7 +11,7 @@ class RoomListPage extends React.Component {
             player_count: null,
             status: null
         };
-
+        this.handleClick = this.handleClick.bind(this);
     }
 
     getRoomID(){
@@ -26,6 +26,14 @@ class RoomListPage extends React.Component {
 
     }
 
+    handleClick(){
+        this.setState({
+            roomID: 1,
+            player_count: 4,
+            status: "playing"
+        });
+    }
+
     renderRoom(){
         return(
             <div>
@@ -36,25 +44,18 @@ class RoomListPage extends React.Component {
 
     render() {
         return (
-            <div className="App-bg">
-                <p className="App-header">WELCOME TO SWITCH</p>
-                <img src={bg} className="App-bg" alt="background"/>
-                <Room />
-                <Room />
-                <Room />
-                <Room />
-                <Room />
-                <Room />
-                <Room />
-                <Room />
-                <Room />
-                <Room />
+            <div className="room-list">
+                <p className="room-header">SWITCH</p>
+                <img src={bg} className="room-bg" alt="background"/>
+                
+                <button>Prev</button>
+                <button>Next</button>
                 <form>
-                    <label>Room #: <input type="number" name="room-num" /></label>
-                    <input type="submit" value="ENTER" />
+                    <label className="room-num">Room #: <input type="number" name="room-num-input" /></label>
+                    <input type="submit" value="ENTER" name="enter-button"/>
                 </form>
-                <button>Create New Room</button>
-                <button>Random Match</button>
+                <button className="button">Create New Room</button>
+                <button className="button">Random Match</button>
             </div>
         );
     }
