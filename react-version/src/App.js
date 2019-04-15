@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import './App.css';
-
+import Game from './phaser/Game';
 class App extends Component {
   render() {
     return (
@@ -9,6 +9,7 @@ class App extends Component {
           <p>
             Edit 
           </p>
+          <Game/>
         </header>
       </div>
     );

@@ -1,30 +1,19 @@
-import Phaser from 'phaser'
+import Phaser from 'phaser';
 
-export default class GameBoard extends Phaser.Scene {
+export class GameBoard extends Phaser.Scene {
 	constructor() {
 		super({
-			key: 'Level1'
+			key: 'GameBoard'
 		});
 	}
-	preload() {
-		this.load.image('boardbg', '/img/boardbg.png');
-		this.load.image('blank','/img/blank.jpg')
-		this.load.image('chess_red', '/img/chess_1.png');
-		this.load.image('chess_purple', '/img/chess_2.png');
-		this.load.image('chess_blue', '/img/chess_3.png');
-		this.load.image('chess_orange', '/img/chess_4.png');
-		this.load.spritesheet('cards', '/img/cards.png',
-		{frameWidth:334,
-		frameHeight:440,
-		});
-	}
+
 	create() {
 		this.gameBoard = [0,1,2,3,4,5,6,7,8,9,10,
 			11,12,13,14,15,16,17,18,19,20,21,22,
 			23,24,25,26,27,28,29,30,31,32,33,34,35,36];
 		 
         //display board
-		this.boardbg = this.add.image(171, 21, 'boardbg').setOrigin(0, 0).setScale(2.0,2.0);
+		let boardbg = this.add.image(171, 21, 'boardbg').setOrigin(0, 0).setScale(2.0,2.0);
 
 		let x_pos1=0;
 		let y_pos1=0;
@@ -67,7 +56,7 @@ export default class GameBoard extends Phaser.Scene {
 			x_pos=0;
 		}
 		//add chess
-		this.chess=this.add.image(177,27,'chess_red').setOrigin(0, 0).setScale(0.012,0.012);
+		let chess=this.add.image(177,27,'chess_red').setOrigin(0, 0).setScale(0.012,0.012);
 
 		
 

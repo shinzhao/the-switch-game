@@ -1,18 +1,20 @@
+/** @type {import { "../typing/phaser" };} */
 import React, { Component } from 'react';
-import {GameBoard} from 'GameBoard'
-import Phaser from 'phaser'
+import Phaser from 'phaser';
+
+
+import  {GameBoard}  from "./scenes/GameBoard";
 
 export default class Game extends Component{
     componentDidMount(){
-    let game={
-        type: Phaser.AUTO,
+    let game=new Phaser.Game({
+    type: Phaser.AUTO,
 	width: 640,
 	height: 320,
 	scale: {
 		scale: 'SHOW_ALL',
 		orientation: 'LANDSCAPE'
 	},
-	resolution: window.devicePixelRatio,
 	
 	physics: {
 		default: 'arcade',
@@ -27,7 +29,7 @@ export default class Game extends Component{
     render:{
         pixelArt: true,
     }
-    }
+    });
 }
 shouldComponentUpdate(){
     return false;
@@ -36,6 +38,5 @@ shouldComponentUpdate(){
 render(){
     return <div id='phaser-game' />
 }
-    
-    
+      
 }
