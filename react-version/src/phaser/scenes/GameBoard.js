@@ -12,17 +12,16 @@ export class GameBoard extends Phaser.Scene {
 			23,24,25,26,27,28,29,30,31,32,33,34,35,36];
 		 
         //display board
-		let boardbg = this.add.image(171, 21, 'boardbg');
-		boardbg.setOrigin(0, 0).setScale(2.0,2.0);
+		let boardbg = this.add.image(400, 80, 'boardbg');
+		boardbg.setOrigin(0, 0).setScale(2.8,2.8);
 		let x_pos1=0;
 		let y_pos1=0;
 		for(var i=0;i<6;i++){
 			for(var j=0 ;j<6;j++){
-			   this.blank=this.add.image(177+x_pos1,27+y_pos1,'blank')
-			   this.blank.setScale(0.07,0.1).setOrigin(0, 0).setInteractive().setDataEnabled().data.set('blank', 53);
-				x_pos1+=45;
+			   this.blank=this.add.image(405+x_pos1,85+y_pos1,'blank').setScale(1,1.5).setOrigin(0, 0).setInteractive().setDataEnabled().data.set('blank', 53);
+				x_pos1+=65;
 			 }
-			   y_pos1+=45;
+			   y_pos1+=65;
 			   x_pos1=0;
 		   }
 		   let card_number=0;
@@ -44,15 +43,15 @@ export class GameBoard extends Phaser.Scene {
 		   for(var i=0;i<6;i++){
 			for(var j=0 ;j<6;j++){
 			   var generatecard=ranNums[card_number]
-			   this.card=this.add.sprite(177+x_pos,27+y_pos,'cards',generatecard)
-			   this.card.setScale(0.1,0.1).setOrigin(0, 0).setInteractive().setDataEnabled().data.set('card_number', card_number);
-				x_pos+=45;
+			   this.card=this.add.sprite(405+x_pos,85+y_pos,'cards',generatecard)
+			   this.card.setScale(0.13,0.13).setOrigin(0, 0).setInteractive().setDataEnabled().data.set('card_number', card_number);
+				x_pos+=65;
 				card_number++;
 			 }
-			   y_pos+=45;
+			   y_pos+=65;
 			   x_pos=0;
 		   }
-		   this.chess=this.add.image(177,27,'chess_red').setOrigin(0, 0).setScale(0.012,0.012);
+		   this.chess=this.add.image(405,85,'chess_red').setOrigin(0, 0).setScale(0.02,0.02);
 		   this.clickedBox(ranNums);
 		   
 
@@ -68,8 +67,8 @@ export class GameBoard extends Phaser.Scene {
 			    this.chess.setY(gameObject.y)
 				gameObject.setX(6+arrangepostion);
 				gameObject.setY(40);
-				gameObject.setScale(0.05,0.05)	
-				arrangepostion+=15;	
+				gameObject.setScale(0.08,0.08)	
+				arrangepostion+=20;	
 				//find card index 
 				console.log(ranNums[i])
 				}

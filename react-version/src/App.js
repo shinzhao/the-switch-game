@@ -6,9 +6,6 @@ class App extends Component {
     return (
       <div className="App">
         <header className="App-header">
-          <p>
-            Edit 
-          </p>
           <Game/>
         </header>
       </div>

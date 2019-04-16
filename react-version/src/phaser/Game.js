@@ -10,12 +10,8 @@ export default class Game extends Component{
     componentDidMount(){
     let game=new Phaser.Game({
     type: Phaser.AUTO,
-	width: 640,
-	height: 320,
-	scale: {
-		scale: 'SHOW_ALL',
-		orientation: 'LANDSCAPE'
-	},
+	width: window.innerWidth,
+	height:window.innerHeight,
 	
 	physics: {
 		default: 'arcade',
