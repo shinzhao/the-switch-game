@@ -56,14 +56,14 @@ class RoomListPage extends React.Component {
                     {this.renderRoom(11)}
                     </div>
                 </div>
-                <button>Prev</button>
-                <button>Next</button>
+                <button className="prev">Prev</button>
+                <button className="next">Next</button>
                 <form>
-                    <label className="room-num">Room #: <input type="number" name="room-num-input" /></label>
-                    <input type="submit" value="ENTER" name="enter-button"/>
+                    <label className="room-num">Room #: <input type="number" className="room-num-input" /></label>
+                    <input type="submit" value="ENTER" className="enter-button"/>
                 </form>
-                <button className="button" onClick={this.handleClick}>Create New Room</button>
-                <button className="button">Random Match</button>
+                <button className="create-button" onClick={this.handleClick}>Create New Room</button>
+                <button className="random-button">Random Match</button>
             </div>
         );
     }

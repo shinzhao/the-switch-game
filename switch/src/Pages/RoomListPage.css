@@ -26,17 +26,16 @@
     top: 60px;
 }
 
-.button {
+.create-button, .random-button {
     background-color: #e7e7e7;
     color: black;
     border-radius: 8px;
     border-color: #e7e7e7;
     padding: 10px 40px;
-    font-family: 'Courier New', Courier, monospace;
     font-size: 20px;
     margin: 10px;
     position: relative;
-    top: 100px;
+    bottom: 300px;
     -webkit-transition-duration: 0.4s;
     transition-duration: 0.4s;
 }
@@ -49,7 +48,7 @@
 
 .room-num {
     color: white;
-    font-size: 30px;
+    font-size: 50px;
 }
 
 .room-button {
@@ -68,10 +67,55 @@
 }
 
 .room-col {
-
+    margin: 10px;
+    position: relative;
 }
 
 .room-row {
     margin: 10px;
-    bottom: 1000px;
+    position: relative;
+    bottom: 350px;
+    left: 100px;
 }
+
+.prev, .next {
+    position: relative;
+    bottom: 350px;
+    left: 100px;
+}
+
+form {
+    position: relative;
+    bottom: 300px;
+}
+
+.room-num-input {
+    width: 200px;
+    height: 30px;
+    position: relative;
+    bottom: 10px;
+    border-radius: 8px;
+    background-color: #e7e7e7;
+}
+
+.enter-button {
+    background-color: #e7e7e7;
+    color: black;
+    border-radius: 8px;
+    border-color: #e7e7e7;
+    padding: 10px 40px;
+    font-size: 20px;
+    margin: 10px;
+    position: relative;
+    left: 30px;
+    bottom: 8px;
+    -webkit-transition-duration: 0.4s;
+    transition-duration: 0.4s;
+}
+
+.enter-button:hover {
+    background-color: #282c34;
+    color: white;
+    border-color: #282c34;
+}
+
