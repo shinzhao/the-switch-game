@@ -33,6 +33,8 @@ class RoomListPage extends React.Component {
         return (
             <div className="room-list">
                 <p className="room-header">SWITCH</p>
+                <button className="game-rule-button">Game Rule</button>
+                <button className="profile-button">My Account</button>
                 <img src={bg} className="room-bg" alt="background"/>
                 <div className="room-row">
                     <div className="room-col">

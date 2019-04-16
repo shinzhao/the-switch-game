@@ -26,7 +26,7 @@
     top: 60px;
 }
 
-.create-button, .random-button {
+.create-button, .random-button, .profile-button, .game-rule-button{
     background-color: #e7e7e7;
     color: black;
     border-radius: 8px;
@@ -38,6 +38,11 @@
     bottom: 300px;
     -webkit-transition-duration: 0.4s;
     transition-duration: 0.4s;
+}
+
+.profile-button, .game-rule-button{
+    bottom: 430px;
+    left: 750px;
 }
 
 .button:hover {

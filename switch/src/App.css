@@ -22,3 +22,16 @@
   top: 100px;
 }
 
+.login-button {
+    background-color: #e7e7e7;
+    color: black;
+    border-radius: 8px;
+    border-color: #e7e7e7;
+    padding: 10px 40px;
+    font-size: 20px;
+    margin: 10px;
+    
+    -webkit-transition-duration: 0.4s;
+    transition-duration: 0.4s;
+}
+
