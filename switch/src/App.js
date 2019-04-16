@@ -1,33 +1,44 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
-import Amplify from 'aws-amplify';
-import awsmobile from './aws-exports';
-import { withAuthenticator } from 'aws-amplify-react'; // or 'aws-amplify-react-native';
-
-Amplify.configure(awsmobile);
+import './App.css'
+import Login from './Pages/LoginPage';
+import bg from './img/background.png';
 
 class App extends Component {
-  render() {
-    return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
-      </div>
-    );
-  }
+    constructor(){
+        super();
+        this.state={
+            enable: false
+        };
+        this.handleClick = this.handleClick.bind(this);
+        this.showHome = this.showHome.bind(this);
+    }
+
+    handleClick(){
+        this.setState({
+            enable: true
+        });
+    }
+
+    showHome(){
+        return(
+            <div className="App">
+              <img src={bg} className="App-bg" alt="background"/>
+              <p className="App-header">WELCOME TO SWITCH</p>
+              <div>
+                <button className="login-button" onClick={this.handleClick}>Login</button>
+
+              </div>
+            </div>
+        );
+    }
+
+    render() {
+        return (
+            <div className="App">
+              {this.state.enable ? <Login /> : this.showHome()}
+            </div>
+        )
+    }
 }
 
-export default withAuthenticator(App,true);
+export default App;
