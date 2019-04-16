@@ -52,8 +52,40 @@ export class GameBoard extends Phaser.Scene {
 			   y_pos+=45;
 			   x_pos=0;
 		   }
+		   this.chess=this.add.image(177,27,'chess_red').setOrigin(0, 0).setScale(0.012,0.012);
+		   this.clickedBox(ranNums);
+		   
 
 	}
+
+	clickedBox(ranNums){
+		var arrangepostion=0;
+		this.input.on('gameobjectdown', (pointer, gameObject) => {
+		for(var i=0;i<36;i++){
+			if(this.gameBoard[i] == i && gameObject.data.get('card_number') == i) {
+				if(gameObject.x==this.chess.x||gameObject.y==this.chess.y){
+				this.chess.setX(gameObject.x)
+			    this.chess.setY(gameObject.y)
+				gameObject.setX(6+arrangepostion);
+				gameObject.setY(40);
+				gameObject.setScale(0.05,0.05)	
+				arrangepostion+=15;	
+				//find card index 
+				console.log(ranNums[i])
+				}
+				
+		}
+		if(this.gameBoard[i] == i && gameObject.data.get('blank') == 53) {
+			if(gameObject.x==this.chess.x||gameObject.y==this.chess.y){
+			this.chess.setX(gameObject.x)
+			this.chess.setY(gameObject.y)
+			}
+		}	
+		
+	}	
+			
+	});
+}
 	
 	update(time, delta) {}
 }
