@@ -4,6 +4,7 @@ import Phaser from 'phaser';
 
 
 import  {GameBoard}  from "./scenes/GameBoard";
+import {Load} from "./scenes/Load";
 
 export default class Game extends Component{
     componentDidMount(){
@@ -25,7 +26,7 @@ export default class Game extends Component{
 			}
 		}
 	},
-    scene: [GameBoard],
+    scene: [Load,GameBoard],
     render:{
         pixelArt: true,
     }
