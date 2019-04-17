@@ -25,8 +25,12 @@ class App extends Component {
               <img src={bg} className="App-bg" alt="background"/>
               <p className="App-header">WELCOME TO SWITCH</p>
               <div>
+<<<<<<< Updated upstream
                 <button className="login-button" onClick={this.handleClick}>Login</button>
 
+=======
+                <button onClick={this.handleClick}>Login</button>
+>>>>>>> Stashed changes
               </div>
             </div>
         );

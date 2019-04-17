@@ -13,7 +13,6 @@ class RoomListPage extends React.Component {
         this.handleClick = this.handleClick.bind(this);
     }
     
-    
     handleClick(){
         alert("button clicked");
     }
@@ -29,7 +28,6 @@ class RoomListPage extends React.Component {
     }
 
     render() {
-        
         return (
             <div className="room-list">
                 <p className="room-header">SWITCH</p>
@@ -53,9 +51,9 @@ class RoomListPage extends React.Component {
                         {this.renderRoom(8)}
                     </div>
                     <div className="room-col">
-                    {this.renderRoom(9)}
-                    {this.renderRoom(10)}
-                    {this.renderRoom(11)}
+                        {this.renderRoom(9)}
+                        {this.renderRoom(10)}
+                        {this.renderRoom(11)}
                     </div>
                 </div>
                 <button className="prev">Prev</button>
