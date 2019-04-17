@@ -1,0 +1,19 @@
+{
+    "amplify": {
+        "awscloudformation": {
+            "AuthRoleName": "switch-20190406185124-authRole",
+            "UnauthRoleArn": "arn:aws:iam::917228256463:role/switch-20190406185124-unauthRole",
+            "AuthRoleArn": "arn:aws:iam::917228256463:role/switch-20190406185124-authRole",
+            "Region": "us-east-2",
+            "DeploymentBucketName": "switch-20190406185124-deployment",
+            "UnauthRoleName": "switch-20190406185124-unauthRole",
+            "StackName": "switch-20190406185124",
+            "StackId": "arn:aws:cloudformation:us-east-2:917228256463:stack/switch-20190406185124/81909ec0-58be-11e9-92e7-02e473ddfb1a"
+        },
+        "categories": {
+            "auth": {
+                "cognitoce9cfa54": {}
+            }
+        }
+    }
+}
