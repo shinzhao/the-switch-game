@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import bg from '../img/background.png';
 import './RoomListPage.css';
-import RoomPage from './RoomPage';
+import RoomPage from './RoomPage'
 
 class RoomListPage extends React.Component {
     constructor(){
@@ -16,11 +16,7 @@ class RoomListPage extends React.Component {
     
     
     handleClick(){
-        return(
-            <div>
-                <RoomPage />
-            </div>
-        )
+        return
     }
 
     renderRoom(i){

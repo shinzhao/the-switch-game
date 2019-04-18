@@ -7,6 +7,7 @@ export class Load extends Phaser.Scene{
         });
     }
     init(){
+        
     }
 
     preload(){

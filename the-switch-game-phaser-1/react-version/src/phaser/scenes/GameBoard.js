@@ -1,4 +1,6 @@
 import Phaser from 'phaser';
+import { API, graphqlOperation } from 'aws-amplify';
+import * as mutations from '../../graphql/mutations';
 
 export class GameBoard extends Phaser.Scene {
 	constructor() {
@@ -70,14 +72,47 @@ export class GameBoard extends Phaser.Scene {
 				gameObject.setScale(0.08,0.08)	
 				arrangepostion+=20;	
 				//find card index 
-				console.log(ranNums[i])
-				}
+
+				
+						
+						(async () => {
+						const cardV = ranNums[i];
+						console.log(cardV)
+						const xV = this.chess.x;
+						console.log("x : "+xV)
+						const yV = this.chess.y;
+						console.log("y : "+yV)
+						const thething = {
+							whichCard : ranNums[i],
+							x : xV,
+							y : yV
+						};
+						const newThing = await API.graphql(graphqlOperation(mutations.createTest1, {input: thething}));
+					})();
+				
+				
+					}
 				
 		}
 		if(this.gameBoard[i] == i && gameObject.data.get('blank') == 53) {
 			if(gameObject.x==this.chess.x||gameObject.y==this.chess.y){
 			this.chess.setX(gameObject.x)
 			this.chess.setY(gameObject.y)
+			(async () => {
+				const cardV = ranNums[i];
+				console.log(cardV)
+				const xV = this.chess.x;
+				console.log("x : "+xV)
+				const yV = this.chess.y;
+				console.log("y : "+yV)
+				const thething = {
+					whichCard : ranNums[i],
+					x : xV,
+					y : yV
+				};
+				const newThing = await API.graphql(graphqlOperation(mutations.createTest1, {input: thething}));
+			})();
+					break;
 			}
 		}	
 		
