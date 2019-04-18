@@ -89,11 +89,6 @@
     left: 100px;
 }
 
-form {
-    position: relative;
-    bottom: 300px;
-}
-
 .room-num-input {
     width: 200px;
     height: 30px;
