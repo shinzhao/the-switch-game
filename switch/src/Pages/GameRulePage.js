@@ -1,14 +1,14 @@
 import React, { Component } from 'react';
 import bg from '../img/background.png';
 
-class RoomPage extends React.Component {
+class GameRulePage extends React.Component {
     render() {
         return(
             <div>
-                This is the room page
+                it is game rule page
             </div>
         );
     }
 }
 
-export default RoomPage;
+export default GameRulePage;

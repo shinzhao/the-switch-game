@@ -5,8 +5,8 @@
 .room-list {
     text-align: center;
     background-color: #282c34;
-    min-height: 100vh;
     overflow: hidden;
+    height: 100vh;
 }
 
 .room-header {
@@ -15,15 +15,15 @@
     font-size: 80px;
     color: white;
     right: 600px;
-    top: 50px;
+    top: 80px;
 }
 
 .room-bg {
     position: relative;
     width: 20%;
-    height: 20%;
-    right: 600px;
-    top: 60px;
+    height: 30%;
+    right: 800px;
+    top: 90px;
 }
 
 .create-button, .random-button, .profile-button, .game-rule-button{
@@ -35,13 +35,19 @@
     font-size: 20px;
     margin: 10px;
     position: relative;
-    bottom: 300px;
+    bottom: 250px;
     -webkit-transition-duration: 0.4s;
     transition-duration: 0.4s;
 }
 
+.create-button:hover, .random-button:hover, .profile-button:hover, .game-rule-button:hover{
+    background-color: rgb(93, 106, 134);
+    color: white;
+    border-color:rgb(93, 106, 134);
+}
+
 .profile-button, .game-rule-button{
-    bottom: 430px;
+    bottom: 450px;
     left: 750px;
 }
 
@@ -51,15 +57,10 @@
     border-color: #282c34;
 }
 
-.room-num {
-    color: white;
-    font-size: 50px;
-}
-
 .room-button {
-    background-color: #555555;
+    background-color: rgb(93, 106, 134);
     color: white;
-    border-color: #555555;
+    border-color: rgb(93, 106, 134);
     padding: 20px;
     -webkit-transition-duration: 0.4s;
     transition-duration: 0.4s;
@@ -79,14 +80,34 @@
 .room-row {
     margin: 10px;
     position: relative;
-    bottom: 350px;
-    left: 100px;
+    bottom: 320px;
 }
 
 .prev, .next {
     position: relative;
-    bottom: 350px;
-    left: 100px;
+    bottom: 320px;
+    background-color: #e7e7e7;
+    color: black;
+    border-radius: 8px;
+    border-color: #e7e7e7;
+    font-size: 15px;
+    margin: 10px;
+
+    -webkit-transition-duration: 0.4s;
+    transition-duration: 0.4s;
+}
+
+.prev:hover, .next:hover {
+    background-color: rgb(93, 106, 134);
+    color: white;
+    border-color:rgb(93, 106, 134);
+}
+
+.room-num {
+    color: white;
+    font-size: 50px;
+    position: relative;
+    bottom: 250px;
 }
 
 .room-num-input {
@@ -108,14 +129,14 @@
     margin: 10px;
     position: relative;
     left: 30px;
-    bottom: 8px;
+    bottom: 260px;
     -webkit-transition-duration: 0.4s;
     transition-duration: 0.4s;
 }
 
 .enter-button:hover {
-    background-color: #282c34;
+    background-color: rgb(93, 106, 134);
     color: white;
-    border-color: #282c34;
+    border-color:rgb(93, 106, 134);
 }
 

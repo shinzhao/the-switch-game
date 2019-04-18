@@ -1,14 +1,14 @@
 import React, { Component } from 'react';
 import bg from '../img/background.png';
 
-class RoomPage extends React.Component {
+class ProfilePage extends React.Component {
     render() {
         return(
             <div>
-                This is the room page
+                it is profile page
             </div>
         );
     }
 }
 
-export default RoomPage;
+export default ProfilePage;
