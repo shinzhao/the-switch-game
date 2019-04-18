@@ -1,0 +1,14 @@
+{
+    "local": {
+        "awscloudformation": {
+            "AuthRoleName": "thegame1-20190418041631-authRole",
+            "UnauthRoleArn": "arn:aws:iam::342945403770:role/thegame1-20190418041631-unauthRole",
+            "AuthRoleArn": "arn:aws:iam::342945403770:role/thegame1-20190418041631-authRole",
+            "Region": "us-east-2",
+            "DeploymentBucketName": "thegame1-20190418041631-deployment",
+            "UnauthRoleName": "thegame1-20190418041631-unauthRole",
+            "StackName": "thegame1-20190418041631",
+            "StackId": "arn:aws:cloudformation:us-east-2:342945403770:stack/thegame1-20190418041631/4610f460-61b2-11e9-9a73-02278d0d93fc"
+        }
+    }
+}
