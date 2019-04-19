@@ -1,11 +1,40 @@
 import React, { Component } from 'react';
-import bg from '../img/background.png';
+import RoomListPage from './RoomListPage';
+import './RoomPage.css';
 
 class RoomPage extends React.Component {
+    constructor() {
+        super();
+        this.state={
+            enableRoomListPage: false,
+            enableRoomPage: true
+        }
+        this.handleBackClick = this.handleBackClick.bind(this);
+        this.showRoomPage = this.showRoomPage.bind(this);
+    }
+
+    handleBackClick() {
+        this.setState({ 
+            enableRoomListPage: true,
+            enableRoomPage: false
+         })
+    }
+
+    showRoomPage() {
+        return(
+            <div>
+                <p className="test">This is the room page</p>
+                <button onClick={this.handleBackClick}>Back</button>
+            </div>
+        )
+    }
+
+
     render() {
         return(
             <div>
-                This is the room page
+                { this.state.enableRoomPage ? this.showRoomPage() : null}
+                { this.state.enableRoomListPage ? <RoomListPage /> : null }
             </div>
         );
     }
