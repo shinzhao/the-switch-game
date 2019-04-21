@@ -20,7 +20,7 @@ class profile extends Component {
         </div>
       <p>Win: | Lost: | Presentage: |</p>
       {/* game records */}
-      <div className="social-links">
+      <div className="info">
     
       <div>
           <p>name</p>
