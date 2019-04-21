@@ -1,0 +1,126 @@
+* {
+    font-family: 'Courier New', Courier, monospace;
+}
+
+.room-list {
+    text-align: center;
+    background-color: #282c34;
+    min-height: 100vh;
+    overflow: hidden;
+}
+
+.room-header {
+    position: relative;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 80px;
+    color: white;
+    right: 600px;
+    top: 50px;
+}
+
+.room-bg {
+    position: relative;
+    width: 20%;
+    height: 20%;
+    right: 600px;
+    top: 60px;
+}
+
+.create-button, .random-button, .profile-button, .game-rule-button{
+    background-color: #e7e7e7;
+    color: black;
+    border-radius: 8px;
+    border-color: #e7e7e7;
+    padding: 10px 40px;
+    font-size: 20px;
+    margin: 10px;
+    position: relative;
+    bottom: 300px;
+    -webkit-transition-duration: 0.4s;
+    transition-duration: 0.4s;
+}
+
+.profile-button, .game-rule-button{
+    bottom: 430px;
+    left: 750px;
+}
+
+.button:hover {
+    background-color: #282c34;
+    color: white;
+    border-color: #282c34;
+}
+
+.room-num {
+    color: white;
+    font-size: 50px;
+}
+
+.room-button {
+    background-color: #555555;
+    color: white;
+    border-color: #555555;
+    padding: 20px;
+    -webkit-transition-duration: 0.4s;
+    transition-duration: 0.4s;
+}
+
+.room-button:hover {
+    background-color: #e7e7e7;
+    color: black;
+    border-color: #e7e7e7;
+}
+
+.room-col {
+    margin: 10px;
+    position: relative;
+}
+
+.room-row {
+    margin: 10px;
+    position: relative;
+    bottom: 350px;
+    left: 100px;
+}
+
+.prev, .next {
+    position: relative;
+    bottom: 350px;
+    left: 100px;
+}
+
+form {
+    position: relative;
+    bottom: 300px;
+}
+
+.room-num-input {
+    width: 200px;
+    height: 30px;
+    position: relative;
+    bottom: 10px;
+    border-radius: 8px;
+    background-color: #e7e7e7;
+}
+
+.enter-button {
+    background-color: #e7e7e7;
+    color: black;
+    border-radius: 8px;
+    border-color: #e7e7e7;
+    padding: 10px 40px;
+    font-size: 20px;
+    margin: 10px;
+    position: relative;
+    left: 30px;
+    bottom: 8px;
+    -webkit-transition-duration: 0.4s;
+    transition-duration: 0.4s;
+}
+
+.enter-button:hover {
+    background-color: #282c34;
+    color: white;
+    border-color: #282c34;
+}
+
