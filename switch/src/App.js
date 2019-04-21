@@ -26,7 +26,6 @@ class App extends Component {
               <p className="App-header">WELCOME TO SWITCH</p>
               <div>
                 <button className="login-button" onClick={this.handleClick}>Login</button>
-
               </div>
             </div>
         );

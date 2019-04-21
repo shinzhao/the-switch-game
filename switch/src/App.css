@@ -30,6 +30,8 @@
     padding: 10px 40px;
     font-size: 20px;
     margin: 10px;
+    position: relative;
+    bottom: 100px;
     
     -webkit-transition-duration: 0.4s;
     transition-duration: 0.4s;
