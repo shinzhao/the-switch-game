@@ -4,14 +4,5 @@
 			"service": "Cognito",
 			"providerPlugin": "awscloudformation"
 		}
-	},
-	"api": {
-		"switch": {
-			"service": "AppSync",
-			"providerPlugin": "awscloudformation",
-			"output": {
-				"securityType": "API_KEY"
-			}
-		}
 	}
 }

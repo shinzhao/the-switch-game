@@ -31,14 +31,5 @@
 			},
 			"lastPushDirHash": "7HKFxuz5BQQvDZUCajiZSHV6hn4="
 		}
-	},
-	"api": {
-		"switch": {
-			"service": "AppSync",
-			"providerPlugin": "awscloudformation",
-			"output": {
-				"securityType": "API_KEY"
-			}
-		}
 	}
 }
