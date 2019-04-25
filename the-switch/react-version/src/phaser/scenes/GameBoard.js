@@ -1,4 +1,5 @@
 import Phaser from 'phaser';
+import {Blank} from '../objects/Blank'
 import { API, graphqlOperation } from 'aws-amplify';
 import * as mutations from '../../graphql/mutations';
 
@@ -20,7 +21,7 @@ export class GameBoard extends Phaser.Scene {
 		let y_pos1=0;
 		for(var i=0;i<6;i++){
 			for(var j=0 ;j<6;j++){
-			   this.blank=this.add.image(405+x_pos1,85+y_pos1,'blank').setScale(1,1.5).setOrigin(0, 0).setInteractive().setDataEnabled().data.set('blank', 53);
+			   this.blank=new Blank(this,405+x_pos1,85+y_pos1,'blank').data.set('blank', 53);
 				x_pos1+=65;
 			 }
 			   y_pos1+=65;
@@ -75,20 +76,20 @@ export class GameBoard extends Phaser.Scene {
 
 				
 						
-						(async () => {
-						const cardV = ranNums[i];
-						console.log(cardV)
-						const xV = this.chess.x;
-						console.log("x : "+xV)
-						const yV = this.chess.y;
-						console.log("y : "+yV)
-						const thething = {
-							whichCard : ranNums[i],
-							x : xV,
-							y : yV
-						};
-						const newThing = await API.graphql(graphqlOperation(mutations.createTest1, {input: thething}));
-					})();
+					// 	(async () => {
+					// 	const cardV = ranNums[i];
+					// 	console.log(cardV)
+					// 	const xV = this.chess.x;
+					// 	console.log("x : "+xV)
+					// 	const yV = this.chess.y;
+					// 	console.log("y : "+yV)
+					// 	const thething = {
+					// 		whichCard : ranNums[i],
+					// 		x : xV,
+					// 		y : yV
+					// 	};
+					// 	const newThing = await API.graphql(graphqlOperation(mutations.createTest1, {input: thething}));
+					// })();
 				
 				
 					}
@@ -98,21 +99,22 @@ export class GameBoard extends Phaser.Scene {
 			if(gameObject.x==this.chess.x||gameObject.y==this.chess.y){
 			this.chess.setX(gameObject.x)
 			this.chess.setY(gameObject.y)
-			(async () => {
-				const cardV = ranNums[i];
-				console.log(cardV)
-				const xV = this.chess.x;
-				console.log("x : "+xV)
-				const yV = this.chess.y;
-				console.log("y : "+yV)
-				const thething = {
-					whichCard : ranNums[i],
-					x : xV,
-					y : yV
-				};
-				const newThing = await API.graphql(graphqlOperation(mutations.createTest1, {input: thething}));
-			})();
-					break;
+
+			// (async () => {
+			// 	const cardV = ranNums[i];
+			// 	console.log(cardV)
+			// 	const xV = this.chess.x;
+			// 	console.log("x : "+xV)
+			// 	const yV = this.chess.y;
+			// 	console.log("y : "+yV)
+			// 	const thething = {
+			// 		whichCard : ranNums[i],
+			// 		x : xV,
+			// 		y : yV
+			// 	};
+			// 	const newThing = await API.graphql(graphqlOperation(mutations.createTest1, {input: thething}));
+			// })();
+					// break;
 			}
 		}	
 		
