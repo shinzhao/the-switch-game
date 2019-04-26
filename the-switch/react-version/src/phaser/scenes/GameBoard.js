@@ -1,5 +1,6 @@
 import Phaser from 'phaser';
 import {Blank} from '../objects/Blank'
+import {Player} from '../objects/Player'
 import { API, graphqlOperation } from 'aws-amplify';
 import * as mutations from '../../graphql/mutations';
 
@@ -54,7 +55,7 @@ export class GameBoard extends Phaser.Scene {
 			   y_pos+=65;
 			   x_pos=0;
 		   }
-		   this.chess=this.add.image(405,85,'chess_red').setOrigin(0, 0).setScale(0.02,0.02);
+		   this.chess=new Player(this,405,85,'chess_red')
 		   this.clickedBox(ranNums);
 		   
 
