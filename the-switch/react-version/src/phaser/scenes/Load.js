@@ -12,7 +12,7 @@ export class Load extends Phaser.Scene{
 
     preload(){
         this.load.image('boardbg', `${process.env.PUBLIC_URL}/assets/boardbg.png`);
-		this.load.image('blank',`${process.env.PUBLIC_URL}/assets/blabk.jpg`)
+		this.load.image('blank',`${process.env.PUBLIC_URL}/assets/blank.jpg`)
 		this.load.image('chess_red', `${process.env.PUBLIC_URL}/assets/chess_1.png`);
 		// this.load.image('chess_purple', './img/chess_2.png');
 		// this.load.image('chess_blue', './img/chess_3.png');
