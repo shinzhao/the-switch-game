@@ -1,5 +1,5 @@
 import Phaser from 'phaser';
-export class Card extends Phaser.GameObjects.Sprite{
+export class Card extends Phaser.GameObjects.Spite{
     constructor(scene,x,y,key,target,left=36){
         super(scene,x,y,key,target);
         scene.sys.displayList.add(this);
