@@ -1,0 +1,39 @@
+.App {
+  text-align: center;
+  background-color: #282c34;
+  min-height: 100vh;
+  overflow: hidden;
+}
+
+.App-header {
+  position: relative;
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 80px;
+  color: white;
+  right: 330px;
+  bottom: 85px;
+}
+
+.App-bg {
+  position: relative;
+  width: 40%;
+  height: 40%;
+  left: 350px;
+  top: 100px;
+}
+
+.login-button {
+    background-color: #e7e7e7;
+    color: black;
+    border-radius: 8px;
+    border-color: #e7e7e7;
+    padding: 10px 40px;
+    font-size: 20px;
+    margin: 10px;
+    position: relative;
+    bottom: 100px;
+    
+    -webkit-transition-duration: 0.4s;
+    transition-duration: 0.4s;
+}
+
