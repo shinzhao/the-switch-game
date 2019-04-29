@@ -2,6 +2,10 @@ import React, { Component } from 'react';
 import './App.css'
 import Login from './Pages/LoginPage';
 import bg from './img/background.png';
+import aws_config from "./aws-exports";
+import Amplify from '@aws-amplify/core'
+
+Amplify.configure(aws_config);
 
 class App extends Component {
     constructor(){
