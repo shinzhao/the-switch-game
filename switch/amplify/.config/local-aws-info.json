@@ -1,7 +1,0 @@
-{
-    "switch": {
-        "configLevel": "project",
-        "useProfile": true,
-        "profileName": "test"
-    }
-}
