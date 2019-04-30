@@ -1,0 +1,63 @@
+.landing-grid {
+    text-align: center;
+   }
+   
+   .projects-grid {
+     display: flex;
+   }
+   
+   .contact-grid {
+     text-align: center;
+     justify-content: center;
+     width: 80%;
+     height: 550px;
+     background: white;
+     color: black;
+     margin-bottom: 20px;
+   }
+   
+   .contact-grid hr {
+     border-top: 5px dotted black;
+     width: 50%;
+     margin: auto;
+   }
+   
+   .contact-list i {
+     padding-right: 5rem;
+   }
+   
+   .avatar-img {
+     height: 250px;
+     padding-top: 5em;
+   }
+   
+   .banner-text {
+     background-color: black;
+     opacity: .8;
+     width: 75%;
+     margin: auto;
+     border-radius: 10px;
+   }
+   
+   .banner-text hr {
+     border-top: 5px dotted white;
+     width: 50%;
+     margin: auto;
+   }
+   
+   .banner-text p {
+     color: white;
+     padding: 1em;
+   }
+   
+   .info {
+     display: inline;
+     color: white;
+     width: 30%;
+     margin: auto;
+   }
+   
+   .info i {
+     color: white;
+     padding: 5px;
+   }
