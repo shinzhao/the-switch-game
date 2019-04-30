@@ -1,4 +1,7 @@
 import Phaser from 'phaser';
+import {Blank} from '../objects/Blank';
+import {Player} from '../objects/Player';
+import {Card} from '../objects/Card';
 import { API, graphqlOperation } from 'aws-amplify';
 import * as mutations from '../../../graphql/mutations';
 
@@ -20,7 +23,7 @@ export class GameBoard extends Phaser.Scene {
 		let y_pos1=0;
 		for(var i=0;i<6;i++){
 			for(var j=0 ;j<6;j++){
-			   this.blank=this.add.image(405+x_pos1,85+y_pos1,'blank').setScale(1,1.5).setOrigin(0, 0).setInteractive().setDataEnabled().data.set('blank', 53);
+			   this.blank=new Blank(this,405+x_pos1,85+y_pos1,'blank').data.set('blank', 53);
 				x_pos1+=65;
 			 }
 			   y_pos1+=65;
@@ -45,76 +48,64 @@ export class GameBoard extends Phaser.Scene {
 		   for(var i=0;i<6;i++){
 			for(var j=0 ;j<6;j++){
 			   var generatecard=ranNums[card_number]
-			   this.card=this.add.sprite(405+x_pos,85+y_pos,'cards',generatecard)
-			   this.card.setScale(0.13,0.13).setOrigin(0, 0).setInteractive().setDataEnabled().data.set('card_number', card_number);
+			   this.card=new Card(this,405+x_pos,85+y_pos,'cards',generatecard).setOrigin(0, 0).setInteractive().setDataEnabled()
+			   this.card.data.set('card_number', card_number);
 				x_pos+=65;
 				card_number++;
 			 }
 			   y_pos+=65;
 			   x_pos=0;
 		   }
-		   this.chess=this.add.image(405,85,'chess_red').setOrigin(0, 0).setScale(0.02,0.02);
+			 this.player1=new Player(this,405,85,'chess_red',1).setOrigin(0, 0)
+			 this.player2=new Player(this,730,85,'chess_blue',2).setOrigin(0, 0)
+			 
+			 
+			
 		   this.clickedBox(ranNums);
 		   
-
 	}
 
 	clickedBox(ranNums){
 		var arrangepostion=0;
 		this.input.on('gameobjectdown', (pointer, gameObject) => {
 		for(var i=0;i<36;i++){
-			if(this.gameBoard[i] == i && gameObject.data.get('card_number') == i) {
-				if(gameObject.x==this.chess.x||gameObject.y==this.chess.y){
-				this.chess.setX(gameObject.x)
-			    this.chess.setY(gameObject.y)
-				gameObject.setX(6+arrangepostion);
-				gameObject.setY(40);
-				gameObject.setScale(0.08,0.08)	
-				arrangepostion+=20;	
-				//find card index 
-
-				
+				if(this.gameBoard[i] == i && gameObject.data.get('card_number') == i) {
+					if(gameObject.x==this.player1.x||gameObject.y==this.player1.y){
+						this.player1.setX(gameObject.x)
+			  		this.player1.setY(gameObject.y)
+						gameObject.setX(6+arrangepostion);
+						gameObject.setY(40);
+						gameObject.setScale(0.08,0.08)	
+						arrangepostion+=20;	
 						
-						(async () => {
-						const cardV = ranNums[i];
-						console.log(cardV)
-						const xV = this.chess.x;
-						console.log("x : "+xV)
-						const yV = this.chess.y;
-						console.log("y : "+yV)
-						const thething = {
-							whichCard : ranNums[i],
-							x : xV,
-							y : yV
-						};
-						const newThing = await API.graphql(graphqlOperation(mutations.createTest1, {input: thething}));
-					})();
-				
-				
 					}
 				
 		}
-		if(this.gameBoard[i] == i && gameObject.data.get('blank') == 53) {
-			if(gameObject.x==this.chess.x||gameObject.y==this.chess.y){
-			this.chess.setX(gameObject.x)
-			this.chess.setY(gameObject.y)
-			(async () => {
-				const cardV = ranNums[i];
-				console.log(cardV)
-				const xV = this.chess.x;
-				console.log("x : "+xV)
-				const yV = this.chess.y;
-				console.log("y : "+yV)
-				const thething = {
-					whichCard : ranNums[i],
-					x : xV,
-					y : yV
-				};
-				const newThing = await API.graphql(graphqlOperation(mutations.createTest1, {input: thething}));
-			})();
-					break;
+			if(this.gameBoard[i] == i && gameObject.data.get('blank') == 53) {
+				if(gameObject.x==this.player1.x||gameObject.y==this.player1.y){
+					this.player1.setX(gameObject.x)
+			  	this.player1.setY(gameObject.y)
+					
 			}
-		}	
+		}
+		
+		(async () => {
+			const cardV = ranNums[i];
+			console.log(cardV)
+			const xV = this.chess.x;
+			console.log("x : "+xV)
+			const yV = this.chess.y;
+			console.log("y : "+yV)
+			const thething = {
+				whichCard : ranNums[i],
+				x : xV,
+				y : yV
+			};
+			const newThing = await API.graphql(graphqlOperation(mutations.createTest1, {input: thething}));
+		})();
+	
+	
+		
 		
 	}	
 			
