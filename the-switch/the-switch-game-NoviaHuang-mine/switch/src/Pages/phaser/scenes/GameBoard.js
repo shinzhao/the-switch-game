@@ -3,7 +3,7 @@ import {Blank} from '../objects/Blank';
 import {Player} from '../objects/Player';
 import {Card} from '../objects/Card';
 import { API, graphqlOperation } from 'aws-amplify';
-import * as mutations from '../../graphql/mutations';
+import * as mutations from '../../../graphql/mutations';
 
 export class GameBoard extends Phaser.Scene {
 	constructor() {
@@ -48,7 +48,7 @@ export class GameBoard extends Phaser.Scene {
 		   for(var i=0;i<6;i++){
 			for(var j=0 ;j<6;j++){
 			   var generatecard=ranNums[card_number]
-			   this.card=new Card(this,405+x_pos,85+y_pos,'cards',generatecard).setInteractive().setDataEnabled()
+			   this.card=new Card(this,405+x_pos,85+y_pos,'cards',generatecard).setOrigin(0, 0).setInteractive().setDataEnabled()
 			   this.card.data.set('card_number', card_number);
 				x_pos+=65;
 				card_number++;
@@ -56,8 +56,8 @@ export class GameBoard extends Phaser.Scene {
 			   y_pos+=65;
 			   x_pos=0;
 		   }
-			 this.player1=new Player(this,405,85,'chess_red',1)
-			 this.player2=new Player(this,730,85,'chess_blue',2)
+			 this.player1=new Player(this,405,85,'chess_red',1).setOrigin(0, 0)
+			 this.player2=new Player(this,730,85,'chess_blue',2).setOrigin(0, 0)
 			 
 			 
 			
@@ -77,7 +77,7 @@ export class GameBoard extends Phaser.Scene {
 						gameObject.setY(40);
 						gameObject.setScale(0.08,0.08)	
 						arrangepostion+=20;	
-						this.player1.nextPlayer()
+						
 					}
 				
 		}
@@ -85,7 +85,7 @@ export class GameBoard extends Phaser.Scene {
 				if(gameObject.x==this.player1.x||gameObject.y==this.player1.y){
 					this.player1.setX(gameObject.x)
 			  	this.player1.setY(gameObject.y)
-					this.player1.nextPlayer()
+					
 			}
 		}
 	
