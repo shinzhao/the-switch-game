@@ -1,7 +1,7 @@
 .App {
   text-align: center;
   background-color: #282c34;
-  min-height: 100vh;
+  height: 967px;
   overflow: hidden;
 }
 
@@ -17,7 +17,7 @@
 .App-bg {
   position: relative;
   width: 40%;
-  height: 40%;
+  height: 55%;
   left: 350px;
   top: 100px;
 }
@@ -30,7 +30,8 @@
     padding: 10px 40px;
     font-size: 20px;
     margin: 10px;
-    
+    position: relative;
+    bottom: 10px;
     -webkit-transition-duration: 0.4s;
     transition-duration: 0.4s;
 }

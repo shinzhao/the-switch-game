@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 import bg from '../img/background.png';
 import './RoomListPage.css';
+import RoomPage from './RoomPage';
+import GameRulePage from './GameRulePage';
+import ProfilePage from './ProfilePage';
 
 class RoomListPage extends React.Component {
     constructor(){
@@ -8,19 +11,43 @@ class RoomListPage extends React.Component {
         this.state={
             roomID: getRoomID(),
             player_count: getPlayerCount(),
-            status: getStatus()
+            status: getStatus(),
+            enableRoomListPage: true,
+            enableRoomPage: false,
+            enableGameRulePage: false,
+            enableProfilePage: false
         };
-        this.handleClick = this.handleClick.bind(this);
+        this.handleRoomClick = this.handleRoomClick.bind(this);
+        this.showRoomList = this.showRoomList.bind(this);
+        this.handleGameRuleClick = this.handleGameRuleClick.bind(this);
+        this.handleProfileClick = this.handleProfileClick.bind(this);
+    }
+
+    handleProfileClick() {
+        this.setState({
+            enableRoomListPage: false,
+            enableProfilePage: true
+        })
+    }
+
+    handleGameRuleClick() {
+        this.setState({
+            enableRoomListPage: false,
+            enableGameRulePage: true
+        })
     }
     
-    
-    handleClick(){
-        alert("button clicked");
+    handleRoomClick() {
+        //need to check availability first
+        this.setState({
+            enableRoomListPage: false,
+            enableRoomPage: true
+        });
     }
 
     renderRoom(i){
         return(
-            <button className="room-button" onClick={this.handleClick}>
+            <button className="room-button" onClick={this.handleRoomClick}>
                     Room {this.state.roomID[i]} <br />
                     {this.state.player_count[i]}/4 <br />
                     {this.state.status[i]}
@@ -28,13 +55,12 @@ class RoomListPage extends React.Component {
         );
     }
 
-    render() {
-        
-        return (
+    showRoomList() {
+        return(
             <div className="room-list">
                 <p className="room-header">SWITCH</p>
-                <button className="game-rule-button">Game Rule</button>
-                <button className="profile-button">My Account</button>
+                <button className="game-rule-button" onClick={this.handleGameRuleClick}>Game Rule</button>
+                <button className="profile-button" onClick={this.handleProfileClick}>My Account</button>
                 <img src={bg} className="room-bg" alt="background"/>
                 <div className="room-row">
                     <div className="room-col">
@@ -53,9 +79,9 @@ class RoomListPage extends React.Component {
                         {this.renderRoom(8)}
                     </div>
                     <div className="room-col">
-                    {this.renderRoom(9)}
-                    {this.renderRoom(10)}
-                    {this.renderRoom(11)}
+                        {this.renderRoom(9)}
+                        {this.renderRoom(10)}
+                        {this.renderRoom(11)}
                     </div>
                 </div>
                 <button className="prev">Prev</button>
@@ -64,8 +90,19 @@ class RoomListPage extends React.Component {
                     <label className="room-num">Room #: <input type="number" className="room-num-input" /></label>
                     <input type="submit" value="ENTER" className="enter-button"/>
                 </form>
-                <button className="create-button" onClick={this.handleClick}>Create New Room</button>
-                <button className="random-button">Random Match</button>
+                <button className="create-button" onClick={this.handleRoomClick}>Create New Room</button>
+                <button className="random-button" onClick={this.handleRoomClick}>Random Match</button>
+            </div>
+        );
+    }
+
+    render() {
+        return (
+            <div>
+                {this.state.enableRoomListPage ? this.showRoomList() : null}
+                {this.state.enableRoomPage ? <RoomPage /> : null}
+                {this.state.enableGameRulePage ? <GameRulePage /> : null}
+                {this.state.enableProfilePage ? <ProfilePage /> : null}
             </div>
         );
     }

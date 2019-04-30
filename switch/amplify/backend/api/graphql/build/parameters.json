@@ -1,6 +1,0 @@
-{
-    "AppSyncApiName": "graphql",
-    "DynamoDBBillingMode": "PAY_PER_REQUEST",
-    "S3DeploymentBucket": "switch-20190406185124-deployment",
-    "S3DeploymentRootKey": "amplify-appsync-files/b756c831ee6604504800402f727a9eef63b49ca5"
-}
