@@ -1,0 +1,107 @@
+type Mutation {
+  createTest1(input: CreateTest1Input!): test1
+  deleteTest1(input: DeleteTest1Input!): test1
+  updateTest1(input: UpdateTest1Input!): test1
+}
+
+type Query {
+  getTest1(id: ID!): test1
+  listTest1S(filter: TableTest1FilterInput, limit: Int, nextToken: String): test1Connection
+}
+
+type Subscription {
+  onCreateTest1(id: ID, whichCard: Int, x: Int, y: Int): test1 @aws_subscribe(mutations: ["createTest1"])
+  onDeleteTest1(id: ID, whichCard: Int, x: Int, y: Int): test1 @aws_subscribe(mutations: ["deleteTest1"])
+  onUpdateTest1(id: ID, whichCard: Int, x: Int, y: Int): test1 @aws_subscribe(mutations: ["updateTest1"])
+}
+
+type test1 {
+  id: ID!
+  whichCard: Int
+  x: Int
+  y: Int
+}
+
+type test1Connection {
+  items: [test1]
+  nextToken: String
+}
+
+input CreateTest1Input {
+  whichCard: Int
+  x: Int
+  y: Int
+}
+
+input DeleteTest1Input {
+  id: ID!
+}
+
+input TableBooleanFilterInput {
+  eq: Boolean
+  ne: Boolean
+}
+
+input TableFloatFilterInput {
+  between: [Float]
+  contains: Float
+  eq: Float
+  ge: Float
+  gt: Float
+  le: Float
+  lt: Float
+  ne: Float
+  notContains: Float
+}
+
+input TableIDFilterInput {
+  beginsWith: ID
+  between: [ID]
+  contains: ID
+  eq: ID
+  ge: ID
+  gt: ID
+  le: ID
+  lt: ID
+  ne: ID
+  notContains: ID
+}
+
+input TableIntFilterInput {
+  between: [Int]
+  contains: Int
+  eq: Int
+  ge: Int
+  gt: Int
+  le: Int
+  lt: Int
+  ne: Int
+  notContains: Int
+}
+
+input TableStringFilterInput {
+  beginsWith: String
+  between: [String]
+  contains: String
+  eq: String
+  ge: String
+  gt: String
+  le: String
+  lt: String
+  ne: String
+  notContains: String
+}
+
+input TableTest1FilterInput {
+  id: TableIDFilterInput
+  whichCard: TableIntFilterInput
+  x: TableIntFilterInput
+  y: TableIntFilterInput
+}
+
+input UpdateTest1Input {
+  id: ID!
+  whichCard: Int
+  x: Int
+  y: Int
+}

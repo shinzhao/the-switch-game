@@ -7,23 +7,20 @@
 const phaserMock = {
     GameObjects: {
         Image: function(){
-            
-            // this.setTexture = () => ({
-            //     setScale: () => ({
-            //         setSize: jest.fn()
-            //     })
-            // });
             this.setScale=()=>{};
-            this.setActive = () =>{};
-            this.setInteractive=()=>{};
             this.setX=()=>{};
             this.setY=()=>{};
+            //this.setDataEnabled=()=>{}
+           // this.setInteractive=()=>{}
+        },
+        GameObject: function(){
             this.setDataEnabled=()=>{}
-        
-
+            this.setInteractive=()=>{}
         }
+    
     },
 
+    
 
 
     Scene: function(){

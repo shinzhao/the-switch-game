@@ -1,0 +1,6 @@
+{
+    "AppSyncApiName": "switch",
+    "DynamoDBBillingMode": "PAY_PER_REQUEST",
+    "S3DeploymentBucket": "switch-20190429012622-deployment",
+    "S3DeploymentRootKey": "amplify-appsync-files/a0c26247a4c1880a9e3549003a6297f76e102544"
+}
