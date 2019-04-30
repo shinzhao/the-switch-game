@@ -1,5 +1,5 @@
 ![](https://github.com/jariclnnf/the-switch-game/blob/master/img/fccd59114cefce930cd45f094201a50a.png)
-
+![](https://github.com/jariclnnf/the-switch-game/blob/master/img/WechatIMG123.png)
 
 Switch game rules
 
