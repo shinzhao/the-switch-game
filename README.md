@@ -1,4 +1,5 @@
-The Switch Game
+![](https://github.com/jariclnnf/the-switch-game/blob/master/img/fccd59114cefce930cd45f094201a50a.png)
+
 
 Switch game rules
 
