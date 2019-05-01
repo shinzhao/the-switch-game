@@ -13,6 +13,7 @@ class RoomListPage extends React.Component {
             roomID: getRoomID(),
             player_count: getPlayerCount(),
             status: getStatus(),
+            page: 1
         };
         this.handleProfileClick = this.handleProfileClick.bind(this);
         this.handleGameRuleClick = this.handleGameRuleClick.bind(this);
@@ -31,22 +32,24 @@ class RoomListPage extends React.Component {
     
     handleRoomClick(e) {
         e.preventDefault();
-        if(this.state.status == 'playing' || this.state.player_count == 4){
+        if(this.state.status[e] == 'playing' || this.state.player_count[e] == 4){
             alert('This room is full. Please select to enter another room.');
         }
         else {
-            this.props.history.push(`/${this.state.roomID}`);
+            this.props.history.push(`/${this.state.roomID[e]}`);
         }
     }
 
-    renderRoom(i){
-        return(
-            <button className="room-button" onClick={this.handleRoomClick}>
-                    Room {this.state.roomID[i]} <br />
-                    {this.state.player_count[i]}/4 <br />
-                    {this.state.status[i]}
-            </button>
-        );
+    renderRoom(e){
+        if (this.state.roomID[e]){
+            return(
+                <button className="room-button" onClick={this.handleRoomClick}>
+                        Room {this.state.roomID[e]} <br />
+                        {this.state.player_count[e]}/4 <br />
+                        {this.state.status[e]}
+                </button>
+            );
+        }
     }
 
     render() {
@@ -56,7 +59,7 @@ class RoomListPage extends React.Component {
                     <button className="game-rule-button" onClick={this.handleGameRuleClick}>Game Rule</button>
                     <button className="profile-button" onClick={this.handleProfileClick}>My Account</button>
                     <img src={img} className="room-img" />
-                    <div className="room-row">
+                    <div className="room-row-1">
                         <div className="room-col">
                             {this.renderRoom(0)}
                             {this.renderRoom(1)}
@@ -72,6 +75,8 @@ class RoomListPage extends React.Component {
                             {this.renderRoom(7)}
                             {this.renderRoom(8)}
                         </div>
+                    </div>
+                    <div className="room-row-2">
                         <div className="room-col">
                             {this.renderRoom(9)}
                             {this.renderRoom(10)}
@@ -94,15 +99,15 @@ class RoomListPage extends React.Component {
 
 //retrieve all data from database
 function getRoomID(){
-    return [1,2,3,4,5,6,7,8,9,10,11,12];
+    return [1,2,3,4,5,6,7,8,9,10];
 }
 
 function getPlayerCount(){
-    return [4,3,1,4,3,1,2,4,2,3,2,4];
+    return [4,3,1,4,3,1,2,4,2,2];
 }
 
 function getStatus(){
-    return ['playing','open','locked','playing','open','open','open','playing','locked','locked','open','playing'];
+    return ['playing','open','locked','playing','open','open','open','playing','locked','open'];
 }
 
 export default withRouter(RoomListPage);
