@@ -1,16 +1,21 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import * as serviceWorker from './serviceWorker';
 import './index.css';
 import App from './App';
 import Login from './Pages/LoginPage';
-import * as serviceWorker from './serviceWorker';
+import Profile from './Pages/ProfilePage';
+import GameRule from './Pages/GameRulePage';
+import Room from './Pages/RoomPage';
 import { Router, Route, BrowserRouter } from "react-router-dom";
 
 ReactDOM.render(
 <BrowserRouter>
     <div>
         <Route exact path='/' component={App} />
-        <Route path='/login' component={Login} />
+        <Route path='/room-list' component={Login} />
+        <Route path='/my-account' component={Profile} />
+        <Route path='/game-rule' component={GameRule} />
     </div>
 </BrowserRouter>
 , document.getElementById('root'));

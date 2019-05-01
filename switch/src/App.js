@@ -15,7 +15,7 @@ class App extends Component {
 
     handleClick(e) {
         e.preventDefault();
-        this.props.history.push('/login')
+        this.props.history.push('/room-list');
     }
 
     render() {
