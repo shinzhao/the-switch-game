@@ -16,6 +16,7 @@ ReactDOM.render(
         <Route path='/room-list' component={Login} />
         <Route path='/my-account' component={Profile} />
         <Route path='/game-rule' component={GameRule} />
+        <Route path='/room' component={Room} />
     </div>
 </BrowserRouter>
 , document.getElementById('root'));

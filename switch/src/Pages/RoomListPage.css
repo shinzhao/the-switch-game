@@ -165,8 +165,8 @@
     .room-img {
         position: relative;
         width: 30%;
-        height: 45%;
-        right: 700px;
+        height: 40%;
+        right: 690px;
         top: 30px;
     }
 
@@ -179,7 +179,8 @@
         font-size: 18px;
         margin: 10px;
         position: relative;
-        bottom: 300px;
+        bottom: 400px;
+        left: 10px;
         -webkit-transition-duration: 0.4s;
         transition-duration: 0.4s;
     }
@@ -191,7 +192,7 @@
     }
 
     .profile-button, .game-rule-button{
-        bottom: 480px;
+        bottom: 430px;
         left: 700px;
     }
 
@@ -225,25 +226,26 @@
     .room-row-1 {
         margin: 10px;
         position: relative;
-        bottom: 370px;
+        bottom: 300px;
         right: 100px;
     }
 
     .room-row-2 {
         margin: 10px;
         position: relative;
-        bottom: 653px;
+        bottom: 632px;
         left: 200px;
     }
 
     .prev, .next {
         position: relative;
-        bottom: 170px;
+        bottom: 450px;
+        left: 95px;
         background-color: #e7e7e7;
         color: black;
         border-radius: 8px;
         border-color: #e7e7e7;
-        font-size: 15px;
+        font-size: 10px;
         margin: 10px;
         -webkit-transition-duration: 0.4s;
         transition-duration: 0.4s;
@@ -257,16 +259,16 @@
 
     .room-num {
         color: white;
-        font-size: 50px;
+        font-size: 30px;
         position: relative;
-        bottom: 300px;
+        bottom: 400px;
     }
 
     .room-num-input {
         width: 200px;
-        height: 30px;
+        height: 25px;
         position: relative;
-        bottom: 10px;
+        bottom: 5px;
         border-radius: 8px;
         background-color: #e7e7e7;
     }
@@ -276,12 +278,12 @@
         color: black;
         border-radius: 8px;
         border-color: #e7e7e7;
-        padding: 10px 40px;
-        font-size: 20px;
+        padding: 8px 30px;
+        font-size: 18px;
         margin: 10px;
         position: relative;
         left: 30px;
-        bottom: 307px;
+        bottom: 405px;
         -webkit-transition-duration: 0.4s;
         transition-duration: 0.4s;
     }
