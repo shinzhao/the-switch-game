@@ -1,28 +1,29 @@
-.App {
-  text-align: center;
-  background-color: #282c34;
-  height: 967px;
-  overflow: hidden;
-}
+@media screen and (min-width: 1920px) {
+  .home {
+    text-align: center;
+    background-color: #282c34;
+    height: 100vh;
+    overflow: hidden;
+  }
 
-.App-header {
-  position: relative;
-  font-family: 'Courier New', Courier, monospace;
-  font-size: 80px;
-  color: white;
-  right: 330px;
-  bottom: 85px;
-}
+  .home-header {
+    position: relative;
+    font-family: 'Courier New', 'Courier', 'monospace';
+    font-size: 80px;
+    color: white;
+    right: 330px;
+    bottom: 85px;
+  }
 
-.App-bg {
-  position: relative;
-  width: 40%;
-  height: 55%;
-  left: 350px;
-  top: 100px;
-}
+  .home-img {
+    position: relative;
+    width: 40%;
+    height: 55%;
+    left: 450px;
+    top: 100px;
+  }
 
-.login-button {
+  .login-button {
     background-color: #e7e7e7;
     color: black;
     border-radius: 8px;
@@ -34,5 +35,11 @@
     bottom: 10px;
     -webkit-transition-duration: 0.4s;
     transition-duration: 0.4s;
-}
+  }
 
+  .login-button:hover {
+    background-color:rgb(93, 106, 134);
+    color: white;
+    border-color:rgb(93, 106, 134);
+  }
+}

@@ -4,6 +4,7 @@ import './RoomListPage.css';
 import RoomPage from './RoomPage';
 import GameRulePage from './GameRulePage';
 import ProfilePage from './ProfilePage';
+import { withRouter } from "react-router-dom";
 
 class RoomListPage extends React.Component {
     constructor(){
@@ -14,12 +15,10 @@ class RoomListPage extends React.Component {
             status: getStatus(),
             enableRoomListPage: true,
             enableRoomPage: false,
-            enableGameRulePage: false,
             enableProfilePage: false
         };
         this.handleRoomClick = this.handleRoomClick.bind(this);
         this.showRoomList = this.showRoomList.bind(this);
-        this.handleGameRuleClick = this.handleGameRuleClick.bind(this);
         this.handleProfileClick = this.handleProfileClick.bind(this);
     }
 
@@ -27,13 +26,6 @@ class RoomListPage extends React.Component {
         this.setState({
             enableRoomListPage: false,
             enableProfilePage: true
-        })
-    }
-
-    handleGameRuleClick() {
-        this.setState({
-            enableRoomListPage: false,
-            enableGameRulePage: true
         })
     }
     
@@ -57,42 +49,42 @@ class RoomListPage extends React.Component {
 
     showRoomList() {
         return(
-            <div className="room-list">
-                <p className="room-header">SWITCH</p>
-                <button className="game-rule-button" onClick={this.handleGameRuleClick}>Game Rule</button>
-                <button className="profile-button" onClick={this.handleProfileClick}>My Account</button>
-                <img src={bg} className="room-bg" alt="background"/>
-                <div className="room-row">
-                    <div className="room-col">
-                        {this.renderRoom(0)}
-                        {this.renderRoom(1)}
-                        {this.renderRoom(2)}
+                <div className="room-list">
+                    <p className="room-header">SWITCH</p>
+                    <button className="game-rule-button">Game Rule</button>
+                    <button className="profile-button" onClick={this.handleProfileClick}>My Account</button>
+                    <img src={bg} className="room-bg" alt="background"/>
+                    <div className="room-row">
+                        <div className="room-col">
+                            {this.renderRoom(0)}
+                            {this.renderRoom(1)}
+                            {this.renderRoom(2)}
+                        </div>
+                        <div className="room-col">
+                            {this.renderRoom(3)}
+                            {this.renderRoom(4)}
+                            {this.renderRoom(5)}
+                        </div>
+                        <div className="room-col">
+                            {this.renderRoom(6)}
+                            {this.renderRoom(7)}
+                            {this.renderRoom(8)}
+                        </div>
+                        <div className="room-col">
+                            {this.renderRoom(9)}
+                            {this.renderRoom(10)}
+                            {this.renderRoom(11)}
+                        </div>
                     </div>
-                    <div className="room-col">
-                        {this.renderRoom(3)}
-                        {this.renderRoom(4)}
-                        {this.renderRoom(5)}
-                    </div>
-                    <div className="room-col">
-                        {this.renderRoom(6)}
-                        {this.renderRoom(7)}
-                        {this.renderRoom(8)}
-                    </div>
-                    <div className="room-col">
-                        {this.renderRoom(9)}
-                        {this.renderRoom(10)}
-                        {this.renderRoom(11)}
-                    </div>
+                    <button className="prev">Prev</button>
+                    <button className="next">Next</button>
+                    <form>
+                        <label className="room-num">Room #: <input type="number" className="room-num-input" /></label>
+                        <input type="submit" value="ENTER" className="enter-button"/>
+                    </form>
+                    <button className="create-button" onClick={this.handleRoomClick}>Create New Room</button>
+                    <button className="random-button" onClick={this.handleRoomClick}>Random Match</button>
                 </div>
-                <button className="prev">Prev</button>
-                <button className="next">Next</button>
-                <form>
-                    <label className="room-num">Room #: <input type="number" className="room-num-input" /></label>
-                    <input type="submit" value="ENTER" className="enter-button"/>
-                </form>
-                <button className="create-button" onClick={this.handleRoomClick}>Create New Room</button>
-                <button className="random-button" onClick={this.handleRoomClick}>Random Match</button>
-            </div>
         );
     }
 
@@ -101,7 +93,7 @@ class RoomListPage extends React.Component {
             <div>
                 {this.state.enableRoomListPage ? this.showRoomList() : null}
                 {this.state.enableRoomPage ? <RoomPage /> : null}
-                {this.state.enableGameRulePage ? <GameRulePage /> : null}
+
                 {this.state.enableProfilePage ? <ProfilePage /> : null}
             </div>
         );
@@ -121,4 +113,4 @@ function getStatus(){
     return ['playing','open','locked','playing','open','open','open','playing','locked','locked','open','playing'];
 }
 
-export default RoomListPage;
+export default withRouter(RoomListPage);
