@@ -56,23 +56,29 @@ export class GameBoard extends Phaser.Scene {
 			   y_pos+=65;
 			   x_pos=0;
 		   }
-			 this.player1=new Player(this,405,85,'chess_red',1).setOrigin(0, 0)
-			 this.player2=new Player(this,730,85,'chess_blue',2).setOrigin(0, 0)
-			 
+			 let player1=new Player(this,405,85,'chess_red',1).setOrigin(0,0)
+			 let player2=new Player(this,730,85,'chess_blue',2).setOrigin(0,0)
+
+			 let player=[]
+			 player.push(player1)
+			 player.push(player2)
 			 
 			
-		   this.clickedBox(ranNums);
+		   this.clickedBox(ranNums,player);
 		   
 	}
 
-	clickedBox(ranNums){
+	decideMove(x,y){
+		
+	}
+	clickedBox(ranNums,player){
 		var arrangepostion=0;
 		this.input.on('gameobjectdown', (pointer, gameObject) => {
 		for(var i=0;i<36;i++){
 				if(this.gameBoard[i] == i && gameObject.data.get('card_number') == i) {
-					if(gameObject.x==this.player1.x||gameObject.y==this.player1.y){
-						this.player1.setX(gameObject.x)
-			  		this.player1.setY(gameObject.y)
+					if(gameObject.x==player[0].x||gameObject.y==player[0].y){
+						player[0].setX(gameObject.x)
+			  		player[0].setY(gameObject.y)
 						gameObject.setX(6+arrangepostion);
 						gameObject.setY(40);
 						gameObject.setScale(0.08,0.08)	
@@ -82,27 +88,27 @@ export class GameBoard extends Phaser.Scene {
 				
 		}
 			if(this.gameBoard[i] == i && gameObject.data.get('blank') == 53) {
-				if(gameObject.x==this.player1.x||gameObject.y==this.player1.y){
-					this.player1.setX(gameObject.x)
-			  	this.player1.setY(gameObject.y)
+				if(gameObject.x==player[0].x||gameObject.y==player[0].y){
+					player[0].setX(gameObject.x)
+			  	player[0].setY(gameObject.y)
 					
 			}
 		}
 		
-		(async () => {
-			const cardV = ranNums[i];
-			console.log(cardV)
-			const xV = this.chess.x;
-			console.log("x : "+xV)
-			const yV = this.chess.y;
-			console.log("y : "+yV)
-			const thething = {
-				whichCard : ranNums[i],
-				x : xV,
-				y : yV
-			};
-			const newThing = await API.graphql(graphqlOperation(mutations.createTest1, {input: thething}));
-		})();
+		// (async () => {
+		// 	const cardV = ranNums[i];
+		// 	console.log(cardV)
+		// 	const xV = this.chess.x;
+		// 	console.log("x : "+xV)
+		// 	const yV = this.chess.y;
+		// 	console.log("y : "+yV)
+		// 	const thething = {
+		// 		whichCard : ranNums[i],
+		// 		x : xV,
+		// 		y : yV
+		// 	};
+		// 	const newThing = await API.graphql(graphqlOperation(mutations.createTest1, {input: thething}));
+		// })();
 	
 	
 		
