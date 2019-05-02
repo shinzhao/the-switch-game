@@ -2,43 +2,29 @@ import React, { Component } from 'react';
 import RoomListPage from './RoomListPage';
 import './RoomPage.css';
 import Game from './phaser/Game';
+import { withAuthenticator } from 'aws-amplify-react';
+import { withRouter } from 'react-router-dom';
 
 class RoomPage extends React.Component {
     constructor() {
         super();
-        this.state={
-            enableRoomListPage: false,
-            enableRoomPage: true
-        }
         this.handleBackClick = this.handleBackClick.bind(this);
-        this.showRoomPage = this.showRoomPage.bind(this);
     }
 
-    handleBackClick() {
-        this.setState({ 
-            enableRoomListPage: true,
-            enableRoomPage: false
-         })
-    }
-
-    showRoomPage() {
-        return(
-            <div>
-                <p className="test">This is the room page</p>
-                <button onClick={this.handleBackClick}>Back</button>
-                <Game />
-            </div>
-        )
+    handleBackClick(e) {
+        e.preventDefault();
+        this.props.history.push('/room-list')
     }
 
     render() {
         return(
-            <div>
-                { this.state.enableRoomPage ? this.showRoomPage() : null}
-                { this.state.enableRoomListPage ? <RoomListPage /> : null }
+            <div className="room">
+                <p className="test">This is the room page</p>
+                <button onClick={this.handleBackClick}>Back</button>
+                <Game />
             </div>
         );
     }
 }
 
-export default RoomPage;
+export default withRouter(withAuthenticator(RoomPage));

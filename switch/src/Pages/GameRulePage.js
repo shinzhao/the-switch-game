@@ -1,26 +1,21 @@
 import React, { Component } from 'react';
 import RoomListPage from './RoomListPage';
 import './GameRulePage.css';
+import { withRouter } from "react-router-dom";
+import { withAuthenticator } from 'aws-amplify-react';
 
 class GameRulePage extends React.Component {
     constructor() {
         super();
-        this.state={
-            enableRoomListPage: false,
-            enableGameRulePage: true
-        }
         this.handleBackClick = this.handleBackClick.bind(this);
-        this.showGameRulePage = this.showGameRulePage.bind(this);
     }
 
-    handleBackClick() {
-        this.setState({ 
-            enableRoomListPage: true,
-            enableGameRulePage: false
-         })
+    handleBackClick(e) {
+        e.preventDefault();
+        this.props.history.push('/room-list');
     }
 
-    showGameRulePage() {
+    render() {
         return(
             <div className="game-rule">
                 <button className="back-button" onClick={this.handleBackClick}>Back</button>
@@ -184,16 +179,6 @@ class GameRulePage extends React.Component {
             </div>
         )
     }
-
-
-    render() {
-        return(
-            <div>
-                { this.state.enableGameRulePage ? this.showGameRulePage() : null}
-                { this.state.enableRoomListPage ? <RoomListPage /> : null }
-            </div>
-        );
-    }
 }
 
-export default GameRulePage;
+export default withRouter(withAuthenticator(GameRulePage,true));
