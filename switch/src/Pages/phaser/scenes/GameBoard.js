@@ -4,6 +4,8 @@ import {Player} from '../objects/Player';
 import {Card} from '../objects/Card';
 import { API, graphqlOperation } from 'aws-amplify';
 import * as mutations from '../../../graphql/mutations';
+import * as subscriptions from '../../../graphql/subscriptions'
+import * as queries from '../../../graphql/queries'
 
 export class GameBoard extends Phaser.Scene {
 	constructor() {
@@ -56,61 +58,108 @@ export class GameBoard extends Phaser.Scene {
 			   y_pos+=65;
 			   x_pos=0;
 		   }
-			 this.player1=new Player(this,405,85,'chess_red',1).setOrigin(0, 0)
-			 this.player2=new Player(this,730,85,'chess_blue',2).setOrigin(0, 0)
+			 let player1=new Player(this,405,85,'chess_red',1).setOrigin(0,0)
+			 let player2=new Player(this,730,85,'chess_blue',2).setOrigin(0,0)
+
+			 let player=[]
+			 player.push(player1)
+			 player.push(player2)
 			 
-			 
-			
-		   this.clickedBox(ranNums);
+			 let gameState='playing'
+			 let id=0
+			 this.clickedBox(ranNums,player,id);
 		   
 	}
 
-	clickedBox(ranNums){
+	decideMove(x,y,player){
+		player.setX(x)
+		player.setY(y)
+	}
+
+	handlePlayer1Card(card,arrangepostion){
+		card.setX(10+arrangepostion);
+		card.setY(40);
+		card.setScale(0.1,0.1)
+	}
+
+	handlePlaye2Card(){
+		
+	}
+
+	handlePlayer3Card(){
+		
+	}
+	async updateCardData(card,x,y){
+		const cardV = card;
+		console.log(cardV)
+		const xV =x;
+		console.log("x : "+xV)
+		const yV = y;
+		console.log("y : "+yV)
+		const thething = {
+					whichCard : cardV,
+							x : xV,
+							y : yV
+						};
+	 const newThing = await API.graphql(graphqlOperation(mutations.createTest1, {input: thething}));
+	}
+
+	async updateblanck(card,x,y){
+		const cardV = card;
+		console.log(cardV)
+		const xV =x;
+		console.log("x : "+xV)
+		const yV = y;
+		console.log("y : "+yV)
+		const thething = {
+					whichCard : cardV,
+							x : xV,
+							y : yV
+						};
+	 const newThing = await API.graphql(graphqlOperation(mutations.createTest1, {input: thething}));
+	}
+
+	
+	clickedBox(ranNums,player,id){
 		var arrangepostion=0;
+		var seat=0
 		this.input.on('gameobjectdown', (pointer, gameObject) => {
-		for(var i=0;i<36;i++){
-				if(this.gameBoard[i] == i && gameObject.data.get('card_number') == i) {
-					if(gameObject.x==this.player1.x||gameObject.y==this.player1.y){
-						this.player1.setX(gameObject.x)
-			  		this.player1.setY(gameObject.y)
-						gameObject.setX(6+arrangepostion);
-						gameObject.setY(40);
-						gameObject.setScale(0.08,0.08)	
-						arrangepostion+=20;	
-						
-					}
+			for(var i=0;i<36;i++){
+				if(this.gameBoard[i] == i ){
+					if(gameObject.x==player[seat].x||gameObject.y==player[seat].y){
+						this.decideMove(gameObject.x,gameObject.y,player[seat])
+						if(gameObject.data.get('card_number') == i){
+							this.handlePlayer1Card(gameObject,arrangepostion)
+							arrangepostion += 20
+							this.updateCardData(ranNums[i],player[seat].x,player[seat].y)
+						}else if(gameObject.data.get('blank')){
+							this.updateblanck(-1,player[seat].x,player[seat].y)
+							break;
+							
+						}
+						// if(seat==0){
+						// 	seat=1
+						// }else{
+						// 	seat=0
+						// }
+					}	
 				
-		}
-			if(this.gameBoard[i] == i && gameObject.data.get('blank') == 53) {
-				if(gameObject.x==this.player1.x||gameObject.y==this.player1.y){
-					this.player1.setX(gameObject.x)
-			  	this.player1.setY(gameObject.y)
-					
 			}
-		}
-		
-		(async () => {
-			const cardV = ranNums[i];
-			console.log(cardV)
-			const xV = this.chess.x;
-			console.log("x : "+xV)
-			const yV = this.chess.y;
-			console.log("y : "+yV)
-			const thething = {
-				whichCard : ranNums[i],
-				x : xV,
-				y : yV
-			};
-			const newThing = await API.graphql(graphqlOperation(mutations.createTest1, {input: thething}));
-		})();
 	
+
+		
 	
-		
-		
-	}	
+	}
+
 			
 	});
+
+	
+	
 }
 	
-	update(time, delta) {}
+	update(time, delta) {
+		
+		
+	}
 }
