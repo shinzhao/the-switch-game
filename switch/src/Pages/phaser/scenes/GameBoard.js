@@ -89,7 +89,7 @@ export class GameBoard extends Phaser.Scene {
 	handlePlayer3Card(){
 		
 	}
-	async updatedata(card,x,y){
+	async updateCardData(card,x,y){
 		const cardV = card;
 		console.log(cardV)
 		const xV =x;
@@ -103,18 +103,23 @@ export class GameBoard extends Phaser.Scene {
 						};
 	 const newThing = await API.graphql(graphqlOperation(mutations.createTest1, {input: thething}));
 	}
+
 	
 	clickedBox(ranNums,player,id){
 		var arrangepostion=0;
 		var seat=0
 		this.input.on('gameobjectdown', (pointer, gameObject) => {
 			for(var i=0;i<36;i++){
-				if(this.gameBoard[i] == i && gameObject.data.get('card_number') == i) {
+				if(this.gameBoard[i] == i  ) {
 					if(gameObject.x==player[seat].x||gameObject.y==player[seat].y){
-						this.updatedata(ranNums[i],player[seat].x,player[seat].y)
 						this.decideMove(gameObject.x,gameObject.y,player[seat])
-						this.handlePlayer1Card(gameObject,arrangepostion)
-						// arrangepostion += 20
+						if(gameObject.data.get('card_number') == i){
+							this.handlePlayer1Card(gameObject,arrangepostion)
+							arrangepostion += 20
+							this.updateCardData(ranNums[i],player[seat].x,player[seat].y)
+						}else(
+							console.log("update blankdata")
+						)
 						// if(seat==0){
 						// 	seat=1
 						// }else{
@@ -123,11 +128,7 @@ export class GameBoard extends Phaser.Scene {
 					}	
 				
 			}
-			if(this.gameBoard[i] == i && gameObject.data.get('blank') == 53) {
-				if(gameObject.x==player[seat].x||gameObject.y==player[seat].y){
-					this.decideMove(gameObject.x,gameObject.y,player)
-			}
-		}
+	
 
 		
 	
