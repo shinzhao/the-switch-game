@@ -44,7 +44,7 @@
   }
 }
 
-@media screen and (max-width: 2140px) {
+@media screen and (max-width: 1440px) {
   .home {
     text-align: center;
     background-color: #282c34;

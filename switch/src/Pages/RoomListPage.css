@@ -15,7 +15,7 @@
         font-family: 'Courier New', Courier, monospace;
         font-size: 80px;
         color: white;
-        right: 600px;
+        right: 650px;
         top: 50px;
     }
 
@@ -23,7 +23,7 @@
         position: relative;
         width: 30%;
         height: 45%;
-        right: 800px;
+        right: 860px;
         top: 30px;
     }
 
@@ -36,7 +36,7 @@
         font-size: 20px;
         margin: 10px;
         position: relative;
-        bottom: 300px;
+        bottom: 400px;
         -webkit-transition-duration: 0.4s;
         transition-duration: 0.4s;
     }
@@ -78,15 +78,23 @@
         position: relative;
     }
 
-    .room-row {
+    .room-row-1 {
         margin: 10px;
         position: relative;
-        bottom: 370px;
+        bottom: 430px;
+    }
+
+    .room-row-2 {
+        margin: 10px;
+        position: relative;
+        bottom: 728px;
+        left: 300px;
     }
 
     .prev, .next {
         position: relative;
-        bottom: 370px;
+        bottom: 510px;
+        left: 195px;
         background-color: #e7e7e7;
         color: black;
         border-radius: 8px;
@@ -107,7 +115,7 @@
         color: white;
         font-size: 50px;
         position: relative;
-        bottom: 300px;
+        bottom: 400px;
     }
 
     .room-num-input {
@@ -129,7 +137,7 @@
         margin: 10px;
         position: relative;
         left: 30px;
-        bottom: 307px;
+        bottom: 407px;
         -webkit-transition-duration: 0.4s;
         transition-duration: 0.4s;
     }
@@ -141,7 +149,7 @@
     }
 }
 
-@media screen and (max-width: 1920px) {
+@media screen and (max-width: 1440px) {
     * {
         font-family: 'Courier New', Courier, monospace;
     }

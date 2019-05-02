@@ -149,7 +149,7 @@ class RoomListPage extends React.Component {
     }
 }
 
-//retrieve all data from database
+//retrieve all room data from database, excluding those rooms that were closed
 function getRoomID(){
     return [1,2,3,4,5,6,7,8,9,10];
 }
@@ -159,7 +159,7 @@ function getPlayerCount(){
 }
 
 function getStatus(){
-    return ['playing','open','playing','open','open','open','playing','open','open'];
+    return ['playing','open','playing','open','open','open','playing','open','open','open'];
 }
 
 export default withRouter(RoomListPage);
