@@ -68,6 +68,13 @@
         transition-duration: 0.4s;
     }
 
+    .empty-room-button {
+        background-color: rgb(93, 106, 134);
+        color: white;
+        border-color: rgb(93, 106, 134);
+        padding: 65px;
+    }
+
     .room-button:hover {
         background-color: #e7e7e7;
         color: black;

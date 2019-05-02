@@ -53,6 +53,11 @@ class RoomListPage extends React.Component {
                 </button>
             );
         }
+        else {
+            return(
+                <button className="empty-room-button"></button>
+            )
+        }
     }
 
     //after clicked, check if the first room id in the current roomID array is equal to the first room id in the database
@@ -120,7 +125,6 @@ class RoomListPage extends React.Component {
                             {this.renderRoom(8)}
                         </div>
                     </div>
-                    
                     <button className="prev" onClick={this.handlePrevClick}>Prev</button>
                     <button className="next" onClick={this.handleNextClick}>Next</button>
                     <form>
@@ -136,15 +140,15 @@ class RoomListPage extends React.Component {
 
 //retrieve all room data from database, excluding those rooms that were closed
 function getRoomID(){
-    return [1,2,3,4,5,6,7,8,9,10];
+    return [1,2,3,4,5,6,7,8,9];
 }
 
 function getPlayerCount(){
-    return [4,3,4,4,3,1,2,4,2,2];
+    return [4,3,4,4,3,1,2,4,3];
 }
 
 function getStatus(){
-    return ['playing','open','playing','open','open','open','playing','open','open','open'];
+    return ['playing','open','playing','open','open','open','playing','open','open'];
 }
 
 export default withRouter(RoomListPage);
