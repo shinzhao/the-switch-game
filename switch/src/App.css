@@ -55,17 +55,17 @@
   .home-header {
     position: relative;
     font-family: 'Courier New', 'Courier', 'monospace';
-    font-size: 80px;
+    font-size: 70px;
     color: white;
-    right: 330px;
+    right: 280px;
     bottom: 85px;
   }
 
   .home-img {
     position: relative;
     width: 40%;
-    height: 55%;
-    left: 450px;
+    height: 50%;
+    left: 400px;
     top: 100px;
   }
 
