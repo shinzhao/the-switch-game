@@ -104,22 +104,39 @@ export class GameBoard extends Phaser.Scene {
 	 const newThing = await API.graphql(graphqlOperation(mutations.createTest1, {input: thething}));
 	}
 
+	async updateblanck(card,x,y){
+		const cardV = card;
+		console.log(cardV)
+		const xV =x;
+		console.log("x : "+xV)
+		const yV = y;
+		console.log("y : "+yV)
+		const thething = {
+					whichCard : cardV,
+							x : xV,
+							y : yV
+						};
+	 const newThing = await API.graphql(graphqlOperation(mutations.createTest1, {input: thething}));
+	}
+
 	
 	clickedBox(ranNums,player,id){
 		var arrangepostion=0;
 		var seat=0
 		this.input.on('gameobjectdown', (pointer, gameObject) => {
 			for(var i=0;i<36;i++){
-				if(this.gameBoard[i] == i  ) {
+				if(this.gameBoard[i] == i ){
 					if(gameObject.x==player[seat].x||gameObject.y==player[seat].y){
 						this.decideMove(gameObject.x,gameObject.y,player[seat])
 						if(gameObject.data.get('card_number') == i){
 							this.handlePlayer1Card(gameObject,arrangepostion)
 							arrangepostion += 20
 							this.updateCardData(ranNums[i],player[seat].x,player[seat].y)
-						}else(
-							console.log("update blankdata")
-						)
+						}else if(gameObject.data.get('blank')){
+							this.updateblanck(-1,player[seat].x,player[seat].y)
+							break;
+							
+						}
 						// if(seat==0){
 						// 	seat=1
 						// }else{
