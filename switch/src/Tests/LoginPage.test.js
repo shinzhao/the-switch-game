@@ -10,7 +10,7 @@ test('should fill username', async () => {
   await page.goto(
     'http://localhost:3000/app/login'
   );
-  await page.click
+  await page.click()
   await page.click('#normal_login_userName');
   await page.type('#normal_login_userName', 'jariclnnf');
   await page.click('#normal_login_password');
@@ -20,3 +20,5 @@ test('should fill username', async () => {
   browser.close();
   
 },1000000);
+
+  

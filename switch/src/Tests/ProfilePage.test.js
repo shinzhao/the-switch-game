@@ -12,3 +12,4 @@ test('rule text',()=>{
 it('renders without crashing', () => {
     render(<ProfilePage />)
   });
+  
