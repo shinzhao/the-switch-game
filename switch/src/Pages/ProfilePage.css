@@ -1,4 +1,42 @@
-.landing-grid {
+@media screen and (min-width: 1920px) {
+  * {
+      font-family: 'Courier New', Courier, monospace;
+  }
+
+  .profile {
+      background-color: #282c34;
+      overflow: hidden;
+      height: 900px;
+  }
+  
+  .back-button {
+      position: relative;
+      left: 400px;
+      top: 50px;
+      background-color: #e7e7e7;
+      color: black;
+      border-radius: 8px;
+      border-color: #e7e7e7;
+      font-size: 15px;
+      margin: 10px;
+      -webkit-transition-duration: 0.4s;
+      transition-duration: 0.4s;
+  }
+  
+  .back-button:hover {
+      background-color: rgb(93, 106, 134);
+      color: white;
+      border-color:rgb(93, 106, 134);
+  }
+
+  .profile-img {
+    height: 200px;
+    width: 200px;
+    position: relative;
+
+  }
+
+  .landing-grid {
     text-align: center;
    }
    
@@ -61,3 +99,11 @@
      color: white;
      padding: 5px;
    }
+
+}
+
+@media screen and (max-width: 1440px) {
+ 
+}
+
+
