@@ -114,12 +114,12 @@
 .profile {
     background-color: #282c34;
     overflow: hidden;
-    height: 900px;
+    height: 100vh;
 }
 
 .back-button {
     position: relative;
-    left: 400px;
+    left: 200px;
     top: 50px;
     background-color: #e7e7e7;
     color: black;
@@ -135,6 +135,10 @@
     background-color: rgb(93, 106, 134);
     color: white;
     border-color:rgb(93, 106, 134);
+}
+
+.username {
+  color: rgb(235, 154, 108);
 }
 
 .profile-img {

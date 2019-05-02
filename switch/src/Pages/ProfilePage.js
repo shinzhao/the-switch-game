@@ -8,11 +8,10 @@ import './ProfilePage.css';
 class ProfilePage extends Component {
   constructor(){
     super();
-    this.setState=({
-      username: ''
-    })
+    this.state={
+      userName: ''
+    }
     this.handleBackClick = this.handleBackClick.bind(this);
-    this.setUsername = this.setUsername.bind(this);
   }
 
   handleBackClick(e) {
@@ -20,18 +19,17 @@ class ProfilePage extends Component {
     this.props.history.push('/room-list');
   }
 
-  setUsername() {
-    Auth.currentAuthenticatedUser().then(user => {
-      this.setState({ username: user });
-      alert(this.state.username);
-      return(
-        <div>
-          {this.state.username}
-        </div>
-      )
-    }).catch(e => {
-      console.log(e);
+  getUserInfo() {
+    Auth.currentUserInfo().then((userInfo) => {
+      const { username } = userInfo;
+      this.setState({
+        userName: username
+      })
     })
+  }
+
+  componentDidMount() {
+    this.getUserInfo();
   }
 
   render() {
@@ -48,7 +46,7 @@ class ProfilePage extends Component {
                 />
 
               <div>
-                <h1>{this.setUsername()}</h1>
+                <h1 className="username">{this.state.userName}</h1>
               <hr/>
               </div>
             <p>Win: | Lost: | Percentage: |</p>
