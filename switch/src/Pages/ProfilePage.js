@@ -2,17 +2,37 @@ import React, { Component } from 'react';
 import { Grid, Cell } from 'react-mdl';
 import { withRouter } from 'react-router-dom';
 import { withAuthenticator } from 'aws-amplify-react';
+import Amplify, { Auth } from 'aws-amplify';
 import './ProfilePage.css';
 
 class ProfilePage extends Component {
   constructor(){
     super();
+    this.setState=({
+      username: ''
+    })
     this.handleBackClick = this.handleBackClick.bind(this);
+    this.setUsername = this.setUsername.bind(this);
   }
 
   handleBackClick(e) {
     e.preventDefault();
     this.props.history.push('/room-list');
+  }
+
+  setUsername() {
+    Auth.currentAuthenticatedUser().then(user => {
+      this.setState({ username: user });
+      alert(this.state.username);
+      return(
+        <div>
+          {this.state.username}
+        </div>
+      )
+    }).catch(e => {
+      console.log(e);
+      this.setState({ username: ''});
+    })
   }
 
   render() {
@@ -29,7 +49,7 @@ class ProfilePage extends Component {
                 />
 
               <div>
-                <h1>username</h1>
+                <h1>{this.setUsername()}</h1>
               <hr/>
               </div>
             <p>Win: | Lost: | Presentage: |</p>
