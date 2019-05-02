@@ -31,7 +31,6 @@ class ProfilePage extends Component {
       )
     }).catch(e => {
       console.log(e);
-      this.setState({ username: ''});
     })
   }
 
@@ -52,7 +51,7 @@ class ProfilePage extends Component {
                 <h1>{this.setUsername()}</h1>
               <hr/>
               </div>
-            <p>Win: | Lost: | Presentage: |</p>
+            <p>Win: | Lost: | Percentage: |</p>
             {/* game records */}
             <div className="info">
           
