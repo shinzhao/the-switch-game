@@ -17,7 +17,7 @@ class RoomPage extends React.Component {
 
     render() {
         return(
-            <div>
+            <div className="room">
                 <p className="test">This is the room page</p>
                 <button onClick={this.handleBackClick}>Back</button>
                 <Game />

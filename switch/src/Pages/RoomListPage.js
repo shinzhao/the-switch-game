@@ -32,8 +32,9 @@ class RoomListPage extends React.Component {
         this.props.history.push('/game-rule');
     }
     
-    handleRoomClick(e) {
-        if(this.props.value != 'playing'){
+    //user allowed to enter the room only when the status of the room is not 'playing'
+    handleRoomClick(e, i) {
+        if(this.state.status[i] != 'playing'){
             this.props.history.push('/room');
         }
         else {
@@ -42,13 +43,13 @@ class RoomListPage extends React.Component {
     }
 
     //render the room button only when the room id is available
-    renderRoom(e){
-        if (this.state.roomID[e]){
+    renderRoom(i){
+        if (this.state.roomID[i]){
             return(
-                <button className="room-button" onClick={this.handleRoomClick} value={this.state.status[e]}>
-                        Room {this.state.roomID[e]} <br />
-                        {this.state.player_count[e]}/4 <br />
-                        {this.state.status[e]}
+                <button className="room-button" onClick={(e) => {this.handleRoomClick(e,i)}}>
+                        Room {this.state.roomID[i]} <br />
+                        {this.state.player_count[i]}/4 <br />
+                        {this.state.status[i]}
                 </button>
             );
         }
@@ -102,7 +103,7 @@ class RoomListPage extends React.Component {
                     <button className="game-rule-button" onClick={this.handleGameRuleClick}>Game Rule</button>
                     <button className="profile-button" onClick={this.handleProfileClick}>My Account</button>
                     <img src={img} className="room-img" />
-                    <div className="room-row-1">
+                    <div className="room-row">
                         <div className="room-col">
                             {this.renderRoom(0)}
                             {this.renderRoom(1)}
@@ -119,23 +120,7 @@ class RoomListPage extends React.Component {
                             {this.renderRoom(8)}
                         </div>
                     </div>
-                    <div className="room-row-2">
-                        <div className="room-col">
-                            {this.renderRoom(9)}
-                            {this.renderRoom(10)}
-                            {this.renderRoom(11)}
-                        </div>
-                        <div className="room-col">
-                            {this.renderRoom(12)}
-                            {this.renderRoom(13)}
-                            {this.renderRoom(14)}
-                        </div>
-                        <div className="room-col">
-                            {this.renderRoom(15)}
-                            {this.renderRoom(16)}
-                            {this.renderRoom(17)}
-                        </div>
-                    </div>
+                    
                     <button className="prev" onClick={this.handlePrevClick}>Prev</button>
                     <button className="next" onClick={this.handleNextClick}>Next</button>
                     <form>

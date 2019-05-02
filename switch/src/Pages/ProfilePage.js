@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import RoomListPage from './RoomListPage';
 import './RoomPage.css';
+import { withRouter } from "react-router-dom";
 
 class ProfilePage extends React.Component {
     constructor() {
@@ -14,10 +15,7 @@ class ProfilePage extends React.Component {
     }
 
     handleBackClick() {
-        this.setState({ 
-            enableRoomListPage: true,
-            enableProfilePage: false
-         })
+        
     }
 
     showProfilePage() {
@@ -40,4 +38,4 @@ class ProfilePage extends React.Component {
     }
 }
 
-export default ProfilePage;
+export default withRouter(ProfilePage);

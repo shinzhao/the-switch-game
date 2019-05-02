@@ -62,7 +62,8 @@
         background-color: rgb(93, 106, 134);
         color: white;
         border-color: rgb(93, 106, 134);
-        padding: 20px;
+        font-size: 17px;
+        padding: 30px;
         -webkit-transition-duration: 0.4s;
         transition-duration: 0.4s;
     }
@@ -78,23 +79,17 @@
         position: relative;
     }
 
-    .room-row-1 {
+    .room-row {
         margin: 10px;
         position: relative;
-        bottom: 430px;
-    }
-
-    .room-row-2 {
-        margin: 10px;
-        position: relative;
-        bottom: 728px;
-        left: 300px;
+        bottom: 450px;
+        left: 20px;
     }
 
     .prev, .next {
         position: relative;
-        bottom: 510px;
-        left: 195px;
+        bottom: 450px;
+        left: 20px;
         background-color: #e7e7e7;
         color: black;
         border-radius: 8px;
