@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import RoomListPage from './RoomListPage';
 import './GameRulePage.css';
 import { withRouter } from "react-router-dom";
+import { withAuthenticator } from 'aws-amplify-react';
 
 class GameRulePage extends React.Component {
     constructor() {
@@ -180,4 +181,4 @@ class GameRulePage extends React.Component {
     }
 }
 
-export default withRouter(GameRulePage);
+export default withRouter(withAuthenticator(GameRulePage,true));

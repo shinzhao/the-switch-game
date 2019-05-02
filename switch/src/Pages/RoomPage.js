@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import RoomListPage from './RoomListPage';
 import './RoomPage.css';
 import Game from './phaser/Game';
+import { withAuthenticator } from 'aws-amplify-react';
 import { withRouter } from 'react-router-dom';
 
 class RoomPage extends React.Component {
@@ -26,4 +27,4 @@ class RoomPage extends React.Component {
     }
 }
 
-export default withRouter(RoomPage);
+export default withRouter(withAuthenticator(RoomPage));
