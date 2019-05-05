@@ -84,7 +84,7 @@
 				"TemplateURL": "https://s3.amazonaws.com/switch-20190429012622-deployment/amplify-cfn-templates/auth/cognito3750a61c-cloudformation-template.yml",
 				"Parameters": {
 					"identityPoolName": "cognito3750a61c_identitypool_3750a61c",
-					"allowUnauthenticatedIdentities": false,
+					"allowUnauthenticatedIdentities": true,
 					"lambdaLogPolicy": "cognito3750a61c_lambda_log_policy",
 					"openIdLambdaRoleName": "cognito3750a61c_openid_lambda_role",
 					"openIdRolePolicy": "cognito3750a61c_openid_pass_role_policy",
@@ -143,25 +143,20 @@
 				}
 			}
 		},
-		"apiswitch": {
+		"analyticsswitch": {
 			"Type": "AWS::CloudFormation::Stack",
 			"Properties": {
-				"TemplateURL": "https://s3.amazonaws.com/switch-20190429012622-deployment/amplify-cfn-templates/api/cloudformation-template.json",
+				"TemplateURL": "https://s3.amazonaws.com/switch-20190429012622-deployment/amplify-cfn-templates/analytics/pinpoint-cloudformation-template.json",
 				"Parameters": {
-					"AppSyncApiName": "switch",
-					"DynamoDBBillingMode": "PAY_PER_REQUEST",
-					"S3DeploymentBucket": "switch-20190429012622-deployment",
-					"S3DeploymentRootKey": "amplify-appsync-files/a0c26247a4c1880a9e3549003a6297f76e102544",
 					"env": "switch"
 				}
 			}
 		},
-		"hostingS3AndCloudFront": {
+		"storages389b1b273": {
 			"Type": "AWS::CloudFormation::Stack",
 			"Properties": {
-				"TemplateURL": "https://s3.amazonaws.com/switch-20190429012622-deployment/amplify-cfn-templates/hosting/template.json",
+				"TemplateURL": "https://s3.amazonaws.com/switch-20190429012622-deployment/amplify-cfn-templates/storage/s3-cloudformation-template.json",
 				"Parameters": {
-					"bucketName": "switch-20190429040250-hostingbucket",
 					"env": "switch"
 				}
 			}

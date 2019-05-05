@@ -3,21 +3,49 @@ import {Blank} from '../objects/Blank';
 import {Player} from '../objects/Player';
 import {Card} from '../objects/Card';
 import { API, graphqlOperation } from 'aws-amplify';
+import Amplify, { Auth } from 'aws-amplify';
 import * as mutations from '../../../graphql/mutations';
 import * as subscriptions from '../../../graphql/subscriptions'
 import * as queries from '../../../graphql/queries'
 
+import { ConsoleLogger } from '@aws-amplify/core';
+import AWSAppSyncClient, { AUTH_TYPE } from 'aws-appsync';
+import aws_config from '../../../aws-exports';
+import gql from 'graphql-tag';
+
+const client = new AWSAppSyncClient({
+  url: aws_config.aws_appsync_graphqlEndpoint,
+  region: aws_config.aws_appsync_region,
+  auth: {
+    type: AUTH_TYPE.API_KEY,
+    apiKey: aws_config.aws_appsync_apiKey,
+  }
+});
+
 export class GameBoard extends Phaser.Scene {
 	constructor() {
 		super({
-			key: 'GameBoard'
+			key: 'GameBoard',
 		});
+		
+
 	}
+	
+
+
 	create() {
+
+		(async () => {
+			this.appsync();
+		})();
+	
+		
+
+
 		this.gameBoard = [0,1,2,3,4,5,6,7,8,9,10,
 			11,12,13,14,15,16,17,18,19,20,21,22,
 			23,24,25,26,27,28,29,30,31,32,33,34,35,36];
-		 
+		
         //display board
 		let boardbg = this.add.image(400, 80, 'boardbg');
 		boardbg.setOrigin(0, 0).setScale(2.8,2.8);
@@ -25,7 +53,7 @@ export class GameBoard extends Phaser.Scene {
 		let y_pos1=0;
 		for(var i=0;i<6;i++){
 			for(var j=0 ;j<6;j++){
-			   this.blank=new Blank(this,405+x_pos1,85+y_pos1,'blank').data.set('blank', 53);
+			   this.blank=new Blank(this,405+x_pos1,85+y_pos1,'blank').data.set('card_number', 53);
 				x_pos1+=65;
 			 }
 			   y_pos1+=65;
@@ -64,98 +92,158 @@ export class GameBoard extends Phaser.Scene {
 			 let player=[]
 			 player.push(player1)
 			 player.push(player2)
-			 
-			 let gameState='playing'
-			 let id=0
-			 this.clickedBox(ranNums,player,id);
+				
+			 let gameState='gaming';
+		//need user name array
+		let userName=['switch','noviah']
+
+		let seat=0;
+			
+		this.clickedBox(player,seat,userName)
 		   
 	}
 
+	//check if the login user is in his round
+	checkUserInfo(name,x,y,player) {
+    Auth.currentUserInfo().then((userInfo) => {
+			const { username } = userInfo;
+      if(name==username){
+				this.decideMove(x,y,player)
+			}else{
+				console.log('update')
+				
+			}
+		
+		}
+		)
+  }
+		
+
+
+	//move card
 	decideMove(x,y,player){
 		player.setX(x)
 		player.setY(y)
 	}
 
-	handlePlayer1Card(card,arrangepostion){
+	//move the card to the side
+	handlePlayerCard(card,arrangepostion,seat,data){
+		if(seat==0&&data!=53){
+		arrangepostion-=10
 		card.setX(10+arrangepostion);
-		card.setY(40);
+		card.setY(70);
 		card.setScale(0.1,0.1)
+		}else if(seat==1&&data!=53){
+		arrangepostion-=10
+		card.setX(900+arrangepostion);
+		card.setY(70);
+		card.setScale(0.1,0.1)
+		}
 	}
 
-	handlePlaye2Card(){
-		
-	}
 
-	handlePlayer3Card(){
+	async appsync (){
 		
+					
+// 			const result = await API.graphql(graphqlOperation(queries.listRoompages));
+// 			const number = result.data.listRoompages.item[0].roomid;
+// 			console.log(number);
+// var dbx = await API.graphql(graphqlOperation(queries.listQws,{username:''}));
+// 		console.log('appsync test' + dbx.data.listQws.item[0].username);
+
+		(async () => { 
+			await client.hydrated();
+		
+			const result = await client.query({
+				query: gql(queries.listQws),
+				fetchPolicy: 'cache-only',
+			});
+			console.log(result.data.listQws.items[5].whichCard);
+		})();
+
+// 		const thething = {
+// 			username : 'test5',
+// 			whichCard : '3',
+// 					x : '333',
+// 					y : '333'
+// 				};
+// const newThing = await API.graphql(graphqlOperation(mutations.updateQw, {input: thething}));
+	//const dbx = appsynchelp.getX('test5');
+// 	try {
+// 		const dbx = await API.graphql(graphqlOperation(queries.listQws,{username : 'test5'}));
+// 		console.log('hello');
+// 		console.log('please');
+// 		console.log('appsync test' +dbx);
+// } catch(e) {
+// 		console.log('please');
+// 		console.log('haha');
+// 		console.log(e);
+// }
+	//const dbx = await API.graphql(graphqlOperation(queries.getQw));
+	
+	
+		
+
 	}
+	
 	async updateCardData(card,x,y){
 		const cardV = card;
 		console.log(cardV)
 		const xV =x;
 		console.log("x : "+xV)
 		const yV = y;
-		console.log("y : "+yV)
+		console.log("y : "+yV);
+		const getUser = await Auth.currentAuthenticatedUser();
+							const name = getUser.username;
+							console.log('your name : ' +name);
 		const thething = {
+					username : name,
 					whichCard : cardV,
 							x : xV,
 							y : yV
 						};
-	 const newThing = await API.graphql(graphqlOperation(mutations.createTest1, {input: thething}));
+	 const newThing = await API.graphql(graphqlOperation(mutations.updateQw, {input: thething}));
 	}
-
-	async updateblanck(card,x,y){
-		const cardV = card;
-		console.log(cardV)
-		const xV =x;
-		console.log("x : "+xV)
-		const yV = y;
-		console.log("y : "+yV)
-		const thething = {
-					whichCard : cardV,
-							x : xV,
-							y : yV
-						};
-	 const newThing = await API.graphql(graphqlOperation(mutations.createTest1, {input: thething}));
-	}
-
 	
-	clickedBox(ranNums,player,id){
+	
+
+
+
+	//click the card and make it move
+	clickedBox(player,seat,userName){
+		
 		var arrangepostion=0;
-		var seat=0
 		this.input.on('gameobjectdown', (pointer, gameObject) => {
 			for(var i=0;i<36;i++){
 				if(this.gameBoard[i] == i ){
 					if(gameObject.x==player[seat].x||gameObject.y==player[seat].y){
-						this.decideMove(gameObject.x,gameObject.y,player[seat])
-						if(gameObject.data.get('card_number') == i){
-							this.handlePlayer1Card(gameObject,arrangepostion)
-							arrangepostion += 20
-							this.updateCardData(ranNums[i],player[seat].x,player[seat].y)
-						}else if(gameObject.data.get('blank')){
-							this.updateblanck(-1,player[seat].x,player[seat].y)
-							break;
-							
-						}
-						// if(seat==0){
-						// 	seat=1
-						// }else{
-						// 	seat=0
+						this.checkUserInfo(userName[seat],gameObject.x,gameObject.y,player[seat])
+						this.handlePlayerCard(gameObject,arrangepostion,seat,gameObject.data.get('card_number'))
+						arrangepostion+=15
+						// if(gameObject.data.get('card_number') == i){
+						// 	console.log("move card")
+						// 	 //this.handlePlayer1Card(gameObject,arrangepostion,seat)
+							 
+						// 	//this.updateCardData(3,player[seat].x,player[seat].y)
+						// }else if(gameObject.data.get('blank')){
+						// 	//this.updateCardData(-1,player[seat].x,player[seat].y)
+						// 	break;
 						// }
+						if(seat<1){
+							seat++
+						}else{
+							seat--
+						}
+						break;
 					}	
 				
-			}
-	
-
-		
+			}	
 	
 	}
 
 			
 	});
 
-	
-	
 }
 	
 	update(time, delta) {

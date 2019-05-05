@@ -1,26 +1,47 @@
 // eslint-disable
 // this is an auto generated file. This will be overwritten
 
-export const getTest1 = `query GetTest1($id: ID!) {
-  getTest1(id: $id) {
-    id
+export const getQw = `query GetQw($username: String!) {
+  getQw(username: $username) {
+    username
+    roomID
+    seat
     x
     y
     whichCard
   }
 }
 `;
-export const listTest1S = `query ListTest1S(
-  $filter: TableTest1FilterInput
-  $limit: Int
-  $nextToken: String
-) {
-  listTest1S(filter: $filter, limit: $limit, nextToken: $nextToken) {
+export const listQws = `query ListQws($filter: TableQwFilterInput, $limit: Int, $nextToken: String) {
+  listQws(filter: $filter, limit: $limit, nextToken: $nextToken) {
     items {
-      id
+      username
+      roomID
+      seat
       x
       y
       whichCard
+    }
+    nextToken
+  }
+}
+`;
+export const getRoompage = `query GetRoompage($roomid: Int!) {
+  getRoompage(roomid: $roomid) {
+    roomid
+    players
+  }
+}
+`;
+export const listRoompages = `query ListRoompages(
+  $filter: TableRoompageFilterInput
+  $limit: Int
+  $nextToken: String
+) {
+  listRoompages(filter: $filter, limit: $limit, nextToken: $nextToken) {
+    items {
+      roomid
+      players
     }
     nextToken
   }

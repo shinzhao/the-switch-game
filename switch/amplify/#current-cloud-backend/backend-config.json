@@ -6,7 +6,7 @@
 		}
 	},
 	"api": {
-		"switch": {
+		"ver01": {
 			"service": "AppSync",
 			"providerPlugin": "awscloudformation",
 			"output": {

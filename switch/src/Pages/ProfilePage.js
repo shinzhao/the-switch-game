@@ -2,38 +2,25 @@ import React, { Component } from 'react';
 import { Grid, Cell } from 'react-mdl';
 import { withRouter } from 'react-router-dom';
 import { withAuthenticator } from 'aws-amplify-react';
-import Amplify, { Auth } from 'aws-amplify';
 import './ProfilePage.css';
+import { Auth } from 'aws-amplify';
 
 class ProfilePage extends Component {
   constructor(){
     super();
-    this.state={
-      userName: ''
-    }
     this.handleBackClick = this.handleBackClick.bind(this);
   }
+
+ 
 
   handleBackClick(e) {
     e.preventDefault();
     this.props.history.push('/room-list');
   }
 
-  getUserInfo() {
-    Auth.currentUserInfo().then((userInfo) => {
-      const { username } = userInfo;
-      this.setState({
-        userName: username
-      })
-    })
-  }
-
-  componentDidMount() {
-    this.getUserInfo();
-  }
-
   render() {
     return (
+        
         <div className="profile">
         <button className="back-button" onClick={this.handleBackClick}>Back</button>
         <div style={{width: '100%', margin: 'auto'}}>
@@ -46,10 +33,10 @@ class ProfilePage extends Component {
                 />
 
               <div>
-                <h1 className="username">{this.state.userName}</h1>
+                <h1>username</h1>
               <hr/>
               </div>
-            <p>Win: | Lost: | Percentage: |</p>
+            <p>Win: | Lost: | Presentage: |</p>
             {/* game records */}
             <div className="info">
           
