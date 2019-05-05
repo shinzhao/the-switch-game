@@ -15,7 +15,6 @@ class RoomPage extends React.Component {
         e.preventDefault();
         this.props.history.push('/room-list')
     }
-    
 
     render() {
         return(

@@ -189,7 +189,7 @@
         font-size: 18px;
         margin: 10px;
         position: relative;
-        bottom: 300px;
+        bottom: 400px;
         left: 10px;
         -webkit-transition-duration: 0.4s;
         transition-duration: 0.4s;
@@ -217,7 +217,7 @@
         color: white;
         font-size: 12px;
         border-color: rgb(93, 106, 134);
-        padding: 35px;
+        padding: 20px;
         -webkit-transition-duration: 0.4s;
         transition-duration: 0.4s;
     }
@@ -233,17 +233,24 @@
         position: relative;
     }
 
-    .room-row {
+    .room-row-1 {
         margin: 10px;
         position: relative;
-        bottom: 350px;
-        left: 7px;
+        bottom: 300px;
+        right: 100px;
+    }
+
+    .room-row-2 {
+        margin: 10px;
+        position: relative;
+        bottom: 632px;
+        left: 200px;
     }
 
     .prev, .next {
         position: relative;
-        bottom: 350px;
-        left: 7px;
+        bottom: 450px;
+        left: 95px;
         background-color: #e7e7e7;
         color: black;
         border-radius: 8px;
@@ -264,7 +271,7 @@
         color: white;
         font-size: 30px;
         position: relative;
-        bottom: 300px;
+        bottom: 400px;
     }
 
     .room-num-input {
@@ -286,7 +293,7 @@
         margin: 10px;
         position: relative;
         left: 30px;
-        bottom: 305px;
+        bottom: 405px;
         -webkit-transition-duration: 0.4s;
         transition-duration: 0.4s;
     }
