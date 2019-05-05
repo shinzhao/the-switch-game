@@ -8,19 +8,35 @@ import { Auth } from 'aws-amplify';
 class ProfilePage extends Component {
   constructor(){
     super();
+    this.setState=({
+      username: ''
+    })
     this.handleBackClick = this.handleBackClick.bind(this);
+    this.setUsername = this.setUsername.bind(this);
   }
-
- 
 
   handleBackClick(e) {
     e.preventDefault();
     this.props.history.push('/room-list');
   }
 
+  setUsername() {
+    Auth.currentAuthenticatedUser().then(user => {
+      this.setState({ username: user });
+      alert(this.state.username);
+      return(
+        <div>
+          {this.state.username}
+        </div>
+      )
+    }).catch(e => {
+      console.log(e);
+      this.setState({ username: ''});
+    })
+  }
+
   render() {
     return (
-        
         <div className="profile">
         <button className="back-button" onClick={this.handleBackClick}>Back</button>
         <div style={{width: '100%', margin: 'auto'}}>
@@ -33,7 +49,7 @@ class ProfilePage extends Component {
                 />
 
               <div>
-                <h1>username</h1>
+                <h1>{this.setUsername()}</h1>
               <hr/>
               </div>
             <p>Win: | Lost: | Presentage: |</p>
