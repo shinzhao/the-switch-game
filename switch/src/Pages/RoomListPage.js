@@ -5,26 +5,12 @@ import RoomPage from './RoomPage';
 import GameRulePage from './GameRulePage';
 import ProfilePage from './ProfilePage';
 import { withRouter } from "react-router-dom";
-import { Auth } from 'aws-amplify';
-import Amplify, { API, graphqlOperation } from "aws-amplify";
-import * as queries from './phaser/../../graphql/queries';
-import * as subscriptions from'./phaser/../../graphql/subscriptions';
-import * as mutations from '../graphql/mutations';
-
 
 class RoomListPage extends React.Component {
     constructor(){
         super();
         this.state={
-            /* 
-            ************************
-            READ!!!!!!
-            ***********************
-
-            roomID -> rID, I am using roomID in DB, and these 2 roomID mess me up
-
-            */
-            rID: '',
+            roomID: getRoomID(),
             player_count: getPlayerCount(),
             status: getStatus(),
             page: 1
@@ -34,69 +20,8 @@ class RoomListPage extends React.Component {
         this.handleRoomClick = this.handleRoomClick.bind(this);
         this.handlePrevClick = this.handlePrevClick.bind(this);
         this.handleNextClick = this.handleNextClick.bind(this);
-        this.handleCreateClick=this.handleCreateClick.bind(this);
     }
 
-       
-        async componentDidMount() {
-            this.getRoom();
-            
-            /*
-
-            this.listenOnRoom = await API.graphql(graphqlOperation(subscriptions.onCreateRoompage)
-            ).subscribe({
-              next: (roomData) =>console.log('sub test '+roomData.value.data.onCreateRoompage.roomid) 
-              //this.createTodo(todoData.value.data.onCreateTodo)
-            });      
-      }
-      componentWillUnmount() {
-        this.listenOnRoom.unsubscribe();
-      }
-      
-      */
-    }
-    //appsync get room (query)
-    getRoom = async () => {
-        var storeRoom = [];
-        const result = await API.graphql(graphqlOperation(queries.listRoompages));
-        for(let i=0;i<result.data.listRoompages.items.length;i++){
-            console.log(result.data.listRoompages.items[i].roomid);
-            storeRoom.push(result.data.listRoompages.items[i].roomid);
-            }
-        this.setState({rID : storeRoom });
-        console.log('TEST FOR QUERY ' + this.state.rID);
-        }
-    getPlayers = async ()=>{
-        
-    }
-
-
-    //appsync get the playerCount in each room 
-    getPlayerCount = async () =>{
-        var storePlayerCount = [];
-        const result = await API.graphql(graphqlOperation(queries.listRoompages));
-    }
-
-    handleCreateRoom = async () =>{
-        var min=1; 
-        var max=9999;  
-        var random =Math.floor(Math.random() * (+max - +min)) + +min; 
-        console.log("Random Number Generated : " + random ); 
-        
-        const result = await API.graphql(graphqlOperation(mutations.createRoompage,{
-            input : {
-                roomid : random
-            }
-
-        }));
-    }
-
-
-
-
-
-
-    
     handleProfileClick(e) {
         e.preventDefault();
         this.props.history.push('/my-account');
@@ -110,24 +35,7 @@ class RoomListPage extends React.Component {
     //user allowed to enter the room only when the status of the room is not 'playing'
     handleRoomClick(e, i) {
         if(this.state.status[i] != 'playing'){
-            
-            (async () => {
-                //get current user name
-                const getUser = await Auth.currentAuthenticatedUser();
-                const name = getUser.username;
-                const array = [];
-                array.push(name);
-                console.log('test for who click into a room , user :' + name + ' into a room #' +this.state.rID[i]);
-                const newThing = await API.graphql(graphqlOperation(mutations.createRoompage, 
-                    {
-                        input:{
-                            roomid : this.state.rID[i],
-                            players : ''
-                        }
-                    }));
-            })();
             this.props.history.push('/room');
-
         }
         else {
             alert('This room is full. Please select to enter another room.');
@@ -136,10 +44,10 @@ class RoomListPage extends React.Component {
 
     //render the room button only when the room id is available
     renderRoom(i){
-        if (this.state.rID[i]){
+        if (this.state.roomID[i]){
             return(
                 <button className="room-button" onClick={(e) => {this.handleRoomClick(e,i)}}>
-                        Room {this.state.rID[i]} <br />
+                        Room {this.state.roomID[i]} <br />
                         {this.state.player_count[i]}/4 <br />
                         {this.state.status[i]}
                 </button>
@@ -164,13 +72,8 @@ class RoomListPage extends React.Component {
 
     }
 
-    handleCreateClick (e){
+    handleCreateClick(e) {
         e.preventDefault();
-        this.handleCreateRoom();
-        console.log('hello?');
-        this.props.history.push('/room');
-        
-        /*
         for(let i = 0; i < this.state.status.length; i++) {
             if(this.state.status[i] == 'closed') {
                 let temp_status = this.state.status;
@@ -181,12 +84,12 @@ class RoomListPage extends React.Component {
                     status: temp_status,
                     player_count: temp_player_count
                 });
-        
+                this.props.history.push('/room');
             }
         }
-        */
-        let last_id = this.state.rID[this.state.rID.length - 1];
-        let new_id = [...this.state.rID, last_id];
+        
+        let last_id = this.state.roomID[this.state.roomID.length - 1];
+        let new_id = [...this.state.roomID, last_id];
         this.setState({
             room_id: new_id,
             player_count: 1,
@@ -228,22 +131,24 @@ class RoomListPage extends React.Component {
                         <label className="room-num">Room #: <input type="number" className="room-num-input" /></label>
                         <input type="submit" value="ENTER" className="enter-button" />
                     </form>
-                    <button className="create-button" onClick={this.handleCreateClick}>Create New Room</button>
-                    <button className="random-buonCreateQwtton" onClick={this.handleRoomClick}>Random Match</button>
+                    <button className="create-button" onClick={this.handleRoomClick}>Create New Room</button>
+                    <button className="random-button" onClick={this.handleRoomClick}>Random Match</button>
             </div>
         );
     }
 }
 
 //retrieve all room data from database, excluding those rooms that were closed
-
+function getRoomID(){
+    return [1,2,3,4,5,6,7,8,9];
+}
 
 function getPlayerCount(){
-    return [1,3,4,4,3,1,2,4,3];
+    return [4,3,4,4,3,1,2,4,3];
 }
 
 function getStatus(){
-    return ['open','open','playing','open','open','open','playing','open','open'];
+    return ['playing','open','playing','open','open','open','playing','open','open'];
 }
 
 export default withRouter(RoomListPage);
