@@ -141,6 +141,10 @@ export class GameBoard extends Phaser.Scene {
 		}
 	}
 
+//************************************************ */
+//the thing you need
+//*********************************************** */
+
 
 	async appsync (){
 		
@@ -152,13 +156,24 @@ export class GameBoard extends Phaser.Scene {
 // 		console.log('appsync test' + dbx.data.listQws.item[0].username);
 
 		(async () => { 
+
+			//result1  show the list
+			//result2  show only username = 'test5' 
 			await client.hydrated();
-		
-			const result = await client.query({
+			const nameWeGot = 'test5';
+			const result1 = await client.query({
 				query: gql(queries.listQws),
 				fetchPolicy: 'cache-only',
 			});
-			console.log(result.data.listQws.items[5].whichCard);
+			const result2 = await client.query({
+				query: gql(queries.getQw),
+				variables: {
+					username: nameWeGot
+				},
+				fetchPolicy: 'cache-first',
+			});
+			console.log(result1.data.listQws.items);
+			console.log(result2.data.getQw.x)
 		})();
 
 // 		const thething = {
