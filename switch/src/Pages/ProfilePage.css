@@ -1,0 +1,220 @@
+@media screen and (min-width: 1920px) {
+  * {
+      font-family: 'Courier New', Courier, monospace;
+  }
+
+  .profile {
+      background-color: #282c34;
+      overflow: hidden;
+      height: 900px;
+  }
+  
+  .back-button {
+      position: relative;
+      left: 400px;
+      top: 50px;
+      background-color: #e7e7e7;
+      color: black;
+      border-radius: 8px;
+      border-color: #e7e7e7;
+      font-size: 15px;
+      margin: 10px;
+      -webkit-transition-duration: 0.4s;
+      transition-duration: 0.4s;
+  }
+  
+  .back-button:hover {
+      background-color: rgb(93, 106, 134);
+      color: white;
+      border-color:rgb(93, 106, 134);
+  }
+
+  .profile-img {
+    height: 200px;
+    width: 200px;
+    position: relative;
+
+  }
+
+  .landing-grid {
+    text-align: center;
+   }
+   
+   .projects-grid {
+     display: flex;
+   }
+   
+   .contact-grid {
+     text-align: center;
+     justify-content: center;
+     width: 80%;
+     height: 550px;
+     background: white;
+     color: black;
+     margin-bottom: 20px;
+   }
+   
+   .contact-grid hr {
+     border-top: 5px dotted black;
+     width: 50%;
+     margin: auto;
+   }
+   
+   .contact-list i {
+     padding-right: 5rem;
+   }
+   
+   .avatar-img {
+     height: 250px;
+     padding-top: 5em;
+   }
+   
+   .banner-text {
+     background-color: black;
+     opacity: .8;
+     width: 75%;
+     margin: auto;
+     border-radius: 10px;
+   }
+   
+   .banner-text hr {
+     border-top: 5px dotted white;
+     width: 50%;
+     margin: auto;
+   }
+   
+   .banner-text p {
+     color: white;
+     padding: 1em;
+   }
+   
+   .info {
+     display: inline;
+     color: white;
+     width: 30%;
+     margin: auto;
+   }
+   
+   .info i {
+     color: white;
+     padding: 5px;
+   }
+
+   .h1 {
+     font-size: 200px;
+   }
+
+}
+
+@media screen and (max-width: 1440px) {
+  * {
+    font-family: 'Courier New', Courier, monospace;
+}
+
+.profile {
+    background-color: #282c34;
+    overflow: hidden;
+    height: 100vh;
+}
+
+.back-button {
+    position: relative;
+    left: 200px;
+    top: 50px;
+    background-color: #e7e7e7;
+    color: black;
+    border-radius: 8px;
+    border-color: #e7e7e7;
+    font-size: 15px;
+    margin: 10px;
+    -webkit-transition-duration: 0.4s;
+    transition-duration: 0.4s;
+}
+
+.back-button:hover {
+    background-color: rgb(93, 106, 134);
+    color: white;
+    border-color:rgb(93, 106, 134);
+}
+
+.username {
+  color: rgb(235, 154, 108);
+}
+
+.profile-img {
+  height: 200px;
+  width: 200px;
+  position: relative;
+
+}
+
+.landing-grid {
+  text-align: center;
+ }
+ 
+ .projects-grid {
+   display: flex;
+ }
+ 
+ .contact-grid {
+   text-align: center;
+   justify-content: center;
+   width: 80%;
+   height: 550px;
+   background: white;
+   color: black;
+   margin-bottom: 20px;
+ }
+ 
+ .contact-grid hr {
+   border-top: 5px dotted black;
+   width: 50%;
+   margin: auto;
+ }
+ 
+ .contact-list i {
+   padding-right: 5rem;
+ }
+ 
+ .avatar-img {
+   height: 250px;
+   padding-top: 5em;
+ }
+ 
+ .banner-text {
+   background-color: black;
+   opacity: .8;
+   width: 75%;
+   margin: auto;
+   border-radius: 10px;
+ }
+ 
+ .banner-text hr {
+   border-top: 5px dotted white;
+   width: 50%;
+   margin: auto;
+ }
+ 
+ .banner-text p {
+   color: white;
+   padding: 1em;
+ }
+ 
+ .info {
+   display: inline;
+   color: white;
+   width: 30%;
+   margin: auto;
+ }
+ 
+ .info i {
+   color: white;
+   padding: 5px;
+ }
+
+ .h1 {
+   font-size: 200px;
+ }
+}
+
+

@@ -1,0 +1,101 @@
+@media screen and (min-width: 1920px) {
+    * {
+        font-family: 'Courier New', Courier, monospace;
+    }
+
+    .game-rule {
+        background-color: #282c34;
+        overflow: hidden;
+        height: 4300px;
+    }
+    
+    .text {
+        color: white;
+        position: relative;
+        top: 20px;
+        text-align: left;
+        width: 40%;
+        position: relative;
+        left: 580px;
+    }
+    
+    .title {
+        font-size: 70px;
+    }
+    
+    p {
+        color: rgb(157, 172, 204);
+    }
+    
+    .back-button {
+        position: relative;
+        left: 400px;
+        top: 50px;
+        background-color: #e7e7e7;
+        color: black;
+        border-radius: 8px;
+        border-color: #e7e7e7;
+        font-size: 15px;
+        margin: 10px;
+        -webkit-transition-duration: 0.4s;
+        transition-duration: 0.4s;
+    }
+    
+    .back-button:hover {
+        background-color: rgb(93, 106, 134);
+        color: white;
+        border-color:rgb(93, 106, 134);
+    }
+
+}
+
+@media screen and (max-width: 1440px) {
+    * {
+        font-family: 'Courier New', Courier, monospace;
+    }
+
+    .game-rule {
+        background-color: #282c34;
+        overflow: hidden;
+        height: 4500px;
+    }
+    
+    .text {
+        color: white;
+        position: relative;
+        top: 20px;
+        text-align: left;
+        width: 50%;
+        position: relative;
+        left: 380px;
+    }
+    
+    .title {
+        font-size: 70px;
+    }
+    
+    p {
+        color: rgb(157, 172, 204);
+    }
+    
+    .back-button {
+        position: relative;
+        left: 200px;
+        top: 50px;
+        background-color: #e7e7e7;
+        color: black;
+        border-radius: 8px;
+        border-color: #e7e7e7;
+        font-size: 15px;
+        margin: 10px;
+        -webkit-transition-duration: 0.4s;
+        transition-duration: 0.4s;
+    }
+    
+    .back-button:hover {
+        background-color: rgb(93, 106, 134);
+        color: white;
+        border-color:rgb(93, 106, 134);
+    }
+}
+
