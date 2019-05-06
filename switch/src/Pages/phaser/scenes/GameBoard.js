@@ -160,7 +160,10 @@ export class GameBoard extends Phaser.Scene {
 			//result1  show the list
 			//result2  show only username = 'test5' 
 			await client.hydrated();
-			const nameWeGot = 'test5';
+			const getUser = await Auth.currentAuthenticatedUser();
+							
+			var nameWeGot = getUser.username;
+			console.log(nameWeGot);
 			const result1 = await client.query({
 				query: gql(queries.listQws),
 				fetchPolicy: 'cache-only',
