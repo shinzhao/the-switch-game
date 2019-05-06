@@ -38,7 +38,7 @@ class RoomListPage extends React.Component {
            
     async componentDidMount() {
         this.getRoom();
-        
+        this.getPlayersCount();
         /*
 
         this.listenOnRoom = await API.graphql(graphqlOperation(subscriptions.onCreateRoompage)
@@ -64,26 +64,43 @@ getRoom = async () => {
     this.setState({rID : storeRoom });
     console.log('TEST FOR QUERY ' + this.state.rID);
     }
-getPlayers = async ()=>{
-    
+getPlayersCount = async ()=>{
+    var playercount = [];
+    const result = await API.graphql(graphqlOperation(queries.listRoompages));
+    for(let i=0;i<result.data.listRoompages.items.length;i++){
+        const obj = result.data.listRoompages.items[i].players;
+        var count = 0;
+        for (var property in obj) {
+        if (Object.prototype.hasOwnProperty.call(obj, property)) {
+            count++;
+        }
+    }
+         console.log('show the obj ' + count);
+        playercount.push(count);
+    }
+    this.setState({player_count:playercount});
+    console.log('TEST FOR playercount ' + this.state.player_count);
 }
 
 
 //appsync get the playerCount in each room 
-getPlayerCount = async () =>{
-    var storePlayerCount = [];
-    const result = await API.graphql(graphqlOperation(queries.listRoompages));
-}
+// getPlayerCount = async () =>{
+//     var storePlayerCount = [];
+//     const result = await API.graphql(graphqlOperation(queries.getRoompage, {roomid : rID});
+// }
 
 handleCreateRoom = async () =>{
     var min=1; 
     var max=9999;  
     var random =Math.floor(Math.random() * (+max - +min)) + +min; 
     console.log("Random Number Generated : " + random ); 
+    const getUser = await Auth.currentAuthenticatedUser();
+                const name = getUser.username;
     
     const result = await API.graphql(graphqlOperation(mutations.createRoompage,{
         input : {
-            roomid : random
+            roomid : random,
+            players : name
         }
 
     }));
@@ -107,14 +124,15 @@ handleCreateRoom = async () =>{
                 //get current user name
                 const getUser = await Auth.currentAuthenticatedUser();
                 const name = getUser.username;
-                const array = [];
-                array.push(name);
+                console.log(this.state.rID[i]);
+                var num = this.state.rID[i];
+                console.log(num);
                 console.log('test for who click into a room , user :' + name + ' into a room #' +this.state.rID[i]);
-                const newThing = await API.graphql(graphqlOperation(mutations.createRoompage, 
+                const newThing = await API.graphql(graphqlOperation(mutations.updateRoompage, 
                     {
                         input:{
-                            roomid : this.state.rID[i],
-                            players : ''
+                            roomid : num,
+                            players : [name]
                         }
                     }));
             })();
