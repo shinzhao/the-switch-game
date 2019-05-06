@@ -8,11 +8,10 @@ import { Auth } from 'aws-amplify';
 class ProfilePage extends Component {
   constructor(){
     super();
-    this.setState=({
-      username: ''
+    this.state=({
+      name: ''
     })
     this.handleBackClick = this.handleBackClick.bind(this);
-    this.setUsername = this.setUsername.bind(this);
   }
 
   handleBackClick(e) {
@@ -20,72 +19,38 @@ class ProfilePage extends Component {
     this.props.history.push('/room-list');
   }
 
-  setUsername() {
-    Auth.currentAuthenticatedUser().then(user => {
-      this.setState({ username: user });
-      alert(this.state.username);
-      return(
-        <div>
-          {this.state.username}
-        </div>
-      )
-    }).catch(e => {
-      console.log(e);
-      this.setState({ username: ''});
-    })
+  getUserInfo() {
+    Auth.currentUserInfo().then((userInfo) => {
+      const { username } = userInfo;
+      this.setState({
+        name: username
+      });
+    });
+  }
+
+  //get score info from db
+  getScore() {
+
+  }
+
+  componentDidMount() {
+    this.getUserInfo();
   }
 
   render() {
     return (
         <div className="profile">
-        <button className="back-button" onClick={this.handleBackClick}>Back</button>
-        <div style={{width: '100%', margin: 'auto'}}>
-          <Grid className="landing-grid">
-            <Cell col={12}>
-            <img
-                src="https://www.shareicon.net/download/2015/09/18/103157_man_512x512.png"
-                alt="profile-img"
-                className="profile-img"
+          <button className="profile-back-button" onClick={this.handleBackClick}>Back</button>
+                <img
+                    src="https://www.shareicon.net/download/2015/09/18/103157_man_512x512.png"
+                    alt="profile-img"
+                    className="profile-img"
                 />
 
-              <div>
-                <h1>{this.setUsername()}</h1>
-              <hr/>
-              </div>
-            <p>Win: | Lost: | Presentage: |</p>
-            {/* game records */}
-            <div className="info">
-          
-            <div>
-                <p>name</p>
-                <input placeholder="username"></input>
-                {/* username should placehold to the current name */}
-            </div>
-            <div>
-                <p>Email</p>
-                <input placeholder="email"></input>
-                {/*email should placehold to the current name */}
-            </div>
-            <div>
-                <p>Gender</p>
-                <input required type="radio" value="male"></input>Male
-                <input required type="radio" value="female"/>Female
-            </div>
-            <div>
-                <p>Password</p>
-                <input placeholder="8-10 chatacters"></input>
-            </div>
-            <div>
-                <p>Confirm Password</p>
-                <input></input>
-            </div>
-            <button type="submit">Save</button>
-          </div>
-              
-            </Cell>
-          </Grid>
-
-        </div>
+                <div className="username">
+                    <h1>{this.state.name}</h1>
+                </div>
+                <p className="score">Win: | Lost: | Presentage: |</p>
         </div>
     )
 }
