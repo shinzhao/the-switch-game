@@ -1,0 +1,68 @@
+{
+  "providers": {
+    "awscloudformation": {
+      "AuthRoleName": "switch-20190429012622-authRole",
+      "UnauthRoleArn": "arn:aws:iam::342945403770:role/switch-20190429012622-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::342945403770:role/switch-20190429012622-authRole",
+      "Region": "us-east-2",
+      "DeploymentBucketName": "switch-20190429012622-deployment",
+      "UnauthRoleName": "switch-20190429012622-unauthRole",
+      "StackName": "switch-20190429012622",
+      "StackId": "arn:aws:cloudformation:us-east-2:342945403770:stack/switch-20190429012622/53b16790-6a3f-11e9-a906-062853107e54"
+    },
+    "categories": {
+      "auth": {
+        "cognito3750a61c": {}
+      }
+    }
+  },
+  "auth": {
+    "cognito3750a61c": {
+      "service": "Cognito",
+      "providerPlugin": "awscloudformation",
+      "output": {
+        "AppClientSecret": "15vlqks2jjqm43scj123iqvpjdbplifofutm9uqm35n560mg4dj0",
+        "UserPoolId": "us-east-2_3AsHQAGiI",
+        "AppClientIDWeb": "3isllm9e0ejrpvnprh134s9o7i",
+        "AppClientID": "bcki3c9288mc55rs7kmubnr4t",
+        "IdentityPoolId": "us-east-2:20d71a93-ba9b-478c-8d6b-90d04ff35de6",
+        "IdentityPoolName": "cognito3750a61c_identitypool_3750a61c__switch",
+        "UserPoolName": "cognito3750a61c_userpool_3750a61c"
+      },
+      "lastPushTimeStamp": "2019-05-01T17:04:46.285Z",
+      "providerMetadata": {
+        "s3TemplateURL": "https://s3.amazonaws.com/switch-20190429012622-deployment/amplify-cfn-templates/auth/cognito3750a61c-cloudformation-template.yml",
+        "logicalId": "authcognito3750a61c"
+      }
+    }
+  },
+  "api": {
+    "qw": {
+      "service": "AppSync",
+      "output": {
+        "securityType": "API_KEY",
+        "GraphQLAPIIdOutput": "u6ejev3p4vc4fdr75g6jweutmm",
+        "GraphQLAPIEndpointOutput": "https://y42fsdlw35g47fjzpgaswmve6y.appsync-api.us-east-2.amazonaws.com/graphql",
+        "GraphQLAPIKeyOutput": "da2-u7s4gv6r7fdqbmqlg2ewdl4f6m"
+      },
+      "lastPushTimeStamp": "2019-05-02T09:04:38.354Z"
+    }
+  },
+  "hosting": {
+    "S3AndCloudFront": {
+      "service": "S3AndCloudFront",
+      "providerPlugin": "awscloudformation",
+      "output": {
+        "S3BucketSecureURL": "https://switch-20190429040250-hostingbucket-switch.s3.amazonaws.com",
+        "WebsiteURL": "http://switch-20190429040250-hostingbucket-switch.s3-website.us-east-2.amazonaws.com",
+        "Region": "us-east-2",
+        "HostingBucketName": "switch-20190429040250-hostingbucket-switch"
+      },
+      "lastPushTimeStamp": "2019-05-01T17:04:46.303Z",
+      "providerMetadata": {
+        "s3TemplateURL": "https://s3.amazonaws.com/switch-20190429012622-deployment/amplify-cfn-templates/hosting/template.json",
+        "logicalId": "hostingS3AndCloudFront"
+      }
+    }
+  }
+}

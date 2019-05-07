@@ -1,0 +1,43 @@
+.home {
+  text-align: center;
+  background-color: #282c34;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.home-header {
+  position: relative;
+  font-family: 'Courier New', 'Courier', 'monospace';
+  font-size: 500%;
+  color: white;
+  right: 20%;
+  bottom: 20%;
+}
+
+.home-img {
+  position: relative;
+  width: 40%;
+  height: 55%;
+  left: 25%;
+  top: 10%;
+}
+
+.login-button {
+  background-color: #e7e7e7;
+  color: black;
+  border-radius: 8px;
+  border-color: #e7e7e7;
+  padding: 0.5% 2%;
+  font-size: 100%;
+  position: relative;
+  bottom: 10%;
+  -webkit-transition-duration: 0.4s;
+  transition-duration: 0.4s;
+}
+
+.login-button:hover {
+  background-color:rgb(93, 106, 134);
+  color: white;
+  border-color:rgb(93, 106, 134);
+}
+  

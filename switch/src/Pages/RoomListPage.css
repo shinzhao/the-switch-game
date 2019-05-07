@@ -1,0 +1,306 @@
+@media screen and (min-width: 1920px) {
+    * {
+        font-family: 'Courier New', Courier, monospace;
+    }
+
+    .room-list {
+        text-align: center;
+        background-color: #282c34;
+        overflow: hidden;
+        height: 900px;
+    }
+
+    .room-list-header {
+        position: relative;
+        font-family: 'Courier New', Courier, monospace;
+        font-size: 80px;
+        color: white;
+        right: 650px;
+        top: 50px;
+    }
+
+    .room-img {
+        position: relative;
+        width: 30%;
+        height: 45%;
+        right: 860px;
+        top: 30px;
+    }
+
+    .create-button, .random-button, .profile-button, .game-rule-button{
+        background-color: #e7e7e7;
+        color: black;
+        border-radius: 8px;
+        border-color: #e7e7e7;
+        padding: 10px 40px;
+        font-size: 20px;
+        margin: 10px;
+        position: relative;
+        bottom: 400px;
+        -webkit-transition-duration: 0.4s;
+        transition-duration: 0.4s;
+    }
+
+    .create-button:hover, .random-button:hover, .profile-button:hover, .game-rule-button:hover{
+        background-color: rgb(93, 106, 134);
+        color: white;
+        border-color:rgb(93, 106, 134);
+    }
+
+    .profile-button, .game-rule-button{
+        bottom: 550px;
+        left: 950px;
+    }
+
+    .button:hover {
+        background-color: #282c34;
+        color: white;
+        border-color: #282c34;
+    }
+
+    .room-button {
+        background-color: rgb(93, 106, 134);
+        color: white;
+        border-color: rgb(93, 106, 134);
+        font-size: 17px;
+        padding: 30px;
+        -webkit-transition-duration: 0.4s;
+        transition-duration: 0.4s;
+    }
+
+    .empty-room-button {
+        background-color: rgb(93, 106, 134);
+        color: white;
+        border-color: rgb(93, 106, 134);
+        padding: 65px;
+    }
+
+    .room-button:hover {
+        background-color: #e7e7e7;
+        color: black;
+        border-color: #e7e7e7;
+    }
+
+    .room-col {
+        margin: 10px;
+        position: relative;
+    }
+
+    .room-row {
+        margin: 10px;
+        position: relative;
+        bottom: 450px;
+        left: 20px;
+    }
+
+    .prev, .next {
+        position: relative;
+        bottom: 450px;
+        left: 20px;
+        background-color: #e7e7e7;
+        color: black;
+        border-radius: 8px;
+        border-color: #e7e7e7;
+        font-size: 15px;
+        margin: 10px;
+        -webkit-transition-duration: 0.4s;
+        transition-duration: 0.4s;
+    }
+
+    .prev:hover, .next:hover {
+        background-color: rgb(93, 106, 134);
+        color: white;
+        border-color:rgb(93, 106, 134);
+    }
+
+    .room-num {
+        color: white;
+        font-size: 50px;
+        position: relative;
+        bottom: 400px;
+    }
+
+    .room-num-input {
+        width: 200px;
+        height: 30px;
+        position: relative;
+        bottom: 10px;
+        border-radius: 8px;
+        background-color: #e7e7e7;
+    }
+
+    .enter-button {
+        background-color: #e7e7e7;
+        color: black;
+        border-radius: 8px;
+        border-color: #e7e7e7;
+        padding: 10px 40px;
+        font-size: 20px;
+        margin: 10px;
+        position: relative;
+        left: 30px;
+        bottom: 407px;
+        -webkit-transition-duration: 0.4s;
+        transition-duration: 0.4s;
+    }
+
+    .enter-button:hover {
+        background-color: rgb(93, 106, 134);
+        color: white;
+        border-color:rgb(93, 106, 134);
+    }
+}
+
+@media screen and (max-width: 1440px) {
+    * {
+        font-family: 'Courier New', Courier, monospace;
+    }
+
+    .room-list {
+        text-align: center;
+        background-color: #282c34;
+        overflow: hidden;
+        height: 783px;
+    }
+
+    .room-list-header {
+        position: relative;
+        font-family: 'Courier New', Courier, monospace;
+        font-size: 70px;
+        color: white;
+        right: 500px;
+        top: 50px;
+    }
+
+    .room-img {
+        position: relative;
+        width: 30%;
+        height: 40%;
+        right: 690px;
+        top: 30px;
+    }
+
+    .create-button, .random-button, .profile-button, .game-rule-button{
+        background-color: #e7e7e7;
+        color: black;
+        border-radius: 8px;
+        border-color: #e7e7e7;
+        padding: 8px 30px;
+        font-size: 18px;
+        margin: 10px;
+        position: relative;
+        bottom: 400px;
+        left: 10px;
+        -webkit-transition-duration: 0.4s;
+        transition-duration: 0.4s;
+    }
+
+    .create-button:hover, .random-button:hover, .profile-button:hover, .game-rule-button:hover{
+        background-color: rgb(93, 106, 134);
+        color: white;
+        border-color:rgb(93, 106, 134);
+    }
+
+    .profile-button, .game-rule-button{
+        bottom: 430px;
+        left: 700px;
+    }
+
+    .button:hover {
+        background-color: #282c34;
+        color: white;
+        border-color: #282c34;
+    }
+
+    .room-button {
+        background-color: rgb(93, 106, 134);
+        color: white;
+        font-size: 12px;
+        border-color: rgb(93, 106, 134);
+        padding: 20px;
+        -webkit-transition-duration: 0.4s;
+        transition-duration: 0.4s;
+    }
+
+    .room-button:hover {
+        background-color: #e7e7e7;
+        color: black;
+        border-color: #e7e7e7;
+    }
+
+    .room-col {
+        margin: 10px;
+        position: relative;
+    }
+
+    .room-row-1 {
+        margin: 10px;
+        position: relative;
+        bottom: 300px;
+        right: 100px;
+    }
+
+    .room-row-2 {
+        margin: 10px;
+        position: relative;
+        bottom: 632px;
+        left: 200px;
+    }
+
+    .prev, .next {
+        position: relative;
+        bottom: 450px;
+        left: 95px;
+        background-color: #e7e7e7;
+        color: black;
+        border-radius: 8px;
+        border-color: #e7e7e7;
+        font-size: 10px;
+        margin: 10px;
+        -webkit-transition-duration: 0.4s;
+        transition-duration: 0.4s;
+    }
+
+    .prev:hover, .next:hover {
+        background-color: rgb(93, 106, 134);
+        color: white;
+        border-color:rgb(93, 106, 134);
+    }
+
+    .room-num {
+        color: white;
+        font-size: 30px;
+        position: relative;
+        bottom: 400px;
+    }
+
+    .room-num-input {
+        width: 200px;
+        height: 25px;
+        position: relative;
+        bottom: 5px;
+        border-radius: 8px;
+        background-color: #e7e7e7;
+    }
+
+    .enter-button {
+        background-color: #e7e7e7;
+        color: black;
+        border-radius: 8px;
+        border-color: #e7e7e7;
+        padding: 8px 30px;
+        font-size: 18px;
+        margin: 10px;
+        position: relative;
+        left: 30px;
+        bottom: 405px;
+        -webkit-transition-duration: 0.4s;
+        transition-duration: 0.4s;
+    }
+
+    .enter-button:hover {
+        background-color: rgb(93, 106, 134);
+        color: white;
+        border-color:rgb(93, 106, 134);
+    }
+}

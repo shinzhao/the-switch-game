@@ -1,0 +1,54 @@
+* {
+  font-family: 'Courier New', Courier, monospace;
+}
+
+.profile {
+  background-color: #282c34;
+  overflow: hidden;
+  height: 93.1vh;
+}
+
+.profile-img {
+  height: 20%;
+  width: 10%;
+  position: relative;
+  top: 15%;
+  left: 40.8%;
+}
+
+.profile-back-button {
+  position: relative;
+  left: 20%;
+  bottom: 10%;
+  background-color: #e7e7e7;
+  color: black;
+  border-radius: 8px;
+  border-color: #e7e7e7;
+  font-size: 100%;
+  padding: 0.2% 1%;
+  -webkit-transition-duration: 0.4s;
+  transition-duration: 0.4s;
+}
+
+.profile-back-button:hover {
+  background-color: rgb(93, 106, 134);
+  color: white;
+  border-color:rgb(93, 106, 134);
+}
+
+.username {
+  color: rgb(235, 154, 108);
+  position: relative;
+  text-align: center;
+  top: 15%;
+}
+
+.score {
+  color: white;
+  position: relative;
+  text-align: center;
+  top: 20%;
+  font-size: 150%;
+}
+
+

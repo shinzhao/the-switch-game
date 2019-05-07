@@ -1,0 +1,12 @@
+{
+    "amplify": {
+        "configLevel": "project",
+        "useProfile": true,
+        "profileName": "default"
+    },
+    "switch": {
+        "configLevel": "project",
+        "useProfile": true,
+        "profileName": "0.1"
+    }
+}
