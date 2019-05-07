@@ -24,7 +24,7 @@ class RoomListPage extends React.Component {
 
             */
             rID: '',
-            player_count: getPlayerCount(),
+            player_count: '',
             status: getStatus(),
             page: 1
         };
@@ -39,20 +39,16 @@ class RoomListPage extends React.Component {
     async componentDidMount() {
         this.getRoom();
         this.getPlayersCount();
-        /*
+        this.deleteEmptyRoom();
 
-        this.listenOnRoom = await API.graphql(graphqlOperation(subscriptions.onCreateRoompage)
-        ).subscribe({
-          next: (roomData) =>console.log('sub test '+roomData.value.data.onCreateRoompage.roomid) 
-          //this.createTodo(todoData.value.data.onCreateTodo)
-        });      
-  }
-  componentWillUnmount() {
-    this.listenOnRoom.unsubscribe();
+        // var listenOnRoom = await API.graphql(graphqlOperation(subscriptions.onCreateRoompage)
+        // ).subscribe({
+        //   next: (roomData) =>console.log('sub test '+roomData.value.data.onCreateRoompage.roomid) 
+        //   //this.createTodo(todoData.value.data.onCreateTodo)
+        // });      
   }
   
-  */
-}
+
 //appsync get room (query)
 getRoom = async () => {
     var storeRoom = [];
@@ -80,6 +76,24 @@ getPlayersCount = async ()=>{
     }
     this.setState({player_count:playercount});
     console.log('TEST FOR playercount ' + this.state.player_count);
+}
+
+
+deleteEmptyRoom = async ()=>{
+this.getPlayersCount();
+console.log('gogogo '+this.state.player_count[1]);
+for(let i=0;i<this.state.player_count.length;i++){
+    console.log('hello');
+    const num = this.state.rID[i];
+    if(this.state.player_count[i] === 0){
+        const result = await API.graphql(graphqlOperation(mutations.deleteRoompage,{
+            input:{
+                roomid : num
+            }
+        }));
+        console.log('Delete room ' + num);
+    }
+}
 }
 
 
@@ -247,9 +261,6 @@ handleCreateRoom = async () =>{
 //retrieve all room data from database, excluding those rooms that were closed
 
 
-function getPlayerCount(){
-    return [1,1,1,1,1,1,1,1,1];
-}
 
 function getStatus(){
     return ['playing','open','playing','open','open','open','playing','open','open'];
