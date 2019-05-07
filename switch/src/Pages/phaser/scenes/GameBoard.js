@@ -166,14 +166,14 @@ export class GameBoard extends Phaser.Scene {
 			console.log(nameWeGot);
 			const result1 = await client.query({
 				query: gql(queries.listQws),
-				fetchPolicy: 'cache-only',
+				fetchPolicy: 'network-only',
 			});
 			const result2 = await client.query({
 				query: gql(queries.getQw),
 				variables: {
 					username: nameWeGot
 				},
-				fetchPolicy: 'cache-first',
+				fetchPolicy: 'network-only',
 			});
 			console.log(result1.data.listQws.items);
 			console.log(result2.data.getQw.x)
