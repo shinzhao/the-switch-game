@@ -192,16 +192,20 @@ export class GameBoard extends Phaser.Scene {
 			await client.hydrated();
 			//const getUser = await Auth.currentAuthenticatedUser();
 							
-			var nameWeGot = 'switch';
+			var nameWeGot1 = 'switch';
 			const result1 = await client.query({
 				query: gql(queries.getQw),
 				variables: {
-					username: nameWeGot
+					username: nameWeGot1
 				},
 				fetchPolicy: 'network-only',
 			});
 			
-			this.decideMove(result1.data.getQw.x,result1.data.getQw.y,this.player[0])
+			if(result1.data.getQw.whichCard==3){
+				 this.decideMove(result1.data.getQw.x,result1.data.getQw.y,this.player[0])
+				 this.updateCardData(2,result1.data.getQw.x,result1.data.getQw.y)
+			}
+			
 		})();
 
 		
