@@ -179,29 +179,6 @@ export class GameBoard extends Phaser.Scene {
 			console.log(result2.data.getQw.x)
 		})();
 
-// 		const thething = {
-// 			username : 'test5',
-// 			whichCard : '3',
-// 					x : '333',
-// 					y : '333'
-// 				};
-// const newThing = await API.graphql(graphqlOperation(mutations.updateQw, {input: thething}));
-	//const dbx = appsynchelp.getX('test5');
-// 	try {
-// 		const dbx = await API.graphql(graphqlOperation(queries.listQws,{username : 'test5'}));
-// 		console.log('hello');
-// 		console.log('please');
-// 		console.log('appsync test' +dbx);
-// } catch(e) {
-// 		console.log('please');
-// 		console.log('haha');
-// 		console.log(e);
-// }
-	//const dbx = await API.graphql(graphqlOperation(queries.getQw));
-	
-	
-		
-
 	}
 	
 	async updateCardData(card,x,y){
@@ -247,11 +224,6 @@ export class GameBoard extends Phaser.Scene {
 						// 	//this.updateCardData(-1,player[seat].x,player[seat].y)
 						// 	break;
 						// }
-						if(seat<1){
-							seat++
-						}else{
-							seat--
-						}
 						break;
 					}	
 				
