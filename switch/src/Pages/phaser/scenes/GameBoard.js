@@ -158,7 +158,7 @@ async round(x,y){
 			fetchPolicy: 'network-only',
 		});
 		const seat=result1.data.getQw.seat
-		console.log(seat)
+		console.log('the recent seat'+seat)
 		 if(x==this.player[seat%2].x||y==this.player[seat%2].y){
 			this.checkUserInfo(this.userName[seat%2],x,y,seat)
 		 }
@@ -205,7 +205,7 @@ async initCardData(card,x,y,theusername,seat){
 	}
 
 	async updateRound(theseat){
-		console.log('after update'+theseat);
+		console.log('to update'+theseat);
 		const thething = {
 					username : 'switch',
 					seat: theseat+1,
@@ -243,39 +243,39 @@ async initCardData(card,x,y,theusername,seat){
 }
 	
 	update(time, delta) {
-		// (async () => { 
+		(async () => { 
  
-		// 	await client.hydrated();
-		// 	//const getUser = await Auth.currentAuthenticatedUser();
+			await client.hydrated();
+			//const getUser = await Auth.currentAuthenticatedUser();
 							
-		// 	var nameWeGot1 = 'switch';
-		// 	const result1 = await client.query({
-		// 		query: gql(queries.getQw),
-		// 		variables: {
-		// 			username: nameWeGot1
-		// 		},
-		// 		fetchPolicy: 'network-only',
-		// 	});
+			var nameWeGot1 = 'switch';
+			const result1 = await client.query({
+				query: gql(queries.getQw),
+				variables: {
+					username: nameWeGot1
+				},
+				fetchPolicy: 'network-only',
+			});
 			
-		// 	var nameWeGot2 = 'noviah';
-		// 	const result2 = await client.query({
-		// 		query: gql(queries.getQw),
-		// 		variables: {
-		// 			username: nameWeGot2
-		// 		},
-		// 		fetchPolicy: 'network-only',
-		// 	});
-		// 	if(result1.data.getQw.whichCard==3){
-		// 		 this.decideMove(result1.data.getQw.x,result1.data.getQw.y,this.player[0])
-		// 		 this.updateCardData(2,result1.data.getQw.x,result1.data.getQw.y,nameWeGot1)
-		// 	}
-		// 	if(result2.data.getQw.whichCard==3){
-		// 		this.decideMove(result2.data.getQw.x,result2.data.getQw.y,this.player[1])
-		// 		this.updateCardData(2,result2.data.getQw.x,result2.data.getQw.y,nameWeGot2)
-		//  }
+			var nameWeGot2 = 'noviah';
+			const result2 = await client.query({
+				query: gql(queries.getQw),
+				variables: {
+					username: nameWeGot2
+				},
+				fetchPolicy: 'network-only',
+			});
+			if(result1.data.getQw.whichCard==3){
+				 this.decideMove(result1.data.getQw.x,result1.data.getQw.y,this.player[0])
+				 this.updateCardData(2,result1.data.getQw.x,result1.data.getQw.y,nameWeGot1)
+			}
+			if(result2.data.getQw.whichCard==3){
+				this.decideMove(result2.data.getQw.x,result2.data.getQw.y,this.player[1])
+				this.updateCardData(2,result2.data.getQw.x,result2.data.getQw.y,nameWeGot2)
+		 }
 			
 			
-		// })();
+		})();
 
 		
 	}
