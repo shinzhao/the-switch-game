@@ -35,13 +35,6 @@ export class GameBoard extends Phaser.Scene {
 
 	create() {
 
-		(async () => {
-			this.appsync();
-		})();
-	
-		
-
-
 		this.gameBoard = [0,1,2,3,4,5,6,7,8,9,10,
 			11,12,13,14,15,16,17,18,19,20,21,22,
 			23,24,25,26,27,28,29,30,31,32,33,34,35,36];
@@ -89,9 +82,9 @@ export class GameBoard extends Phaser.Scene {
 			 let player1=new Player(this,405,85,'chess_red',1).setOrigin(0,0)
 			 let player2=new Player(this,730,85,'chess_blue',2).setOrigin(0,0)
 
-			 let player=[]
-			 player.push(player1)
-			 player.push(player2)
+			 this.player=[]
+			 this.player.push(player1)
+			 this.player.push(player2)
 				
 			 let gameState='gaming';
 		//need user name array
@@ -99,7 +92,7 @@ export class GameBoard extends Phaser.Scene {
 
 		let seat=0;
 			
-		this.clickedBox(player,seat,userName)
+		this.clickedBox(seat,userName)
 		   
 	}
 
@@ -146,14 +139,8 @@ export class GameBoard extends Phaser.Scene {
 //*********************************************** */
 
 
-	async appsync (){
+	async getData (){
 		
-					
-// 			const result = await API.graphql(graphqlOperation(queries.listRoompages));
-// 			const number = result.data.listRoompages.item[0].roomid;
-// 			console.log(number);
-// var dbx = await API.graphql(graphqlOperation(queries.listQws,{username:''}));
-// 		console.log('appsync test' + dbx.data.listQws.item[0].username);
 
 		(async () => { 
 
@@ -205,14 +192,14 @@ export class GameBoard extends Phaser.Scene {
 
 
 	//click the card and make it move
-	clickedBox(player,seat,userName){
+	clickedBox(seat,userName){
 		
 		var arrangepostion=0;
 		this.input.on('gameobjectdown', (pointer, gameObject) => {
 			for(var i=0;i<36;i++){
 				if(this.gameBoard[i] == i ){
-					if(gameObject.x==player[seat].x||gameObject.y==player[seat].y){
-						this.checkUserInfo(userName[seat],gameObject.x,gameObject.y,player[seat])
+					if(gameObject.x==this.player[seat].x||gameObject.y==this.player[seat].y){
+						this.checkUserInfo(userName[seat],gameObject.x,gameObject.y,this.player[seat])
 						// this.handlePlayerCard(gameObject,arrangepostion,seat,gameObject.data.get('card_number'))
 						// arrangepostion+=15
 						break;
