@@ -243,7 +243,7 @@ async initCardData(card,x,y,theusername){
 			await client.hydrated();
 			//const getUser = await Auth.currentAuthenticatedUser();
 							
-			var nameWeGot1 = 'switch';
+			var nameWeGot1 = this.userName[0];
 			const result1 = await client.query({
 				query: gql(queries.getQw),
 				variables: {
@@ -252,7 +252,7 @@ async initCardData(card,x,y,theusername){
 				fetchPolicy: 'network-only',
 			});
 			
-			var nameWeGot2 = 'noviah';
+			var nameWeGot2 = this.userName[1];
 			const result2 = await client.query({
 				query: gql(queries.getQw),
 				variables: {
