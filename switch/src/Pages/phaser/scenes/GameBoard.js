@@ -142,27 +142,20 @@ export class GameBoard extends Phaser.Scene {
 		
 
 		(async () => { 
-
-			//result1  show the list
-			//result2  show only username = 'test5' 
+ 
 			await client.hydrated();
-			const getUser = await Auth.currentAuthenticatedUser();
+			//const getUser = await Auth.currentAuthenticatedUser();
 							
-			var nameWeGot = getUser.username;
-			console.log(nameWeGot);
+			var nameWeGot = 'switch';
 			const result1 = await client.query({
-				query: gql(queries.listQws),
-				fetchPolicy: 'network-only',
-			});
-			const result2 = await client.query({
 				query: gql(queries.getQw),
 				variables: {
 					username: nameWeGot
 				},
 				fetchPolicy: 'network-only',
 			});
-			console.log(result1.data.listQws.items);
-			console.log(result2.data.getQw.x)
+			
+			this.decideMove(result1.data.getQw.x,result1.data.getQw.y,this.player[0])
 		})();
 
 	}
