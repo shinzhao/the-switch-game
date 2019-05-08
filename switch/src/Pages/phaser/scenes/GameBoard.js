@@ -97,14 +97,13 @@ export class GameBoard extends Phaser.Scene {
 	}
 
 	//check if the login user is in his round
-	checkUserInfo(name,x,y,player) {
+	checkUserInfo(name,x,y) {
     Auth.currentUserInfo().then((userInfo) => {
 			const { username } = userInfo;
       if(name==username){
-				this.decideMove(x,y,player)
+				this.updateCardData(3,x,y)
 			}else{
-				console.log('update')
-				
+				console.log('invaild movement')	
 			}
 		
 		}
