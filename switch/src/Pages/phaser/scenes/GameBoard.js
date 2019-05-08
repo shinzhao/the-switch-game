@@ -92,22 +92,22 @@ export class GameBoard extends Phaser.Scene {
 		this.userName=['switch','noviah']
 
 		//initalize the data
-		this.initCardData(0,405,85,'switch',0)
-		this.initCardData(0,730,85,'noviah',0)
+		this.initCardData(0,405,85,'switch')
+		this.initCardData(0,730,85,'noviah')
 
-		let seat=0;
+		this.seat=0;
 			
-		this.clickedBox(seat)
+		this.clickedBox(ranNums)
 		   
 	}
 
 	//check if the login user is in his round
-	checkUserInfo(name,x,y,seat) {
+	checkUserInfo(name,x,y) {
     Auth.currentUserInfo().then((userInfo) => {
 			const { username } = userInfo;
       if(name==username){
 				this.updateCardData(3,x,y,name)
-				this.updateRound(seat)
+				//this.updateRound(seat)
 			}else{
 				console.log('invaild movement')	
 			}
@@ -144,28 +144,28 @@ export class GameBoard extends Phaser.Scene {
 //the thing you need
 //*********************************************** */
 
-async round(x,y){
-	(async () => { 
-		await client.hydrated();
-		//const getUser = await Auth.currentAuthenticatedUser();
+// async round(x,y){
+// 	(async () => { 
+// 		await client.hydrated();
+// 		//const getUser = await Auth.currentAuthenticatedUser();
 						
-		var nameWeGot1 = 'switch';
-		const result1 = await client.query({
-			query: gql(queries.getQw),
-			variables: {
-				username: nameWeGot1
-			},
-			fetchPolicy: 'network-only',
-		});
-		const seat=result1.data.getQw.seat
-		console.log('the recent seat'+seat)
-		 if(x==this.player[seat%2].x||y==this.player[seat%2].y){
-			this.checkUserInfo(this.userName[seat%2],x,y,seat)
-		 }
-	})();
-}
+// 		var nameWeGot1 = 'switch';
+// 		const result1 = await client.query({
+// 			query: gql(queries.getQw),
+// 			variables: {
+// 				username: nameWeGot1
+// 			},
+// 			fetchPolicy: 'network-only',
+// 		});
+// 		const seat=result1.data.getQw.seat
+// 		console.log('the recent seat'+seat)
+// 		 if(x==this.player[seat%2].x||y==this.player[seat%2].y){
+// 			this.checkUserInfo(this.userName[seat%2],x,y,seat)
+// 		 }
+// 	})();
+// }
 
-async initCardData(card,x,y,theusername,seat){
+async initCardData(card,x,y,theusername){
 	const cardV = card;
 	console.log(cardV)
 	const xV =x;
@@ -179,7 +179,6 @@ async initCardData(card,x,y,theusername,seat){
 				whichCard : cardV,
 						x : xV,
 						y : yV,
-						seat: seat
 					};
  const newThing = await API.graphql(graphqlOperation(mutations.updateQw, {input: thething}));
 }
@@ -204,14 +203,14 @@ async initCardData(card,x,y,theusername,seat){
 	 const newThing = await API.graphql(graphqlOperation(mutations.updateQw, {input: thething}));
 	}
 
-	async updateRound(theseat){
-		console.log('to update'+theseat);
-		const thething = {
-					username : 'switch',
-					seat: theseat+1,
-						};
-	 const newThing = await API.graphql(graphqlOperation(mutations.updateQw, {input: thething}));
-	}
+	// async updateRound(theseat){
+	// 	console.log('to update'+theseat);
+	// 	const thething = {
+	// 				username : 'switch',
+	// 				seat: theseat+1,
+	// 					};
+	//  const newThing = await API.graphql(graphqlOperation(mutations.updateQw, {input: thething}));
+	// }
 	
 	
 	
@@ -219,19 +218,15 @@ async initCardData(card,x,y,theusername,seat){
 
 
 	//click the card and make it move
-	clickedBox(seat){
-		
+	clickedBox(ranNums){
 		//var arrangepostion=0;
 		this.input.on('gameobjectdown', (pointer, gameObject) => {
 			for(var i=0;i<36;i++){
 				if(this.gameBoard[i] == i ){
-					this.round(gameObject.x,gameObject.y)
-					// if(gameObject.x==this.player[seat].x||gameObject.y==this.player[seat].y){
-					// 	this.checkUserInfo(userName[seat],gameObject.x,gameObject.y,this.player[seat])
-						// this.handlePlayerCard(gameObject,arrangepostion,seat,gameObject.data.get('card_number'))
-						// arrangepostion+=15
-						break;
-					//}	
+					if(gameObject.x==this.player[this.seat].x||gameObject.y==this.player[this.seat].y){
+									this.checkUserInfo(this.userName[this.seat],gameObject.x,gameObject.y)
+							 }
+					
 				
 			}	
 	
@@ -268,10 +263,12 @@ async initCardData(card,x,y,theusername,seat){
 			if(result1.data.getQw.whichCard==3){
 				 this.decideMove(result1.data.getQw.x,result1.data.getQw.y,this.player[0])
 				 this.updateCardData(2,result1.data.getQw.x,result1.data.getQw.y,nameWeGot1)
+				 this.seat=1
 			}
 			if(result2.data.getQw.whichCard==3){
 				this.decideMove(result2.data.getQw.x,result2.data.getQw.y,this.player[1])
 				this.updateCardData(2,result2.data.getQw.x,result2.data.getQw.y,nameWeGot2)
+				this.seat=0
 		 }
 			
 			
