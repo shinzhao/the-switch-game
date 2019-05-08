@@ -138,27 +138,7 @@ export class GameBoard extends Phaser.Scene {
 //*********************************************** */
 
 
-	async getData (){
-		
-
-		(async () => { 
- 
-			await client.hydrated();
-			//const getUser = await Auth.currentAuthenticatedUser();
-							
-			var nameWeGot = 'switch';
-			const result1 = await client.query({
-				query: gql(queries.getQw),
-				variables: {
-					username: nameWeGot
-				},
-				fetchPolicy: 'network-only',
-			});
-			
-			this.decideMove(result1.data.getQw.x,result1.data.getQw.y,this.player[0])
-		})();
-
-	}
+	
 	
 	async updateCardData(card,x,y){
 		const cardV = card;
@@ -207,7 +187,23 @@ export class GameBoard extends Phaser.Scene {
 }
 	
 	update(time, delta) {
-		
+		(async () => { 
+ 
+			await client.hydrated();
+			//const getUser = await Auth.currentAuthenticatedUser();
+							
+			var nameWeGot = 'switch';
+			const result1 = await client.query({
+				query: gql(queries.getQw),
+				variables: {
+					username: nameWeGot
+				},
+				fetchPolicy: 'network-only',
+			});
+			
+			this.decideMove(result1.data.getQw.x,result1.data.getQw.y,this.player[0])
+		})();
+
 		
 	}
 }
