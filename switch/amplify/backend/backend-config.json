@@ -1,7 +1,21 @@
 {
 	"auth": {
-		"cognitoce9cfa54": {
+		"cognito3750a61c": {
 			"service": "Cognito",
+			"providerPlugin": "awscloudformation"
+		}
+	},
+	"api": {},
+	"hosting": {},
+	"analytics": {
+		"switch": {
+			"service": "Pinpoint",
+			"providerPlugin": "awscloudformation"
+		}
+	},
+	"storage": {
+		"s389b1b273": {
+			"service": "S3",
 			"providerPlugin": "awscloudformation"
 		}
 	}
