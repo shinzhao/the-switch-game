@@ -92,10 +92,11 @@ export class GameBoard extends Phaser.Scene {
 		this.userName=['switch','noviah']
 
 		//initalize the data
-		this.initCardData(0,405,85,'switch')
-		this.initCardData(0,730,85,'noviah')
+		this.initCardData(-1,405,85,'switch',0)
+		this.initCardData(-1,730,85,'noviah',0)
 
 		this.seat=0;
+		this.moveCard=false;
 			
 		this.clickedBox(ranNums)
 		   
@@ -106,7 +107,7 @@ export class GameBoard extends Phaser.Scene {
     Auth.currentUserInfo().then((userInfo) => {
 			const { username } = userInfo;
       if(name==username){
-				this.updateCardData(3,x,y,name)
+				this.updateCardData(3,x,y,name,1)
 				//this.updateRound(seat)
 			}else{
 				console.log('invaild movement')	
@@ -126,18 +127,11 @@ export class GameBoard extends Phaser.Scene {
 	}
 
 	//move the card to the side
-	handlePlayerCard(card,arrangepostion,seat,data){
-		if(seat==0&&data!=53){
-		arrangepostion-=10
-		card.setX(10+arrangepostion);
-		card.setY(70);
-		card.setScale(0.1,0.1)
-		}else if(seat==1&&data!=53){
-		arrangepostion-=10
-		card.setX(900+arrangepostion);
-		card.setY(70);
-		card.setScale(0.1,0.1)
+	handlePlayerCard(cardNum,card){
+		if(cardNum!=53){
+			console.log('the card x is'+card.x)
 		}
+		
 	}
 
 //************************************************ */
@@ -165,7 +159,7 @@ export class GameBoard extends Phaser.Scene {
 // 	})();
 // }
 
-async initCardData(card,x,y,theusername){
+async initCardData(card,x,y,theusername,theSeat){
 	const cardV = card;
 	console.log(cardV)
 	const xV =x;
@@ -179,6 +173,7 @@ async initCardData(card,x,y,theusername){
 				whichCard : cardV,
 						x : xV,
 						y : yV,
+						seat: theSeat
 					};
  const newThing = await API.graphql(graphqlOperation(mutations.updateQw, {input: thething}));
 }
@@ -186,7 +181,7 @@ async initCardData(card,x,y,theusername){
 
 	
 	
-	async updateCardData(card,x,y,name){
+	async updateCardData(card,x,y,name,theSeat){
 		const cardV = card;
 		console.log(cardV)
 		const xV =x;
@@ -199,6 +194,7 @@ async initCardData(card,x,y,theusername){
 					whichCard : cardV,
 							x : xV,
 							y : yV,
+							seat: theSeat
 						};
 	 const newThing = await API.graphql(graphqlOperation(mutations.updateQw, {input: thething}));
 	}
@@ -224,10 +220,11 @@ async initCardData(card,x,y,theusername){
 			for(var i=0;i<36;i++){
 				if(this.gameBoard[i] == i ){
 					if(gameObject.x==this.player[this.seat].x||gameObject.y==this.player[this.seat].y){
-									this.checkUserInfo(this.userName[this.seat],gameObject.x,gameObject.y)
-							 }
-					
-				
+							if(gameObject.data.get('card_number') == i){
+								this.checkUserInfo(this.userName[this.seat],gameObject.x,gameObject.y)
+						}
+								//	break;
+					}	
 			}	
 	
 	}
@@ -241,7 +238,6 @@ async initCardData(card,x,y,theusername){
 		(async () => { 
  
 			await client.hydrated();
-			//const getUser = await Auth.currentAuthenticatedUser();
 							
 			var nameWeGot1 = this.userName[0];
 			const result1 = await client.query({
@@ -260,20 +256,19 @@ async initCardData(card,x,y,theusername){
 				},
 				fetchPolicy: 'network-only',
 			});
-			if(result1.data.getQw.whichCard==3){
+			if(result1.data.getQw.seat==1){
 				 this.decideMove(result1.data.getQw.x,result1.data.getQw.y,this.player[0])
-				 this.updateCardData(2,result1.data.getQw.x,result1.data.getQw.y,nameWeGot1)
+				 this.updateCardData(2,result1.data.getQw.x,result1.data.getQw.y,nameWeGot1,0)
 				 this.seat=1
 			}
-			if(result2.data.getQw.whichCard==3){
+			if(result2.data.getQw.seat==1){
 				this.decideMove(result2.data.getQw.x,result2.data.getQw.y,this.player[1])
-				this.updateCardData(2,result2.data.getQw.x,result2.data.getQw.y,nameWeGot2)
+				this.updateCardData(2,result2.data.getQw.x,result2.data.getQw.y,nameWeGot2,0)
 				this.seat=0
-		 }
+			}
 			
 			
 		})();
-
 		
 	}
 }
