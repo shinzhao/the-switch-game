@@ -213,17 +213,8 @@ export class GameBoard extends Phaser.Scene {
 				if(this.gameBoard[i] == i ){
 					if(gameObject.x==player[seat].x||gameObject.y==player[seat].y){
 						this.checkUserInfo(userName[seat],gameObject.x,gameObject.y,player[seat])
-						this.handlePlayerCard(gameObject,arrangepostion,seat,gameObject.data.get('card_number'))
-						arrangepostion+=15
-						// if(gameObject.data.get('card_number') == i){
-						// 	console.log("move card")
-						// 	 //this.handlePlayer1Card(gameObject,arrangepostion,seat)
-							 
-						// 	//this.updateCardData(3,player[seat].x,player[seat].y)
-						// }else if(gameObject.data.get('blank')){
-						// 	//this.updateCardData(-1,player[seat].x,player[seat].y)
-						// 	break;
-						// }
+						// this.handlePlayerCard(gameObject,arrangepostion,seat,gameObject.data.get('card_number'))
+						// arrangepostion+=15
 						break;
 					}	
 				
