@@ -82,13 +82,18 @@ export class GameBoard extends Phaser.Scene {
 			 let player1=new Player(this,405,85,'chess_red',1).setOrigin(0,0)
 			 let player2=new Player(this,730,85,'chess_blue',2).setOrigin(0,0)
 
+
+
 			 this.player=[]
 			 this.player.push(player1)
 			 this.player.push(player2)
 				
-			 let gameState='gaming';
 		//need user name array
 		let userName=['switch','noviah']
+
+		//initalize the data
+		this.initCardData(0,405,85,'switch')
+		this.initCardData(0,730,85,'noviah')
 
 		let seat=0;
 			
@@ -108,7 +113,8 @@ export class GameBoard extends Phaser.Scene {
 		
 		}
 		)
-  }
+	}
+	
 		
 
 
@@ -137,6 +143,43 @@ export class GameBoard extends Phaser.Scene {
 //the thing you need
 //*********************************************** */
 
+async round(){
+	(async () => { 
+ 
+		await client.hydrated();
+		//const getUser = await Auth.currentAuthenticatedUser();
+						
+		var nameWeGot1 = 'switch';
+		const result1 = await client.query({
+			query: gql(queries.getQw),
+			variables: {
+				username: nameWeGot1
+			},
+			fetchPolicy: 'network-only',
+		});
+	  
+		
+	})();
+}
+
+async initCardData(card,x,y,theusername){
+	const cardV = card;
+	console.log(cardV)
+	const xV =x;
+	console.log("x : "+xV)
+	const yV = y;
+	console.log("y : "+yV);
+	const name = theusername;
+	console.log('your name : ' +name);
+	const thething = {
+				username : name,
+				whichCard : cardV,
+						x : xV,
+						y : yV
+					};
+ const newThing = await API.graphql(graphqlOperation(mutations.updateQw, {input: thething}));
+}
+
 
 	
 	
@@ -158,6 +201,8 @@ export class GameBoard extends Phaser.Scene {
 						};
 	 const newThing = await API.graphql(graphqlOperation(mutations.updateQw, {input: thething}));
 	}
+
+	
 	
 	
 
