@@ -2,7 +2,7 @@
   text-align: center;
   background-color: #282c34;
   height: 100vh;
-  overflow: hidden;
+  overflow: auto;
 }
 
 .home-header {
@@ -17,7 +17,7 @@
 .home-img {
   position: relative;
   width: 40%;
-  height: 55%;
+  height: auto;
   left: 25%;
   top: 10%;
 }

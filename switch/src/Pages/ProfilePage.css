@@ -4,8 +4,8 @@
 
 .profile {
   background-color: #282c34;
-  overflow: hidden;
-  height: 93.1vh;
+  overflow: auto;
+  height: 100vh;
 }
 
 .profile-img {
