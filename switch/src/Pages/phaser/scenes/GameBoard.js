@@ -89,7 +89,7 @@ export class GameBoard extends Phaser.Scene {
 			 this.player.push(player2)
 				
 		//need user name array
-		let userName=['switch','noviah']
+		this.userName=['switch','noviah']
 
 		//initalize the data
 		this.initCardData(0,405,85,'switch',0)
@@ -97,16 +97,17 @@ export class GameBoard extends Phaser.Scene {
 
 		let seat=0;
 			
-		this.clickedBox(seat,userName)
+		this.clickedBox(seat)
 		   
 	}
 
 	//check if the login user is in his round
-	checkUserInfo(name,x,y) {
+	checkUserInfo(name,x,y,seat) {
     Auth.currentUserInfo().then((userInfo) => {
 			const { username } = userInfo;
       if(name==username){
-				this.updateCardData(3,x,y)
+				this.updateCardData(3,x,y,name)
+				this.updateRound(seat)
 			}else{
 				console.log('invaild movement')	
 			}
@@ -143,9 +144,8 @@ export class GameBoard extends Phaser.Scene {
 //the thing you need
 //*********************************************** */
 
-async round(){
+async round(x,y){
 	(async () => { 
- 
 		await client.hydrated();
 		//const getUser = await Auth.currentAuthenticatedUser();
 						
@@ -157,9 +157,11 @@ async round(){
 			},
 			fetchPolicy: 'network-only',
 		});
-		console.log(result1.data.getQw.seat)
-	  
-		
+		const seat=result1.data.getQw.seat
+		console.log(seat)
+		 if(x==this.player[seat%2].x||y==this.player[seat%2].y){
+			this.checkUserInfo(this.userName[seat%2],x,y,seat)
+		 }
 	})();
 }
 
@@ -185,16 +187,14 @@ async initCardData(card,x,y,theusername,seat){
 
 	
 	
-	async updateCardData(card,x,y){
+	async updateCardData(card,x,y,name){
 		const cardV = card;
 		console.log(cardV)
 		const xV =x;
 		console.log("x : "+xV)
 		const yV = y;
 		console.log("y : "+yV);
-		const getUser = await Auth.currentAuthenticatedUser();
-							const name = getUser.username;
-							console.log('your name : ' +name);
+		console.log('your name : ' +name);
 		const thething = {
 					username : name,
 					whichCard : cardV,
@@ -204,6 +204,14 @@ async initCardData(card,x,y,theusername,seat){
 	 const newThing = await API.graphql(graphqlOperation(mutations.updateQw, {input: thething}));
 	}
 
+	async updateRound(theseat){
+		console.log('after update'+theseat);
+		const thething = {
+					username : 'switch',
+					seat: theseat+1,
+						};
+	 const newThing = await API.graphql(graphqlOperation(mutations.updateQw, {input: thething}));
+	}
 	
 	
 	
@@ -211,18 +219,19 @@ async initCardData(card,x,y,theusername,seat){
 
 
 	//click the card and make it move
-	clickedBox(seat,userName){
+	clickedBox(seat){
 		
-		var arrangepostion=0;
+		//var arrangepostion=0;
 		this.input.on('gameobjectdown', (pointer, gameObject) => {
 			for(var i=0;i<36;i++){
 				if(this.gameBoard[i] == i ){
-					if(gameObject.x==this.player[seat].x||gameObject.y==this.player[seat].y){
-						this.checkUserInfo(userName[seat],gameObject.x,gameObject.y,this.player[seat])
+					this.round(gameObject.x,gameObject.y)
+					// if(gameObject.x==this.player[seat].x||gameObject.y==this.player[seat].y){
+					// 	this.checkUserInfo(userName[seat],gameObject.x,gameObject.y,this.player[seat])
 						// this.handlePlayerCard(gameObject,arrangepostion,seat,gameObject.data.get('card_number'))
 						// arrangepostion+=15
 						break;
-					}	
+					//}	
 				
 			}	
 	
@@ -234,26 +243,39 @@ async initCardData(card,x,y,theusername,seat){
 }
 	
 	update(time, delta) {
-		(async () => { 
+		// (async () => { 
  
-			await client.hydrated();
-			//const getUser = await Auth.currentAuthenticatedUser();
+		// 	await client.hydrated();
+		// 	//const getUser = await Auth.currentAuthenticatedUser();
 							
-			var nameWeGot1 = 'switch';
-			const result1 = await client.query({
-				query: gql(queries.getQw),
-				variables: {
-					username: nameWeGot1
-				},
-				fetchPolicy: 'network-only',
-			});
+		// 	var nameWeGot1 = 'switch';
+		// 	const result1 = await client.query({
+		// 		query: gql(queries.getQw),
+		// 		variables: {
+		// 			username: nameWeGot1
+		// 		},
+		// 		fetchPolicy: 'network-only',
+		// 	});
 			
-			if(result1.data.getQw.whichCard==3){
-				 this.decideMove(result1.data.getQw.x,result1.data.getQw.y,this.player[0])
-				 this.updateCardData(2,result1.data.getQw.x,result1.data.getQw.y)
-			}
+		// 	var nameWeGot2 = 'noviah';
+		// 	const result2 = await client.query({
+		// 		query: gql(queries.getQw),
+		// 		variables: {
+		// 			username: nameWeGot2
+		// 		},
+		// 		fetchPolicy: 'network-only',
+		// 	});
+		// 	if(result1.data.getQw.whichCard==3){
+		// 		 this.decideMove(result1.data.getQw.x,result1.data.getQw.y,this.player[0])
+		// 		 this.updateCardData(2,result1.data.getQw.x,result1.data.getQw.y,nameWeGot1)
+		// 	}
+		// 	if(result2.data.getQw.whichCard==3){
+		// 		this.decideMove(result2.data.getQw.x,result2.data.getQw.y,this.player[1])
+		// 		this.updateCardData(2,result2.data.getQw.x,result2.data.getQw.y,nameWeGot2)
+		//  }
 			
-		})();
+			
+		// })();
 
 		
 	}
