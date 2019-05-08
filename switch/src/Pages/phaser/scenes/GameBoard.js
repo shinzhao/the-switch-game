@@ -92,8 +92,8 @@ export class GameBoard extends Phaser.Scene {
 		let userName=['switch','noviah']
 
 		//initalize the data
-		this.initCardData(0,405,85,'switch')
-		this.initCardData(0,730,85,'noviah')
+		this.initCardData(0,405,85,'switch',0)
+		this.initCardData(0,730,85,'noviah',0)
 
 		let seat=0;
 			
@@ -157,12 +157,13 @@ async round(){
 			},
 			fetchPolicy: 'network-only',
 		});
+		console.log(result1.data.getQw.seat)
 	  
 		
 	})();
 }
 
-async initCardData(card,x,y,theusername){
+async initCardData(card,x,y,theusername,seat){
 	const cardV = card;
 	console.log(cardV)
 	const xV =x;
@@ -175,7 +176,8 @@ async initCardData(card,x,y,theusername){
 				username : name,
 				whichCard : cardV,
 						x : xV,
-						y : yV
+						y : yV,
+						seat: seat
 					};
  const newThing = await API.graphql(graphqlOperation(mutations.updateQw, {input: thething}));
 }
@@ -197,7 +199,7 @@ async initCardData(card,x,y,theusername){
 					username : name,
 					whichCard : cardV,
 							x : xV,
-							y : yV
+							y : yV,
 						};
 	 const newThing = await API.graphql(graphqlOperation(mutations.updateQw, {input: thething}));
 	}
