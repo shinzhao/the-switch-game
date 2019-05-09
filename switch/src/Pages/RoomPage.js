@@ -54,6 +54,10 @@ class RoomPage extends React.Component {
         this.props.history.push('/room-list')
     }
 
+    componentWillUnmount(){
+        
+    }
+
     handleStartClick(e) {
         e.preventDefault();
         this.setState({

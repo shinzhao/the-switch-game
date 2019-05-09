@@ -1,9 +1,6 @@
 import React, { Component } from 'react';
 import img from '../img/background.png';
 import './RoomListPage.css';
-import RoomPage from './RoomPage';
-import GameRulePage from './GameRulePage';
-import ProfilePage from './ProfilePage';
 import { withRouter } from "react-router-dom";
 import { Auth } from 'aws-amplify';
 import Amplify, { API, graphqlOperation } from "aws-amplify";
