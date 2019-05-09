@@ -55,7 +55,6 @@ class RoomPage extends React.Component {
     }
 
     handleStartClick(e) {
-        
         e.preventDefault();
         this.setState({
             showGame: true
@@ -67,10 +66,8 @@ class RoomPage extends React.Component {
             <div className="room">
                 <p className="test">This is the room page</p>
                 <button onClick={this.handleBackClick}>Back</button>
-                <button onClick={this.handleStartClick}>Start</button>
-                
+                <button onClick={this.handleStartClick}>Start</button> 
                 { this.state.showGame ? <Game /> : null }
-                
             </div>
         );
     }
