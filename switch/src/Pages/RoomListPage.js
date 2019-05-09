@@ -8,37 +8,8 @@ import { withRouter } from "react-router-dom";
 import { Auth } from 'aws-amplify';
 import Amplify, { API, graphqlOperation } from "aws-amplify";
 import * as queries from './phaser/../../graphql/queries';
-import {onCreateRoompage} from'./phaser/../../graphql/subscriptions';
+import * as subscriptions from'./phaser/../../graphql/subscriptions';
 import * as mutations from '../graphql/mutations';
-import AWSAppSyncClient, { AUTH_TYPE } from 'aws-appsync';
-import aws_config from '../aws-exports';
-import gql from 'graphql-tag';
-
-
-const client = new AWSAppSyncClient({
-    url: aws_config.aws_appsync_graphqlEndpoint,
-    region: aws_config.aws_appsync_region,
-    auth: {
-      type: AUTH_TYPE.API_KEY,
-      apiKey: aws_config.aws_appsync_apiKey,
-    }
-  });
-
-  const subtoRoomData = `
-  subscription{
-    onCreateRoompage{
-        roomid players
-    }
-  }
-  `
-  const subtoRoomData2 = `
-  subscription{
-    onUpdateRoompage{
-        roomid players
-    }
-  }
-  `
-  
 
 class RoomListPage extends React.Component {
     constructor(){
@@ -53,8 +24,7 @@ class RoomListPage extends React.Component {
 
             */
             rID: '',
-            player_count: [],
-            roomCount: Number,
+            player_count: getPlayerCount(),
             status: getStatus(),
             room: getRoom()
         };
@@ -66,108 +36,23 @@ class RoomListPage extends React.Component {
         this.handleCreateClick=this.handleCreateClick.bind(this);
     }
            
-componentDidMount() {
-        //this.getOnTime();
+    async componentDidMount() {
         this.getRoom();
         this.getPlayersCount();
+        /*
 
-        //this.deleteEmptyRoom();
-        //console.log('show me the ' + this.state.player_count.length);
-
-
-        //create
-        this.subC = API.graphql(
-            graphqlOperation(subtoRoomData)
+        this.listenOnRoom = await API.graphql(graphqlOperation(subscriptions.onCreateRoompage)
         ).subscribe({
-            next: (roomData) =>{
-                console.log('we got the playerscount ' + roomData.value.data.onCreateRoompage.players.length);
-                console.log('we got the data', roomData.value.data.onCreateRoompage.roomid);
-                //players create sub
-                const newPlyersCount = roomData.value.data.onCreateRoompage.players.length;
-                const prevPlayersCount = this.state.player_count;
-                const updatedPlayersCount = [...prevPlayersCount,newPlyersCount];
-                this.setState({player_count : updatedPlayersCount});
-                //rid create sub
-                const newRoom = roomData.value.data.onCreateRoompage.roomid;
-                const prevRooms = this.state.rID;
-                const updatedRooms = [...prevRooms,newRoom];
-                this.setState({rID : updatedRooms });
-            }
-        });
-
-        //update
-        this.subU = API.graphql(
-            graphqlOperation(subtoRoomData2)
-        ).subscribe({
-            next: (roomData) =>{
-                //players update sub
-                console.log('we update the playerscount ' + roomData.value.data.onUpdateRoompage.players.length);
-                console.log('we update the playerscount ' + roomData.value.data.onUpdateRoompage.roomid);
-                const newPlyersCount = roomData.value.data.onUpdateRoompage.players.length;
-                const prevPlayersCount = this.state.player_count;
-                const newRoomID = roomData.value.data.onUpdateRoompage.roomid;
-                const roomlist = this.state.rID;
-                const index = roomlist.findIndex(num => num === newRoomID);
-                console.log('show me the index ' + index);
-                const updatedPlayersCount = prevPlayersCount;
-                updatedPlayersCount[index] = newPlyersCount; 
-                this.setState({player_count : updatedPlayersCount});
-
-            }
-        });
-       
-
-
-
-
-//         let subscription;
-
-//         (async () => {
-//         subscription = client.subscribe({ query: gql(onCreateRoompage) }).subscribe({
-//         next: data => {
-//         console.log(data);
-//         },
-//         error: error => {
-//         console.warn(error);
-//         }
-//         });
-//         })();
-
-// // Unsubscribe after 10 secs
-//         setTimeout(() => {
-//         subscription.unsubscribe();
-//         }, 100000);
-        // this.creatRoomListener = API.graphql(graphqlOperation(onCreateRoompage)).subscribe({
-        //     next: roomData => {
-        //       const newRoom = roomData.data.onCreateRoompage;
-        //       console.log('sub test, hello ');
-        //       const updatedRoom = [newRoom];
-        //       this.setState({ rID: updatedRoom });
-        //     }
-        //   });
+          next: (roomData) =>console.log('sub test '+roomData.value.data.onCreateRoompage.roomid) 
+          //this.createTodo(todoData.value.data.onCreateTodo)
+        });      
   }
-   componentWillUnmount() {
-     this.subC.unsubscribe();
-     this.subU.unsubscribe();
-   }
-
-// getOnTime = async () => {
-//     let subscription;
-//     subscription = client.subscribe({ query: gql(onCreateRoompage) }).subscribe({
-//         next: data => {
-//         console.log('something happen');
-//         },
-//         error: error => {
-//         console.warn(error);
-//         }
-//         });
-//         setTimeout(() => {
-//             subscription.unsubscribe();
-//             }, 100000);
-// }
-
+  componentWillUnmount() {
+    this.listenOnRoom.unsubscribe();
+  }
   
-
+  */
+}
 //appsync get room (query)
 getRoom = async () => {
     var storeRoom = [];
@@ -179,7 +64,6 @@ getRoom = async () => {
     this.setState({rID : storeRoom });
     console.log('TEST FOR QUERY ' + this.state.rID);
     }
-
 getPlayersCount = async ()=>{
     var playercount = [];
     const result = await API.graphql(graphqlOperation(queries.listRoompages));
@@ -193,38 +77,9 @@ getPlayersCount = async ()=>{
     }
          console.log('show the obj ' + count);
         playercount.push(count);
-        
     }
-    this.setState(function (state, props) {
-        return {
-         player_count: playercount
-        }
-       });
-    //this.setState({player_count:playercount});
-    const roomCount = this.state.player_count.length;
-
-    console.log('TEST FOR playercount ' + this.state.player_count.length);
-    console.log('show the roomCount ' + roomCount);
-    
-}
-
-
-deleteEmptyRoom = async ()=>{
-this.getPlayersCount();
-
-console.log('gogogo  '+this.state.player_count.length);
-for(let i=0;i<this.state.player_count.length;i++){
-    console.log('hello');
-    const num = this.state.rID[i];
-    if(this.state.player_count[i] == 0){
-        const result = await API.graphql(graphqlOperation(mutations.deleteRoompage,{
-            input:{
-                roomid : num
-            }
-        }));
-        console.log('Delete room ' + num);
-    }
-}
+    this.setState({player_count:playercount});
+    console.log('TEST FOR playercount ' + this.state.player_count);
 }
 
 
@@ -269,22 +124,18 @@ handleCreateRoom = async () =>{
                 //get current user name
                 const getUser = await Auth.currentAuthenticatedUser();
                 const name = getUser.username;
-                console.log('you click the room ' +this.state.rID[i]);
-                var roomnum = this.state.rID[i];
-                console.log(roomnum);
+                console.log(this.state.rID[i]);
+                var num = this.state.rID[i];
+                console.log(num);
                 console.log('test for who click into a room , user :' + name + ' into a room #' +this.state.rID[i]);
-                const getPlayers = await API.graphql(graphqlOperation(queries.listRoompages));
-                const prevPlayers = getPlayers.data.listRoompages.items[i].players;
-                const updatedPlayers = [...prevPlayers,name];
                 const newThing = await API.graphql(graphqlOperation(mutations.updateRoompage, 
                     {
                         input:{
-                            roomid : roomnum,
-                            players : updatedPlayers
+                            roomid : num,
+                            players : [name]
                         }
                     }));
             })();
-            
             this.props.history.push('/room');
         }
         else {
@@ -327,7 +178,13 @@ handleCreateRoom = async () =>{
             }
         }
         */
-       
+        let last_id = this.state.rID[this.state.rID.length - 1];
+        let new_id = [...this.state.rID, last_id];
+        this.setState({
+            room_id: new_id,
+            player_count: 1,
+            status: 'open'
+        });
     }
 
     handleRandomClick(e) {
@@ -379,11 +236,12 @@ function getRoom(){
 }
 
 
+function getPlayerCount(){
+    return [1,1,1,1,1,1,1,1,1];
+}
 
 function getStatus(){
-    return ['open','open','open','open','open','open','open','open','open'];
+    return ['playing','open','playing','open','open','open','playing','open','open'];
 }
 
 export default withRouter(RoomListPage);
-
-                  
