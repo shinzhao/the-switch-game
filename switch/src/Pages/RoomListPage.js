@@ -38,6 +38,13 @@ const client = new AWSAppSyncClient({
     }
   }
   `
+  const subtoRoomData3 = `
+  subscription{
+    onDeleteRoompage{
+        roomid players
+    }
+  }
+  `
   
 
 class RoomListPage extends React.Component {
@@ -96,7 +103,16 @@ componentDidMount() {
                 this.setState({rID : updatedRooms });
             }
         });
-
+        this.subD = API.graphql(
+            graphqlOperation(subtoRoomData3)
+        ).subscribe({
+            next: (roomData) =>{
+            const deleterID = roomData.value.data.onDeleteRoompage.roomid;
+            console.log('the missing one is '+deleterID);
+            const updatedRooms = this.state.rID.filter(rooms => rooms !== deleterID)
+            this.setState({rID : updatedRooms});
+            }
+        })
         //update
         this.subU = API.graphql(
             graphqlOperation(subtoRoomData2)
@@ -129,6 +145,8 @@ componentDidMount() {
 
             }
         });
+
+
        
 
 
@@ -163,6 +181,8 @@ componentDidMount() {
    componentWillUnmount() {
      this.subC.unsubscribe();
      this.subU.unsubscribe();
+     //this.subD.unsubscribe();
+
    }
 
 // getOnTime = async () => {
@@ -470,3 +490,4 @@ handleCreateRoom = async (random) =>{
 
 
 export default withRouter(RoomListPage);
+
