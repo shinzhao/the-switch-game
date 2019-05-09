@@ -248,53 +248,63 @@ async initCardData(card,x,y,theusername,theSeat){
 
 }
 
+async updateScreen(){
+	(async () => { 
+ 
+		//await client.hydrated();
+						
+		var nameWeGot1 = this.userName[0];
+		const result1 = await client.query({
+			query: gql(queries.getQw),
+			variables: {
+				username: nameWeGot1
+			},
+			fetchPolicy: 'network-only',
+		});
+
+		var nameWeGot2 = this.userName[1];
+			 const result2 = await client.query({
+			query: gql(queries.getQw),
+			variables: {
+				username: nameWeGot2
+			},
+			fetchPolicy: 'network-only',
+		});
+		let x1=result1.data.getQw.x
+		let y1=result1.data.getQw.y
+		let x2=result2.data.getQw.x
+		let y2=result2.data.getQw.y
+		if(result1.data.getQw.seat==1){
+			 this.decideMove(x1,y1,this.player[0])
+			 console.log('update the player1')
+			 this.seat=1
+					if(result1.data.getQw.whichCard!=-1){
+					this.cardSet[result1.data.getQw.whichCard].setX(20)
+					this.cardSet[result1.data.getQw.whichCard].setY(85)
+					}
+					this.updateCardData(-1,result1.data.getQw.x,result1.data.getQw.y,nameWeGot1,0)
+			 }
+
+			if(result2.data.getQw.seat==1){
+			this.decideMove(x2,y2,this.player[1])
+			console.log('update the player2')
+			this.seat=0
+			if(result2.data.getQw.whichCard!=-1){
+				console.log('move the card')
+				this.cardSet[result2.data.getQw.whichCard].setX(900)
+				this.cardSet[result2.data.getQw.whichCard].setY(85)
+		 }
+		 this.updateCardData(-1,result2.data.getQw.x,result2.data.getQw.y,nameWeGot2,0)
+		}
+		
+		
+	})();
+}
+
 
 	
 	update(time, delta) {
-		(async () => { 
- 
-			await client.hydrated();
-							
-			var nameWeGot1 = this.userName[0];
-			const result1 = await client.query({
-				query: gql(queries.getQw),
-				variables: {
-					username: nameWeGot1
-				},
-				fetchPolicy: 'network-only',
-			});
-			
-			var nameWeGot2 = this.userName[1];
-			const result2 = await client.query({
-				query: gql(queries.getQw),
-				variables: {
-					username: nameWeGot2
-				},
-				fetchPolicy: 'network-only',
-			});
-			if(result1.data.getQw.seat==1){
-				 this.decideMove(result1.data.getQw.x,result1.data.getQw.y,this.player[0])
-				 console.log('update the player1')
-				 this.seat=1
-				 	 if(result1.data.getQw.whichCard!=-1){
-						this.cardSet[result1.data.getQw.whichCard].setX(20)
-						this.cardSet[result1.data.getQw.whichCard].setY(85)
-						}
-						this.updateCardData(-1,result1.data.getQw.x,result1.data.getQw.y,nameWeGot1,0)
-				 }else if(result2.data.getQw.seat==1){
-				this.decideMove(result2.data.getQw.x,result2.data.getQw.y,this.player[1])
-				console.log('update the player2')
-				this.seat=0
-					if(result2.data.getQw.whichCard!=-1){
-					console.log('move the card')
-					this.cardSet[result2.data.getQw.whichCard].setX(900)
-					this.cardSet[result2.data.getQw.whichCard].setY(85)
-			 }
-			 this.updateCardData(-1,result2.data.getQw.x,result2.data.getQw.y,nameWeGot2,0)
-			}
-			
-			
-		})();
+     this.updateScreen()
 		if(this.CardLeft==0){
 			console.log('game over')
 		}
