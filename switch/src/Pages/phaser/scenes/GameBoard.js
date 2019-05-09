@@ -51,25 +51,31 @@ export class GameBoard extends Phaser.Scene {
 			 }
 			   y_pos1+=65;
 			   x_pos1=0;
-		   }
-		   let card_number=0;
-		   let nums=[],
-			   ranNums = [];
-		  for(var k=0;k<52;k++){
-		   nums.push(k);
-			}
-		   let m = nums.length,
-			   n = 0;
-	   while (m--) {
-		   n = Math.floor(Math.random() * (m+1));
-		   ranNums.push(nums[n]);
-		   nums.splice(n,1);
-	   }
+			 }
+			 
+
+		//    let card_number=0;
+		//    let nums=[],
+		// 	   ranNums = [];
+		//   for(var k=0;k<52;k++){
+		//    nums.push(k);
+		// 	}
+		//    let m = nums.length,
+		// 	   n = 0;
+	  //  while (m--) {
+		//    n = Math.floor(Math.random() * (m+1));
+		//    ranNums.push(nums[n]);
+		//    nums.splice(n,1);
+		//  }
+		 
+		let card_number=0;
+		let ranNums=[3,7,15,33,25,46,8,9,28,53,11,6,34,36,21,23,41,19,16,1,47,29,51,39,2,25,27,40,30,
+		              37,10,22,10,20,50,38,26]
 	   //display board
 			let x_pos=0;
 			let y_pos=0; 
 			this.cardSet=[] 
-		   for(var i=0;i<6;i++){
+		  for(var i=0;i<6;i++){
 			for(var j=0 ;j<6;j++){
 			   var generatecard=ranNums[card_number]
 				 this.card=new Card(this,405+x_pos,85+y_pos,'cards',generatecard).setOrigin(0, 0).setInteractive().setDataEnabled()
@@ -80,7 +86,10 @@ export class GameBoard extends Phaser.Scene {
 			 }
 			   y_pos+=65;
 			   x_pos=0;
-		   }
+			 }
+			 
+
+
 			 let player1=new Player(this,405,85,'chess_red',1).setOrigin(0,0)
 			 let player2=new Player(this,730,85,'chess_blue',2).setOrigin(0,0)
 
@@ -98,7 +107,8 @@ export class GameBoard extends Phaser.Scene {
 		this.initCardData(-1,730,85,'noviah',0)
 
 		this.seat=0;
-		this.moveCard=false
+
+		this.CardLeft=36
 			
 		this.clickedBox(ranNums)
 		   
@@ -110,7 +120,6 @@ export class GameBoard extends Phaser.Scene {
 			const { username } = userInfo;
       if(name==username){
 				this.updateCardData(cardNum,x,y,name,1)
-				//this.updateRound(seat)
 			}else{
 				console.log('invaild movement')	
 			}
@@ -217,13 +226,17 @@ async initCardData(card,x,y,theusername,theSeat){
 
 	//click the card and make it move
 	clickedBox(ranNums){
-		//var arrangepostion=0;
 		this.input.on('gameobjectdown', (pointer, gameObject) => {
 			for(var i=0;i<36;i++){
 				if(this.gameBoard[i] == i ){
 					if(gameObject.x==this.player[this.seat].x||gameObject.y==this.player[this.seat].y){
 							if(gameObject.data.get('card_number') == i){
-								this.checkUserInfo(ranNums[i],this.userName[this.seat],gameObject.x,gameObject.y)
+								this.checkUserInfo(i,this.userName[this.seat],gameObject.x,gameObject.y)
+								this.CardLeft--;
+								break;
+						}else if(gameObject.data.get('card_number') == 53){
+							this.checkUserInfo(-1,this.userName[this.seat],gameObject.x,gameObject.y)
+								break;
 						}
 					}	
 			}	
@@ -234,6 +247,8 @@ async initCardData(card,x,y,theusername,theSeat){
 	});
 
 }
+
+
 	
 	update(time, delta) {
 		(async () => { 
@@ -259,26 +274,30 @@ async initCardData(card,x,y,theusername,theSeat){
 			});
 			if(result1.data.getQw.seat==1){
 				 this.decideMove(result1.data.getQw.x,result1.data.getQw.y,this.player[0])
-			
-				 this.updateCardData(2,result1.data.getQw.x,result1.data.getQw.y,nameWeGot1,0)
+				 console.log('update the player1')
 				 this.seat=1
 				 	 if(result1.data.getQw.whichCard!=-1){
-						console.log('move the card')
-				 		
-				 }
-			}
-			if(result2.data.getQw.seat==1){
+						this.cardSet[result1.data.getQw.whichCard].setX(20)
+						this.cardSet[result1.data.getQw.whichCard].setY(85)
+						}
+						this.updateCardData(-1,result1.data.getQw.x,result1.data.getQw.y,nameWeGot1,0)
+				 }else if(result2.data.getQw.seat==1){
 				this.decideMove(result2.data.getQw.x,result2.data.getQw.y,this.player[1])
-				this.updateCardData(2,result2.data.getQw.x,result2.data.getQw.y,nameWeGot2,0)
+				console.log('update the player2')
 				this.seat=0
 					if(result2.data.getQw.whichCard!=-1){
 					console.log('move the card')
-					
+					this.cardSet[result2.data.getQw.whichCard].setX(900)
+					this.cardSet[result2.data.getQw.whichCard].setY(85)
 			 }
+			 this.updateCardData(-1,result2.data.getQw.x,result2.data.getQw.y,nameWeGot2,0)
 			}
 			
 			
 		})();
+		if(this.CardLeft==0){
+			console.log('game over')
+		}
 		
 	}
 }
