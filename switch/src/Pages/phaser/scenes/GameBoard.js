@@ -67,11 +67,13 @@ export class GameBoard extends Phaser.Scene {
 	   }
 	   //display board
 			let x_pos=0;
-			let y_pos=0;  
+			let y_pos=0; 
+			this.cardSet=[] 
 		   for(var i=0;i<6;i++){
 			for(var j=0 ;j<6;j++){
 			   var generatecard=ranNums[card_number]
-			   this.card=new Card(this,405+x_pos,85+y_pos,'cards',generatecard).setOrigin(0, 0).setInteractive().setDataEnabled()
+				 this.card=new Card(this,405+x_pos,85+y_pos,'cards',generatecard).setOrigin(0, 0).setInteractive().setDataEnabled()
+				 this.cardSet.push(this.card)
 			   this.card.data.set('card_number', card_number);
 				x_pos+=65;
 				card_number++;
@@ -96,18 +98,18 @@ export class GameBoard extends Phaser.Scene {
 		this.initCardData(-1,730,85,'noviah',0)
 
 		this.seat=0;
-		this.moveCard=false;
+		this.moveCard=false
 			
 		this.clickedBox(ranNums)
 		   
 	}
 
 	//check if the login user is in his round
-	checkUserInfo(name,x,y) {
+	checkUserInfo(cardNum,name,x,y) {
     Auth.currentUserInfo().then((userInfo) => {
 			const { username } = userInfo;
       if(name==username){
-				this.updateCardData(3,x,y,name,1)
+				this.updateCardData(cardNum,x,y,name,1)
 				//this.updateRound(seat)
 			}else{
 				console.log('invaild movement')	
@@ -221,9 +223,8 @@ async initCardData(card,x,y,theusername,theSeat){
 				if(this.gameBoard[i] == i ){
 					if(gameObject.x==this.player[this.seat].x||gameObject.y==this.player[this.seat].y){
 							if(gameObject.data.get('card_number') == i){
-								this.checkUserInfo(this.userName[this.seat],gameObject.x,gameObject.y)
+								this.checkUserInfo(ranNums[i],this.userName[this.seat],gameObject.x,gameObject.y)
 						}
-								//	break;
 					}	
 			}	
 	
@@ -258,13 +259,22 @@ async initCardData(card,x,y,theusername,theSeat){
 			});
 			if(result1.data.getQw.seat==1){
 				 this.decideMove(result1.data.getQw.x,result1.data.getQw.y,this.player[0])
+			
 				 this.updateCardData(2,result1.data.getQw.x,result1.data.getQw.y,nameWeGot1,0)
 				 this.seat=1
+				 	 if(result1.data.getQw.whichCard!=-1){
+						console.log('move the card')
+				 		
+				 }
 			}
 			if(result2.data.getQw.seat==1){
 				this.decideMove(result2.data.getQw.x,result2.data.getQw.y,this.player[1])
 				this.updateCardData(2,result2.data.getQw.x,result2.data.getQw.y,nameWeGot2,0)
 				this.seat=0
+					if(result2.data.getQw.whichCard!=-1){
+					console.log('move the card')
+					
+			 }
 			}
 			
 			
