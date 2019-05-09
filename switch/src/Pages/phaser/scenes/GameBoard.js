@@ -109,15 +109,17 @@ export class GameBoard extends Phaser.Scene {
 		this.seat=0;
 
 		this.CardLeft=36
+
+		this.arrange=0
 			
 		this.clickedBox(ranNums)
 		   
 	}
 
 	//check if the login user is in his round
-	checkUserInfo(cardNum,name,x,y) {
-    Auth.currentUserInfo().then((userInfo) => {
-			const { username } = userInfo;
+	async checkUserInfo(cardNum,name,x,y) {
+    const getUser = await Auth.currentAuthenticatedUser();
+		const username=getUser.username	
       if(name==username){
 				this.updateCardData(cardNum,x,y,name,1)
 			}else{
@@ -125,25 +127,14 @@ export class GameBoard extends Phaser.Scene {
 			}
 		
 		}
-		)
-	}
+	
+	
 	
 		
 
 
-	//move card
-	decideMove(x,y,player){
-		player.setX(x)
-		player.setY(y)
-	}
 
-	//move the card to the side
-	handlePlayerCard(cardNum,card){
-		if(cardNum!=53){
-			console.log('the card x is'+card.x)
-		}
-		
-	}
+
 
 //************************************************ */
 //the thing you need
@@ -210,19 +201,6 @@ async initCardData(card,x,y,theusername,theSeat){
 	 const newThing = await API.graphql(graphqlOperation(mutations.updateQw, {input: thething}));
 	}
 
-	// async updateRound(theseat){
-	// 	console.log('to update'+theseat);
-	// 	const thething = {
-	// 				username : 'switch',
-	// 				seat: theseat+1,
-	// 					};
-	//  const newThing = await API.graphql(graphqlOperation(mutations.updateQw, {input: thething}));
-	// }
-	
-	
-	
-
-
 
 	//click the card and make it move
 	clickedBox(ranNums){
@@ -230,9 +208,10 @@ async initCardData(card,x,y,theusername,theSeat){
 			for(var i=0;i<36;i++){
 				if(this.gameBoard[i] == i ){
 					if(gameObject.x==this.player[this.seat].x||gameObject.y==this.player[this.seat].y){
-							if(gameObject.data.get('card_number') == i){
+						if(gameObject.data.get('card_number') == i){
 								this.checkUserInfo(i,this.userName[this.seat],gameObject.x,gameObject.y)
 								this.CardLeft--;
+								this.arrange+=20
 								break;
 						}else if(gameObject.data.get('card_number') == 53){
 							this.checkUserInfo(-1,this.userName[this.seat],gameObject.x,gameObject.y)
@@ -275,26 +254,32 @@ async updateScreen(){
 		let x2=result2.data.getQw.x
 		let y2=result2.data.getQw.y
 		if(result1.data.getQw.seat==1){
-			 this.decideMove(x1,y1,this.player[0])
+			this.updateCardData(-1,result1.data.getQw.x,result1.data.getQw.y,nameWeGot1,0)
+			 this.player[0].setX(x1)
+			 this.player[0].setY(y1)
+			 
 			 console.log('update the player1')
-			 this.seat=1
+			 //this.seat=1
 					if(result1.data.getQw.whichCard!=-1){
-					this.cardSet[result1.data.getQw.whichCard].setX(20)
+					this.cardSet[result1.data.getQw.whichCard].setX(20+this.arrange)
 					this.cardSet[result1.data.getQw.whichCard].setY(85)
 					}
-					this.updateCardData(-1,result1.data.getQw.x,result1.data.getQw.y,nameWeGot1,0)
+					
 			 }
 
 			if(result2.data.getQw.seat==1){
-			this.decideMove(x2,y2,this.player[1])
+				this.updateCardData(-1,result2.data.getQw.x,result2.data.getQw.y,nameWeGot2,0)
+				this.player[1].setX(x2)
+				this.player[1].setY(y2)
+				
 			console.log('update the player2')
 			this.seat=0
 			if(result2.data.getQw.whichCard!=-1){
 				console.log('move the card')
-				this.cardSet[result2.data.getQw.whichCard].setX(900)
+				this.cardSet[result2.data.getQw.whichCard].setX(900+this.arrange)
 				this.cardSet[result2.data.getQw.whichCard].setY(85)
 		 }
-		 this.updateCardData(-1,result2.data.getQw.x,result2.data.getQw.y,nameWeGot2,0)
+		 
 		}
 		
 		
@@ -306,7 +291,9 @@ async updateScreen(){
 	update(time, delta) {
      this.updateScreen()
 		if(this.CardLeft==0){
-			console.log('game over')
+			this.newBoard=this.add.image(400, 80, 'boardbg');
+			this.newBoard.setOrigin(0, 0).setScale(2.8,2.8);
+			this.text=this.add.text(500,200,'game over').setScale(3,3)
 		}
 		
 	}
