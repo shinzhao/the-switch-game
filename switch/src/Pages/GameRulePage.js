@@ -176,6 +176,7 @@ class GameRulePage extends React.Component {
                         THE HIGHER of two straights or two straight flushes is the one which has the highest card. Ace is always high except in the sequence A-2-3-4-5. The higher of two fours of a kind, two threes of a kind, or two pairs is determined by the rank of the cards making up the combination. The higher of two full houses is the one that contains the higher ranking three of a kind. The higher of two flushes (or of two of the two-pair hands) is determined by the rank of the highest card in each. If both high cards are the same, the next highest are compared, and so on. Two hands that are equal in all respects tie. No one suit ranks above another. 
                     </p>
                 </div>
+                <div className="block"></div>
             </div>
         )
     }
