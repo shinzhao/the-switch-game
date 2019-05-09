@@ -4,7 +4,7 @@
 
 .game-rule {
     background-color: #282c34;
-    overflow: hidden;
+    overflow: auto;
     height: 450vh;
 }
 
