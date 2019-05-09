@@ -26,7 +26,7 @@ class RoomListPage extends React.Component {
             rID: '',
             player_count: getPlayerCount(),
             status: getStatus(),
-            page: 1
+            room: getRoom()
         };
         this.handleProfileClick = this.handleProfileClick.bind(this);
         this.handleGameRuleClick = this.handleGameRuleClick.bind(this);
@@ -34,6 +34,7 @@ class RoomListPage extends React.Component {
         this.handlePrevClick = this.handlePrevClick.bind(this);
         this.handleNextClick = this.handleNextClick.bind(this);
         this.handleCreateClick=this.handleCreateClick.bind(this);
+        this.getList=this.getList.bind(this);
     }
            
     async componentDidMount() {
@@ -143,22 +144,16 @@ handleCreateRoom = async () =>{
         }
     }
 
+    getList(){
+        const num = this.state.room.length;
+        for(let i = 0; i < num; i++){
+            {this.renderRoom(i)}
+        }
+    }
+
     //render the room button only when the room id is available
-    renderRoom(i){
-        if (this.state.rID[i]){
-            return(
-                <button className="room-button" onClick={(e) => {this.handleRoomClick(e,i)}}>
-                        Room {this.state.rID[i]} <br />
-                        {this.state.player_count[i]}/4 <br />
-                        {this.state.status[i]}
-                </button>
-            );
-        }
-        else {
-            return(
-                <button className="empty-room-button"></button>
-            )
-        }
+    renderRoom(){
+        console.log('success');
     }
 
     //after clicked, check if the first room id in the current roomID array is equal to the first room id in the database
@@ -214,37 +209,43 @@ handleCreateRoom = async () =>{
                     <button className="game-rule-button" onClick={this.handleGameRuleClick}>Game Rule</button>
                     <button className="profile-button" onClick={this.handleProfileClick}>My Account</button>
                     <img src={img} className="room-img" />
-                    <div className="room-row">
-                        <div className="room-col">
-                            {this.renderRoom(0)}
-                            {this.renderRoom(1)}
-                            {this.renderRoom(2)}
-                        </div>
-                        <div className="room-col">
-                            {this.renderRoom(3)}
-                            {this.renderRoom(4)}
-                            {this.renderRoom(5)}
-                        </div>
-                        <div className="room-col">
-                            {this.renderRoom(6)}
-                            {this.renderRoom(7)}
-                            {this.renderRoom(8)}
-                        </div>
-                    </div>
-                    <button className="prev" onClick={this.handlePrevClick}>Prev</button>
-                    <button className="next" onClick={this.handleNextClick}>Next</button>
                     <form>
                         <label className="room-num">Room #: <input type="number" className="room-num-input" /></label>
                         <input type="submit" value="ENTER" className="enter-button" />
                     </form>
                     <button className="create-button" onClick={this.handleCreateClick}>Create New Room</button>
                     <button className="random-button" onClick={this.handleRoomClick}>Random Match</button>
+                    <table>
+                    <thead>
+                        <tr>
+                            <th>Room ID</th>
+                            <th>Player Number</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {this.state.room.map((r, i) => (
+                            <div key={i} onClick={this.renderRoom}>
+                                <tr>
+                                    <th>{this.state.room[i]}</th>
+                                    <th>{this.state.player_count[i]}</th>
+                                    <th>{this.state.status[i]}</th>
+                                </tr>
+                            </div>
+                        ))}
+                        
+                    </tbody>
+                </table>
             </div>
         );
     }
 }
 
 //retrieve all room data from database, excluding those rooms that were closed
+
+function getRoom(){
+    return [1, 2, 3];
+}
 
 
 function getPlayerCount(){
