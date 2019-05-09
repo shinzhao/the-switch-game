@@ -39,8 +39,6 @@ class RoomPage extends React.Component {
             const getPlayers = await API.graphql(graphqlOperation(queries.getRoompage,{
                 roomid : data
             }));
-        
-        
             const list = getPlayers.data.getRoompage.players;
             const result = list.filter(players => players != name);
             await API.graphql(graphqlOperation(mutations.updateRoompage,{
@@ -48,13 +46,27 @@ class RoomPage extends React.Component {
                     roomid : data,
                     players : result
                 }
-        
             }));
+            console.log(typeof(result));
+            var count=0;
+            for (var property in result) {
+                if (Object.prototype.hasOwnProperty.call(result, property)) {
+                    count++;
+                }
+            }
+            if(count == 0){
+                await API.graphql(graphqlOperation(mutations.deleteRoompage,{
+                    input:{
+                        roomid : data
+                    }
+                }))
+            }
         })();
         this.props.history.push('/room-list')
     }
 
     handleStartClick(e) {
+        
         e.preventDefault();
         this.setState({
             showGame: true
@@ -66,11 +78,14 @@ class RoomPage extends React.Component {
             <div className="room">
                 <p className="test">This is the room page</p>
                 <button onClick={this.handleBackClick}>Back</button>
-                <button onClick={this.handleStartClick}>Start</button> 
+                <button onClick={this.handleStartClick}>Start</button>
+                
                 { this.state.showGame ? <Game /> : null }
+                
             </div>
         );
     }
 }
 
 export default withRouter(withAuthenticator(RoomPage,true));
+
