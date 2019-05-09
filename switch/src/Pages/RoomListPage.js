@@ -34,7 +34,6 @@ class RoomListPage extends React.Component {
         this.handlePrevClick = this.handlePrevClick.bind(this);
         this.handleNextClick = this.handleNextClick.bind(this);
         this.handleCreateClick=this.handleCreateClick.bind(this);
-        this.getList=this.getList.bind(this);
     }
            
     async componentDidMount() {
@@ -144,17 +143,7 @@ handleCreateRoom = async () =>{
         }
     }
 
-    getList(){
-        const num = this.state.room.length;
-        for(let i = 0; i < num; i++){
-            {this.renderRoom(i)}
-        }
-    }
-
     //render the room button only when the room id is available
-    renderRoom(){
-        console.log('success');
-    }
 
     //after clicked, check if the first room id in the current roomID array is equal to the first room id in the database
     handlePrevClick(e) {
@@ -214,28 +203,27 @@ handleCreateRoom = async () =>{
                         <input type="submit" value="ENTER" className="enter-button" />
                     </form>
                     <button className="create-button" onClick={this.handleCreateClick}>Create New Room</button>
-                    <button className="random-button" onClick={this.handleRoomClick}>Random Match</button>
                     <table>
-                    <thead>
-                        <tr>
-                            <th>Room ID</th>
-                            <th>Player Number</th>
-                            <th>Status</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {this.state.room.map((r, i) => (
-                            <div key={i} onClick={this.renderRoom}>
-                                <tr>
-                                    <th>{this.state.room[i]}</th>
-                                    <th>{this.state.player_count[i]}</th>
-                                    <th>{this.state.status[i]}</th>
-                                </tr>
-                            </div>
-                        ))}
-                        
-                    </tbody>
-                </table>
+                        <thead>
+                            <tr>
+                                <th className="id">Room ID</th>
+                                <th className="count">Player Number</th>
+                                <th className="status">Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {this.state.room.map((r, i) => (
+                                <div className="table-row" key={i} value={i} onClick={(e) => {this.handleRoomClick(e,i)}}>
+                                    <tr>
+                                        <th className="id">{this.state.room[i]}</th>
+                                        <th className="count">{this.state.player_count[i]}/4</th>
+                                        <th className="status">{this.state.status[i]}</th>
+                                    </tr>
+                                </div>
+                            ))}
+                        </tbody>
+                    </table>
+                    <div className="block"></div>
             </div>
         );
     }
@@ -244,7 +232,7 @@ handleCreateRoom = async () =>{
 //retrieve all room data from database, excluding those rooms that were closed
 
 function getRoom(){
-    return [1, 2, 3];
+    return [1, 2, 3,4 ,5,6,7,8,9];
 }
 
 
