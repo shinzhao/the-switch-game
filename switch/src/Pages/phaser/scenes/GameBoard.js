@@ -107,6 +107,7 @@ export class GameBoard extends Phaser.Scene {
 		this.initCardData(-1,730,85,'noviah',0)
 
 		this.seat=0;
+		
 
 		this.CardLeft=36
 
@@ -116,50 +117,60 @@ export class GameBoard extends Phaser.Scene {
 		   
 	}
 
-	//check if the login user is in his round
-	async checkUserInfo(cardNum,name,x,y) {
-    const getUser = await Auth.currentAuthenticatedUser();
-		const username=getUser.username	
-      if(name==username){
-				this.updateCardData(cardNum,x,y,name,1)
-			}else{
-				console.log('invaild movement')	
+	
+		checkUserInfo(cardNum,name,x,y,seat) {
+			Auth.currentUserInfo().then((userInfo) => {
+				const { username } = userInfo;
+				console.log(name)
+				if(name==username){
+					this.updateCardData(cardNum,x,y,name)
+					this.updateRound(seat)
+				}else{
+					console.log('update')
+					
+				}
+			
 			}
-		
+			)
 		}
 	
-	
-	
-		
-
-
-
-
 
 //************************************************ */
 //the thing you need
 //*********************************************** */
 
-// async round(x,y){
-// 	(async () => { 
-// 		await client.hydrated();
-// 		//const getUser = await Auth.currentAuthenticatedUser();
+
+
+async round(x,y,cardNum){
+	(async () => { 
+		await client.hydrated();
+		//const getUser = await Auth.currentAuthenticatedUser();
 						
-// 		var nameWeGot1 = 'switch';
-// 		const result1 = await client.query({
-// 			query: gql(queries.getQw),
-// 			variables: {
-// 				username: nameWeGot1
-// 			},
-// 			fetchPolicy: 'network-only',
-// 		});
-// 		const seat=result1.data.getQw.seat
-// 		console.log('the recent seat'+seat)
-// 		 if(x==this.player[seat%2].x||y==this.player[seat%2].y){
-// 			this.checkUserInfo(this.userName[seat%2],x,y,seat)
-// 		 }
-// 	})();
-// }
+		var nameWeGot1 = 'switch';
+		const result1 = await client.query({
+			query: gql(queries.getQw),
+			variables: {
+				username: nameWeGot1
+			},
+			fetchPolicy: 'network-only',
+		});
+		const seat=result1.data.getQw.seat
+		console.log('the recent seat'+seat)
+		 if(x==this.player[seat%2].x||y==this.player[seat%2].y){
+			this.checkUserInfo(cardNum,this.userName[seat%2],x,y,seat)
+		 }
+	})();
+}
+
+async updateRound(theSeat){
+	
+	const thething = {
+				username : this.userName[0],
+				seat:theSeat+1
+					};
+ const newThing = await API.graphql(graphqlOperation(mutations.updateQw, {input: thething}));
+}
+
 
 async initCardData(card,x,y,theusername,theSeat){
 	const cardV = card;
@@ -183,20 +194,19 @@ async initCardData(card,x,y,theusername,theSeat){
 
 	
 	
-	async updateCardData(card,x,y,name,theSeat){
+	async updateCardData(card,x,y,name){
 		const cardV = card;
-		console.log(cardV)
+		//console.log(cardV)
 		const xV =x;
-		console.log("x : "+xV)
+		//console.log("x : "+xV)
 		const yV = y;
-		console.log("y : "+yV);
-		console.log('your name : ' +name);
+		//console.log("y : "+yV);
+		//console.log('your name : ' +name);
 		const thething = {
 					username : name,
 					whichCard : cardV,
 							x : xV,
 							y : yV,
-							seat: theSeat
 						};
 	 const newThing = await API.graphql(graphqlOperation(mutations.updateQw, {input: thething}));
 	}
@@ -207,30 +217,27 @@ async initCardData(card,x,y,theusername,theSeat){
 		this.input.on('gameobjectdown', (pointer, gameObject) => {
 			for(var i=0;i<36;i++){
 				if(this.gameBoard[i] == i ){
-					if(gameObject.x==this.player[this.seat].x||gameObject.y==this.player[this.seat].y){
 						if(gameObject.data.get('card_number') == i){
-								this.checkUserInfo(i,this.userName[this.seat],gameObject.x,gameObject.y)
+							//console.log('another test for seat '+this.seat)
+								this.round(gameObject.x,gameObject.y,i)
 								this.CardLeft--;
 								this.arrange+=20
 								break;
 						}else if(gameObject.data.get('card_number') == 53){
-							this.checkUserInfo(-1,this.userName[this.seat],gameObject.x,gameObject.y)
+							this.round(gameObject.x,gameObject.y,-1)
 								break;
 						}
 					}	
-			}	
+			}
+		});
+	}	
 	
-	}
 
-			
-	});
-
-}
 
 async updateScreen(){
 	(async () => { 
  
-		//await client.hydrated();
+		await client.hydrated();
 						
 		var nameWeGot1 = this.userName[0];
 		const result1 = await client.query({
@@ -253,43 +260,48 @@ async updateScreen(){
 		let y1=result1.data.getQw.y
 		let x2=result2.data.getQw.x
 		let y2=result2.data.getQw.y
-		if(result1.data.getQw.seat==1){
-			this.updateCardData(-1,result1.data.getQw.x,result1.data.getQw.y,nameWeGot1,0)
-			 this.player[0].setX(x1)
-			 this.player[0].setY(y1)
+		this.player[0].setX(x1)
+		this.player[0].setY(y1)
+		this.player[1].setX(x2)
+		this.player[1].setY(y2)
+		console.log(this.round)
+		// if(result1.data.getQw.seat==1){
+		// 	this.updateCardData(-1,result1.data.getQw.x,result1.data.getQw.y,nameWeGot1,0)
+		// 	 this.player[0].setX(x1)
+		// 	 this.player[0].setY(y1)
 			 
-			 console.log('update the player1')
-			 //this.seat=1
-					if(result1.data.getQw.whichCard!=-1){
+			 //console.log('update the player1')
+			 
+				if(result1.data.getQw.whichCard!=-1){
 					this.cardSet[result1.data.getQw.whichCard].setX(20+this.arrange)
 					this.cardSet[result1.data.getQw.whichCard].setY(85)
+					this.updateCardData(-1,result1.data.getQw.x,result1.data.getQw.y,nameWeGot1)
 					}
 					
-			 }
+			// }
 
-			if(result2.data.getQw.seat==1){
-				this.updateCardData(-1,result2.data.getQw.x,result2.data.getQw.y,nameWeGot2,0)
-				this.player[1].setX(x2)
-				this.player[1].setY(y2)
+			// if(result2.data.getQw.seat==1){
+			// 	this.updateCardData(-1,result2.data.getQw.x,result2.data.getQw.y,nameWeGot2,0)
+			// 	this.player[1].setX(x2)
+			// 	this.player[1].setY(y2)
 				
-			console.log('update the player2')
-			this.seat=0
+			// console.log('update the player2')
+			// this.seat=0
 			if(result2.data.getQw.whichCard!=-1){
-				console.log('move the card')
+				//console.log('move the card')
 				this.cardSet[result2.data.getQw.whichCard].setX(900+this.arrange)
 				this.cardSet[result2.data.getQw.whichCard].setY(85)
+				this.updateCardData(-1,result2.data.getQw.x,result2.data.getQw.y,nameWeGot2)
 		 }
 		 
-		}
-		
-		
+		//}
 	})();
 }
 
 
 	
 	update(time, delta) {
-     this.updateScreen()
+		 this.updateScreen()
 		if(this.CardLeft==0){
 			this.newBoard=this.add.image(400, 80, 'boardbg');
 			this.newBoard.setOrigin(0, 0).setScale(2.8,2.8);
