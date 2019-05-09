@@ -290,11 +290,8 @@ handleRanDomRoom = async () =>{
    
 }
 
-handleCreateRoom = async () =>{
-    var min=1; 
-    var max=9999;  
-    var random =Math.floor(Math.random() * (+max - +min)) + +min; 
-    console.log("Random Number Generated : " + random ); 
+handleCreateRoom = async (random) =>{
+    
     const getUser = await Auth.currentAuthenticatedUser();
                 const name = getUser.username;
     
@@ -325,7 +322,7 @@ handleCreateRoom = async () =>{
                 //get current user name
                 const getUser = await Auth.currentAuthenticatedUser();
                 const name = getUser.username;
-                console.log('you click the room ' +this.state.rID[i]);
+                console.log('you click the room ' + typeof(this.state.rID[i]));
                 var roomnum = this.state.rID[i];
                 console.log(roomnum);
                 console.log('test for who click into a room , user :' + name + ' into a room #' +this.state.rID[i]);
@@ -340,8 +337,13 @@ handleCreateRoom = async () =>{
                         }
                     }));
             })();
-            
-            this.props.history.push('/room');
+                const roomID = this.state.rID[i];
+                
+                let path = {
+                    pathname: '/room',
+                    query: roomID,
+                }
+                this.props.history.push(path);
         }
         else {
             alert('This room is full. Please select to enter another room.');
@@ -381,9 +383,18 @@ handleCreateRoom = async () =>{
 
     handleCreateClick (e){
         e.preventDefault();
-        this.handleCreateRoom();
+        var min=1; 
+        var max=9999;  
+        var random =Math.floor(Math.random() * (+max - +min)) + +min; 
+        console.log("Random Number Generated : " + random ); 
+        this.handleCreateRoom(random);
         console.log('hello?');
-        this.props.history.push('/room');
+        let path = {
+            pathname: '/room',
+            query: random,
+        }
+        this.props.history.push(path);
+        
         
         /*
         for(let i = 0; i < this.state.status.length; i++) {
