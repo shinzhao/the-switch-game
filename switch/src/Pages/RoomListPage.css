@@ -12,7 +12,7 @@
     position: relative;
     font-size: 700%;
     color: rgb(235, 154, 108);
-    top: 0.8em;
+    bottom: 0.5em;
     right: 35%;
 }
 
@@ -20,6 +20,7 @@
     position: relative;
     width: 30%;
     height: auto;
+    bottom: 8em;
     right: 46.5%;
 }
 
@@ -30,15 +31,15 @@
     border-color: #e7e7e7;
     padding: 0.5% 1.5%;
     font-size: 110%;
-    margin: 1%;
+    margin: 0.5%;
     position: relative;
     -webkit-transition-duration: 0.4s;
     transition-duration: 0.4s;
 }
 
 .create-button {
-    bottom: 46.7em;
-    right: 4.2%;
+    bottom: 36.65em;
+    right: 10%;
 }
 
 .create-button:hover, .profile-button:hover, .game-rule-button:hover{
@@ -48,16 +49,16 @@
 }
 
 .profile-button, .game-rule-button{
-    bottom: 37.5em;
-    left: 55%;
+    bottom: 29.9em;
+    left: 53%;
 }
 
 .room-num {
     color: white;
     font-size: 200%;
     position: relative;
-    left: 16%;
-    bottom: 23em;
+    left: 12.5%;
+    bottom: 18.15em;
 }
 
 .room-num-input {
@@ -78,8 +79,8 @@
     font-size: 110%;
     margin: 1%;
     position: relative;
-    left: 17.2%;
-    bottom: 42.1em;
+    left: 13%;
+    bottom: 33.25em;
     -webkit-transition-duration: 0.4s;
     transition-duration: 0.4s;
 }
@@ -92,7 +93,7 @@
 
 table {
     position: relative;
-    bottom: 44.8em;
+    bottom: 35em;
     left: 50%;
 }
 
