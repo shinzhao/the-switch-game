@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 
 
-class PasswordConfirmation extends Component {
+class PasswordConfirmationPage extends Component {
   render() {
     return (
       <section className="section auth">
@@ -14,4 +14,4 @@ class PasswordConfirmation extends Component {
   }
 }
 
-export default PasswordConfirmation;
+export default PasswordConfirmationPage;
