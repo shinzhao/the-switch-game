@@ -51,4 +51,32 @@
   font-size: 150%;
 }
 
+.passwordsetting{
+  color: white;
+  top: 25%;
+  position: relative;
+  text-align: center;
+
+}
+.oldpassword{
+  margin: 1%;
+}
+
+.newpassword{
+  margin: 1%;
+}
+.confirmpassword{
+  margin: 1%;
+}
+
+
+.submitbutton{
+  margin:1%;
+  color: black;
+  border-radius: 8px;
+  border-color: #e7e7e7;
+  font-size: 100%;
+  -webkit-transition-duration: 0.4s;
+  transition-duration: 0.4s;
+}
 
