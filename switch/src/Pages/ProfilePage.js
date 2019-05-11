@@ -24,6 +24,15 @@ class ProfilePage extends Component {
     })
     this.handleBackClick = this.handleBackClick.bind(this);
   }
+  clearErrorState = () => {
+    this.setState({
+      errors: {
+        cognito: null,
+        blankfield: false,
+        passwordmatch: false
+      }
+    });
+  }
 
   handleBackClick(e) {
     e.preventDefault();
