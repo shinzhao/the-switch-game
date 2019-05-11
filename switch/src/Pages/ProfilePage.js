@@ -5,6 +5,7 @@ import { withAuthenticator } from 'aws-amplify-react';
 import './ProfilePage.css';
 import { Auth } from 'aws-amplify';
 import Validate from './FormValidation'
+import FormErrors from "./FormErrors";
 
 class ProfilePage extends Component {
   state={
@@ -107,6 +108,8 @@ class ProfilePage extends Component {
                 
                 <div className="passwordsetting">
                 <h1>Change Password</h1>
+                <FormErrors formerrors={this.state.errors} />
+                <form onSubmit={this.handlesubmit}>
                 <div className="oldpassword">
                 <input className="input" type="password" id="oldpassword" placeholder="Old Password"></input>
                 </div>
@@ -119,6 +122,7 @@ class ProfilePage extends Component {
                 <div className="submitbutton">
                 <button className="submit" type="submit" id="submit">Submit</button>
                 </div>
+                </form>
                 </div>
 
         </div>
