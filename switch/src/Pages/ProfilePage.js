@@ -111,13 +111,13 @@ class ProfilePage extends Component {
                 <FormErrors formerrors={this.state.errors} />
                 <form onSubmit={this.handlesubmit}>
                 <div className="oldpassword">
-                <input className="input" type="password" id="oldpassword" placeholder="Old Password"></input>
+                <input className="input" type="password" id="oldpassword" placeholder="Old Password" value={this.state.oldpassword} onChange={this.onInputChange}></input>
                 </div>
                 <div className="newpassword">
-                <input className="input" type="password" id="newpassword" placeholder="New Password"></input>
+                <input className="input" type="password" id="newpassword" placeholder="New Password" value={this.state.newpassword} onChange={this.onInputChange}></input>
                 </div>
                 <div className="confirmpassword">
-                <input className="input" type="password" id="confirmpassword" placeholder="Confirm Paaword"></input>
+                <input className="input" type="password" id="confirmpassword" placeholder="Confirm Paaword" value={this.state.confirmpassword} onChange={this.onInputChange}></input>
                 </div>
                 <div className="submitbutton">
                 <button className="submit" type="submit" id="submit">Submit</button>
