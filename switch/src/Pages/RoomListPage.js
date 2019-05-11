@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 import img from '../img/background.png';
 import './RoomListPage.css';
+import RoomPage from './RoomPage';
+import GameRulePage from './GameRulePage';
+import ProfilePage from './ProfilePage';
 import { withRouter } from "react-router-dom";
 import { Auth } from 'aws-amplify';
 import Amplify, { API, graphqlOperation } from "aws-amplify";
@@ -31,6 +34,13 @@ const client = new AWSAppSyncClient({
   const subtoRoomData2 = `
   subscription{
     onUpdateRoompage{
+        roomid players
+    }
+  }
+  `
+  const subtoRoomData3 = `
+  subscription{
+    onDeleteRoompage{
         roomid players
     }
   }
@@ -93,7 +103,16 @@ componentDidMount() {
                 this.setState({rID : updatedRooms });
             }
         });
-
+        this.subD = API.graphql(
+            graphqlOperation(subtoRoomData3)
+        ).subscribe({
+            next: (roomData) =>{
+            const deleterID = roomData.value.data.onDeleteRoompage.roomid;
+            console.log('the missing one is '+deleterID);
+            const updatedRooms = this.state.rID.filter(rooms => rooms !== deleterID)
+            this.setState({rID : updatedRooms});
+            }
+        })
         //update
         this.subU = API.graphql(
             graphqlOperation(subtoRoomData2)
@@ -126,6 +145,8 @@ componentDidMount() {
 
             }
         });
+
+
        
 
 
@@ -160,6 +181,8 @@ componentDidMount() {
    componentWillUnmount() {
      this.subC.unsubscribe();
      this.subU.unsubscribe();
+     //this.subD.unsubscribe();
+
    }
 
 // getOnTime = async () => {
@@ -467,3 +490,4 @@ handleCreateRoom = async (random) =>{
 
 
 export default withRouter(RoomListPage);
+

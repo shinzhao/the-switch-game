@@ -105,6 +105,7 @@ export class GameBoard extends Phaser.Scene {
 		//initalize the data
 		this.initCardData(-1,405,85,'switch',0)
 		this.initCardData(-1,730,85,'noviah',0)
+		this.playername=this.add.text(500,50,this.userName[0]+' turn')
 
 		this.seat=0;
 		
@@ -264,7 +265,8 @@ async updateScreen(){
 		this.player[0].setY(y1)
 		this.player[1].setX(x2)
 		this.player[1].setY(y2)
-		console.log(this.round)
+		this.playername.text=this.userName[result1.data.getQw.seat%2]+' turn'
+	
 		// if(result1.data.getQw.seat==1){
 		// 	this.updateCardData(-1,result1.data.getQw.x,result1.data.getQw.y,nameWeGot1,0)
 		// 	 this.player[0].setX(x1)
@@ -275,7 +277,7 @@ async updateScreen(){
 				if(result1.data.getQw.whichCard!=-1){
 					this.cardSet[result1.data.getQw.whichCard].setX(20+this.arrange)
 					this.cardSet[result1.data.getQw.whichCard].setY(85)
-					this.updateCardData(-1,result1.data.getQw.x,result1.data.getQw.y,nameWeGot1)
+				//	this.updateCardData(-1,result1.data.getQw.x,result1.data.getQw.y,nameWeGot1)
 					}
 					
 			// }
@@ -291,7 +293,7 @@ async updateScreen(){
 				//console.log('move the card')
 				this.cardSet[result2.data.getQw.whichCard].setX(900+this.arrange)
 				this.cardSet[result2.data.getQw.whichCard].setY(85)
-				this.updateCardData(-1,result2.data.getQw.x,result2.data.getQw.y,nameWeGot2)
+			//	this.updateCardData(-1,result2.data.getQw.x,result2.data.getQw.y,nameWeGot2)
 		 }
 		 
 		//}
@@ -302,6 +304,7 @@ async updateScreen(){
 	
 	update(time, delta) {
 		 this.updateScreen()
+	
 		if(this.CardLeft==0){
 			this.newBoard=this.add.image(400, 80, 'boardbg');
 			this.newBoard.setOrigin(0, 0).setScale(2.8,2.8);
