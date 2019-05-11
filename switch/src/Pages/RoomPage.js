@@ -78,14 +78,11 @@ class RoomPage extends React.Component {
         
         e.preventDefault();
         //need to check if the room has 4 players, otherwise cannot start the game as well
-        if (this.state.num_ready == 3) {
+        
             this.setState({
             showGame: true
             })
-        }
-        else {
-            alert("There are players not ready yet")
-        }   
+        
     }
 
     handleReadyClick(e) {
@@ -108,7 +105,6 @@ class RoomPage extends React.Component {
                     <button disabled>Start</button>
                 )
             }
-            
         }
         else {
             if (this.state.isReady == true) {
@@ -126,7 +122,6 @@ class RoomPage extends React.Component {
         return(
             <div className="room">
                 <button onClick={this.handleBackClick}>Back</button>
-                <button onClick={this.handleStartClick}>Start</button>
                 { this.showButton() }
                 { this.state.showGame ? <Game /> : null }
                 
