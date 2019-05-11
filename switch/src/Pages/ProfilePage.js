@@ -4,6 +4,7 @@ import { withRouter } from 'react-router-dom';
 import { withAuthenticator } from 'aws-amplify-react';
 import './ProfilePage.css';
 import { Auth } from 'aws-amplify';
+import Validate from './FormValidation'
 
 class ProfilePage extends Component {
   state={
@@ -45,6 +46,32 @@ class ProfilePage extends Component {
 
   componentDidMount() {
     this.getUserInfo();
+  }
+  
+  handlesubmit = async event =>{
+    event.preventDefault();
+    this.clearErrorState();
+    const error = Validate(event, this.state);
+    if(error){
+      this.setState({
+        errors:{...this.state.eeror, ...error}
+      });
+    }
+    // AWS Cognito integration
+    try {
+      const user = await Auth.currentAuthenticatedUser();
+      console.log(user);
+      await Auth.changePassword(
+        user, 
+        this.state.oldpassword,
+        this.state.newpassword
+      );
+      this.props.history.push("")
+    }
+    catch(error){
+      console.log(error)
+
+    }
   }
 
   render() {
