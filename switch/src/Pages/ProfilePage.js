@@ -66,7 +66,7 @@ class ProfilePage extends Component {
         this.state.oldpassword,
         this.state.newpassword
       );
-      this.props.history.push("")
+      this.props.history.push("changepasswordconfirmation")
     }
     catch(error){
       console.log(error)
