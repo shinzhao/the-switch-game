@@ -127,7 +127,7 @@ class RoomPage extends React.Component {
             <div className="room">
                 <button onClick={this.handleBackClick}>Back</button>
                 <button onClick={this.handleStartClick}>Start</button>
-                
+                { this.showButton() }
                 { this.state.showGame ? <Game /> : null }
                 
             </div>
