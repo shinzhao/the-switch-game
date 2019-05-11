@@ -15,10 +15,15 @@ class RoomPage extends React.Component {
     constructor() {
         super();
         this.state={
-            showGame: false
+            showGame: false,
+            isRoomMaster: false,
+            isReady: false,
+            num_ready: 1
         }
         this.handleBackClick = this.handleBackClick.bind(this);
         this.handleStartClick = this.handleStartClick.bind(this);
+        this.showButton = this.showButton.bind(this);
+        this.handleReadyClick = this.handleReadyClick.bind(this);
     }
 
     componentDidMount(){
@@ -65,27 +70,68 @@ class RoomPage extends React.Component {
         this.props.history.push('/room-list')
     }
 
-    handleStartClick(e) {
+    componentWillUnmount(){
         
+    }
+
+    handleStartClick(e) {
+        e.preventDefault();
+        //need to check if the room has 4 players, otherwise cannot start the game as well
+        if (this.state.num_ready == 3) {
+            this.setState({
+            showGame: true
+            })
+        }
+        else {
+            alert("There are players not ready yet")
+        }   
+    }
+
+    handleReadyClick(e) {
         e.preventDefault();
         this.setState({
-            showGame: true
+            isReady: !this.state.isReady
         })
+    }
+
+    showButton() {
+        //need to get from db if the person is the first one to get into the db, set he/she as the room master = true
+        if(this.state.isRoomMaster == true) {
+            if(this.state.num_ready == 3) {
+                return (
+                    <button onClick={this.handleStartClick}>Start</button>
+                )
+            }
+            else {
+                return(
+                    <button disabled>Start</button>
+                )
+            }
+            
+        }
+        else {
+            if (this.state.isReady == true) {
+                return (
+                    <button className="unready-button" onClick={this.handleReadyClick}>Unready</button>
+                )
+            }
+            else {
+                return <button className="ready-button" onClick={this.handleReadyClick}>Ready</button>
+            }
+        }
     }
 
     render() {
         return(
             <div className="room">
-                <p className="test">This is the room page</p>
                 <button onClick={this.handleBackClick}>Back</button>
-                <button onClick={this.handleStartClick}>Start</button>
-                
-                { this.state.showGame ? <Game /> : null }
-                
+                { this.showButton() }
+                { this.showGame ? <Game /> : null }
             </div>
         );
     }
 }
+
 
 export default withRouter(withAuthenticator(RoomPage,true));
 
