@@ -8,7 +8,6 @@ import { withRouter } from "react-router-dom";
 import { Auth } from 'aws-amplify';
 import Amplify, { API, graphqlOperation } from "aws-amplify";
 import * as queries from './phaser/../../graphql/queries';
-import {onCreateRoompage} from'./phaser/../../graphql/subscriptions';
 import * as mutations from '../graphql/mutations';
 import AWSAppSyncClient, { AUTH_TYPE } from 'aws-appsync';
 import aws_config from '../aws-exports';
@@ -62,7 +61,9 @@ class RoomListPage extends React.Component {
             rID: '',
             player_count: [],
             roomCount: Number,
-            status: ''
+            status: '',
+            inputNum:Number,
+            check : Number
             
             
         };
@@ -75,14 +76,7 @@ class RoomListPage extends React.Component {
     }
            
 componentDidMount() {
-        //this.getOnTime();
-        this.getRoom();
-        this.getPlayersCount();
-        this.getStatus();
-
-        //this.deleteEmptyRoom();
-        //console.log('show me the ' + this.state.player_count.length);
-
+        
 
         //create
         this.subC = API.graphql(
@@ -145,7 +139,9 @@ componentDidMount() {
 
             }
         });
-
+                this.getRoom();
+                this.getPlayersCount();
+                this.getStatus();
 
        
 
@@ -181,7 +177,7 @@ componentDidMount() {
    componentWillUnmount() {
      this.subC.unsubscribe();
      this.subU.unsubscribe();
-     //this.subD.unsubscribe();
+     this.subD.unsubscribe();
 
    }
 
@@ -433,6 +429,69 @@ handleCreateRoom = async (random) =>{
         */
        
     }
+    inputChange=(number)=>{
+        this.setState({
+            inputNum : number.target.value
+        })
+    }
+
+    handleEnterRoom=()=>{
+        var value = 0;
+        var check = 0;
+        console.log('show me the rooms you have ' + this.state.rID);
+        console.log('show me what you typed ' + this.state.inputNum);
+        (async () => {
+            //get current user name
+            var i = 0;
+            const getUser = await Auth.currentAuthenticatedUser();
+            const name = getUser.username;
+            
+            const result1 = await API.graphql(graphqlOperation(queries.listRoompages));
+            console.log(result1.data.listRoompages.items.length);
+
+             while(i<result1.data.listRoompages.items.length){
+                 
+                  console.log('check ' + i + ' time'); 
+                if(result1.data.listRoompages.items[i].roomid == this.state.inputNum){
+                    const result2 = await API.graphql(graphqlOperation(queries.getRoompage,{
+                        roomid : this.state.inputNum
+                        }))
+                    if(result2.data.getRoompage.players.length < 4){
+                        const prevPlayers = result2.data.getRoompage.players;
+                        const updatedPlayers = [...prevPlayers,name];
+                        const newThing = await API.graphql(graphqlOperation(mutations.updateRoompage, 
+                        {
+                        input:{
+                            roomid : this.state.inputNum,
+                            players : updatedPlayers
+                        }
+                        }));
+                        const ID = this.state.inputNum;
+                        let path = {
+                        pathname: '/room',
+                        query: ID,
+                        }
+                        this.props.history.push(path);
+                        break;
+                        }
+                    
+                    else{
+                        alert('room is full');
+                        break;
+                    }
+                }
+                if(i == (result1.data.listRoompages.items.length-1)){
+                    alert("room does not exist");
+                }
+                i++;
+            }
+            
+            
+
+            
+        })();
+       
+    }
 
     handleRandomClick(e) {
 
@@ -461,8 +520,8 @@ handleCreateRoom = async (random) =>{
                 <button className="profile-button" onClick={this.handleProfileClick}>My Account</button>
                 <img src={img} className="room-img" />
                 <form>
-                    <label className="room-num">Room #: <input type="number" className="room-num-input" /></label>
-                    <input type="submit" value="ENTER" className="enter-button" />
+                    <label className="room-num">Room #: <input onChange={this.inputChange} type="number" className="room-num-input" /></label>
+                    <input type='button' value="ENTER" className="enter-button" onClick={this.handleEnterRoom} />
                 </form>
                 <button className="create-button" onClick={this.handleCreateClick}>Create New Room</button>
                 <table>
@@ -475,8 +534,6 @@ handleCreateRoom = async (random) =>{
                     </thead>
                     <tbody>
                         {this._renderRoom()}
-                            
-                       
                     </tbody>
                 </table>
                 <div className="block"></div>
