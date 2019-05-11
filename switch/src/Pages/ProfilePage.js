@@ -82,6 +82,12 @@ class ProfilePage extends Component {
 
     }
   }
+  onInputChange = event => {
+    this.setState({
+      [event.target.id]: event.target.value
+    });
+    document.getElementById(event.target.id).classList.remove("is-danger");
+  }
 
   render() {
     return (
