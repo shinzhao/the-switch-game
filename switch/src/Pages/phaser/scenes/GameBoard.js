@@ -111,7 +111,8 @@ export class GameBoard extends Phaser.Scene {
 		this.Rf2=[13,22,23,24,25]
 		this.Rf3=[26,35,36,37,38]
 		this.Rf4=[39,48,49,50,51]
-
+		this.mygetcard=[0,22,1,17,5,16,26]
+		this.ifHasPair(this.mygetcard)
 	
 
 		this.CardLeft=36
@@ -150,7 +151,19 @@ ifHasAce(the_card_get){
 	}
 }
 
-
+ifHasPair(the_card_get){
+	let result=false
+	for(var i=0;i<the_card_get.length;i++){
+		for(var j=0;j<the_card_get.length;j++){
+			if(the_card_get[i]+13==the_card_get[j]||the_card_get[i]+26==the_card_get[j]||the_card_get[i]+39==the_card_get[j]){
+				result=true
+				break;
+			}
+		}
+	}
+	console.log(result)
+	return result
+}
 
 
 
