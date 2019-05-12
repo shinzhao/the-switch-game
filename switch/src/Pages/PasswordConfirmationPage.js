@@ -1,12 +1,19 @@
 import React, { Component } from "react";
+import { withRouter } from 'react-router-dom';
 import './PasswordConfirmationPage.css'
 
 
 
 class PasswordConfirmationPage extends Component {
+  constructor(){
+    super();
+    this.handleBackClick=this.handleBackClick.bind(this);
+    this.handleGameRuleClick=this.handleGameRuleClick.bind(this);
+    this.handleProfileClick=this.handleProfileClick.bind(this);
+  }
   handleBackClick(e){
     e.preventDefault();
-    this.props.history.push('my-account')
+    this.props.history.push('/profile');
   }
 
   handleGameRuleClick(e){

@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { Grid, Cell } from 'react-mdl';
 import { withRouter } from 'react-router-dom';
 import { withAuthenticator } from 'aws-amplify-react';
 import './ProfilePage.css';
@@ -89,7 +88,10 @@ class ProfilePage extends Component {
     });
     document.getElementById(event.target.id).classList.remove("is-danger");
   }
-
+  handleTest(e){
+    e.preventDefault();
+    this.props.history.push("changepasswordconfirmation")
+  }
   render() {
     return (
         <div className="profile">
@@ -121,6 +123,7 @@ class ProfilePage extends Component {
                 </div>
                 <div className="submitbutton">
                 <button className="submit" type="submit" id="submit">Submit</button>
+                <button onClick={this.handleBackClick}>test</button>
                 </div>
                 </form>
                 </div>
