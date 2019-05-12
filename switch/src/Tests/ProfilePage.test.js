@@ -5,7 +5,8 @@ import ProfilePage from '../Pages/ProfilePage';
 import {render} from 'react-testing-library'
 const puppeteer = require('puppeteer');
 
-test("login successfully", async()=>{
+jest.setTimeout(30000);
+test("go to back page", async()=>{
   const browser = await puppeteer.launch({
         headless: false,
         slowMo: 80,
@@ -13,12 +14,19 @@ test("login successfully", async()=>{
       });
   const page = await browser.newPage();
   await page.goto('http://localhost:3000/my-account');
+  await page.waitFor('input[name=username]');
+  await page.type('input[name=username]','jaric');
+  await page.waitFor('input[name=password]');
+  await page.type('input[name=password]', 'Rok_W0900');
+  await page.click('button[type=submit]');
+  await page.waitFor(3000);
+  await page.goto('http://localhost:3000/my-account');
   await page.click("button.profile-back-button");
   await page.url('http://localhost:3000/room-list');
   browser.close();
 });
 
-test("login successfully", async()=>{
+test("go to game rule page", async()=>{
     const browser = await puppeteer.launch({
           headless: false,
           slowMo: 80,
@@ -26,12 +34,18 @@ test("login successfully", async()=>{
         });
     const page = await browser.newPage();
     await page.goto('http://localhost:3000/my-account');
+    await page.waitFor('input[name=username]');
+    await page.type('input[name=username]','jaric');
+    await page.waitFor('input[name=password]');
+    await page.type('input[name=password]', 'Rok_W0900');
+    await page.click('button[type=submit]');
+    await page.waitFor(3000);
     await page.click("button.Game-rule-button");
     await page.url('http://localhost:3000/game-rule');
     browser.close();
   });
-
-  test("login successfully", async()=>{
+ 
+  test("go to my account page", async()=>{
     const browser = await puppeteer.launch({
           headless: false,
           slowMo: 80,
@@ -39,7 +53,15 @@ test("login successfully", async()=>{
         });
     const page = await browser.newPage();
     await page.goto('http://localhost:3000/my-account');
+    await page.waitFor('input[name=username]');
+    await page.type('input[name=username]','jaric');
+    await page.waitFor('input[name=password]');
+    await page.type('input[name=password]', 'Rok_W0900');
+  
+    await page.click('button[type=submit]');
+    await page.waitFor(3000);
     await page.click("button.Profile-button");
     await page.url('http://localhost:3000/my-account');
     browser.close();
   });
+
