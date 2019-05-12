@@ -23,6 +23,8 @@ class ProfilePage extends Component {
       name: ''
     })
     this.handleBackClick = this.handleBackClick.bind(this);
+    this.handleGameRuleClick=this.handleGameRuleClick.bind(this);
+    this.handleProfileClick=this.handleProfileClick.bind(this);
   }
   clearErrorState = () => {
     this.setState({
