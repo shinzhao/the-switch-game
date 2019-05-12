@@ -99,29 +99,32 @@ export class GameBoard extends Phaser.Scene {
 			 this.player.push(player1)
 			 this.player.push(player2)
 				
-		//need user name array
-		this.userName=['switch','noviah']
+		
 
 		//initalize the data
-		this.initCardData(-1,405,85,'switch',0)
-		this.initCardData(-1,730,85,'noviah',0)
-		this.playername=this.add.text(500,50,this.userName[0]+' turn')
+		this.userNameForInit()
+		
+		
 
 		this.Rf1=[0,9,10,11,12]
 		this.Rf2=[13,22,23,24,25]
 		this.Rf3=[26,35,36,37,38]
 		this.Rf4=[39,48,49,50,51]
-		this.mygetcard=[0,22,1,17,5,16,26]
-		this.ifHasPair(this.mygetcard)
-	
-
-		this.CardLeft=36
-
+		this.mygetcard=[0,16,25,26,1,27,40]
+		//this.ifHasThree(this.mygetcard)
+		
 		this.arrange=0
 			
 		this.clickedBox(ranNums)
 		   
 	}
+
+	  userNameForInit(){
+			let userName=['switch','noviah']
+			this.initCardData(-1,405,85,userName[0],0)
+			this.initCardData(-1,730,85,userName[1],0)
+			this.playername=this.add.text(500,50,userName[0]+' turn')
+		}
 
 	
 		checkUserInfo(cardNum,name,x,y,seat) {
@@ -132,47 +135,83 @@ export class GameBoard extends Phaser.Scene {
 					this.updateCardData(cardNum,x,y,name)
 					this.updateRound(seat)
 				}else{
-					console.log('update')
-					
+					console.log('invalid move')	
 				}
-			
 			}
 			)
 		}
 	
 
-ifHasAce(the_card_get){
-	for(var i=0;i<the_card_get.length;i++){
-		if(the_card_get[i]%13==0){
-				return true
-		}else{
-			return false
-		}
-	}
+// ifHasAce(the_card_get){
+// 	let result=false
+// 	for(var i=0;i<the_card_get.length;i++){
+// 		if(the_card_get[i]%13==0){
+// 				result=true
+// 		}
+// 	}
+// 	console.log(result)
+// 	return result
+// }
+
+// ifHasPair(the_card_get){
+// 	let result=[0]
+// 	for(var i=0;i<the_card_get.length;i++){
+// 		for(var j=0;j<the_card_get.length;j++){
+// 			if(the_card_get[i]+13==the_card_get[j]||the_card_get[i]+26==the_card_get[j]||the_card_get[i]+39==the_card_get[j]){
+// 				result[0]=1
+// 				result.push(i)
+// 				result.push(j)
+// 				break;
+// 			}
+// 		}
+// 	}
+// 	console.log(result)
+// 	return result
+// }
+
+// ifHasThree(the_card_get){
+// 	let result=[0]
+// 	for(var i=0;i<the_card_get.length;i++){
+// 		for(var j=0;j<the_card_get.length;j++){
+// 			for(var m=0;m<the_card_get.length;m++){
+// 				if(the_card_get[i]+13==the_card_get[j]&&the_card_get[i]+26==the_card_get[m]){
+// 					result[0]=1
+// 					result.push(i)
+// 					result.push(j)
+// 					result.push(m)
+// 				}
+// 				if(the_card_get[i]+26==the_card_get[j]&&the_card_get[i]+39==the_card_get[m]){
+// 					result[0]=1
+// 					result.push(i)
+// 					result.push(j)
+// 					result.push(m)
+// 				}
+// 				if(the_card_get[i]+13==the_card_get[j]&&the_card_get[i]+39==the_card_get[m]){
+// 					result[0]=1
+// 					result.push(i)
+// 					result.push(j)
+// 					result.push(m)
+// 				}
+// 			}
+// 		}
+// 	}
+// 	console.log(result)
+// 	return result
+// }
+
+userNameForMove(x,y,i){
+	let userName=['switch','noviah']
+	this.round(x,y,i,userName)
 }
 
-ifHasPair(the_card_get){
-	let result=false
-	for(var i=0;i<the_card_get.length;i++){
-		for(var j=0;j<the_card_get.length;j++){
-			if(the_card_get[i]+13==the_card_get[j]||the_card_get[i]+26==the_card_get[j]||the_card_get[i]+39==the_card_get[j]){
-				result=true
-				break;
-			}
-		}
-	}
-	console.log(result)
-	return result
-}
 
 
-
-async round(x,y,cardNum){
+async round(x,y,cardNum,userName){
 	(async () => { 
 		await client.hydrated();
 		//const getUser = await Auth.currentAuthenticatedUser();
 						
-		var nameWeGot1 = this.userName[0];
+		var nameWeGot1 = userName[0];
 		const result1 = await client.query({
 			query: gql(queries.getQw),
 			variables: {
@@ -183,7 +222,7 @@ async round(x,y,cardNum){
 		const seat=result1.data.getQw.seat
 		console.log('the recent seat'+seat)
 		 if(x==this.player[seat%2].x||y==this.player[seat%2].y){
-			this.checkUserInfo(cardNum,this.userName[seat%2],x,y,seat)
+			this.checkUserInfo(cardNum,userName[seat%2],x,y,seat)
 		 }
 	})();
 }
@@ -191,7 +230,7 @@ async round(x,y,cardNum){
 async updateRound(theSeat){
 	
 	const thething = {
-				username : this.userName[0],
+				username : 'switch',
 				seat:theSeat+1
 					};
  const newThing = await API.graphql(graphqlOperation(mutations.updateQw, {input: thething}));
@@ -245,12 +284,12 @@ async initCardData(card,x,y,theusername,theSeat){
 				if(this.gameBoard[i] == i ){
 						if(gameObject.data.get('card_number') == i){
 							//console.log('another test for seat '+this.seat)
-								this.round(gameObject.x,gameObject.y,i)
+								this.userNameForMove(gameObject.x,gameObject.y,i)
 								this.CardLeft--;
 								this.arrange+=20
 								break;
 						}else if(gameObject.data.get('card_number') == 53){
-							this.round(gameObject.x,gameObject.y,-1)
+							this.userNameForMove(gameObject.x,gameObject.y,-1)
 								break;
 						}
 					}	
@@ -259,13 +298,17 @@ async initCardData(card,x,y,theusername,theSeat){
 	}	
 	
 
+userNameForUpdate(){
+	let userName=['switch','noviah']
+	this.updateScreen(userName)
+}
 
-async updateScreen(){
+async updateScreen(userName){
 	(async () => { 
  
 		await client.hydrated();
 						
-		var nameWeGot1 = this.userName[0];
+		var nameWeGot1 = userName[0];
 		const result1 = await client.query({
 			query: gql(queries.getQw),
 			variables: {
@@ -274,7 +317,7 @@ async updateScreen(){
 			fetchPolicy: 'network-only',
 		});
 
-		var nameWeGot2 = this.userName[1];
+		var nameWeGot2 = userName[1];
 			 const result2 = await client.query({
 			query: gql(queries.getQw),
 			variables: {
@@ -290,7 +333,7 @@ async updateScreen(){
 		this.player[0].setY(y1)
 		this.player[1].setX(x2)
 		this.player[1].setY(y2)
-		this.playername.text=this.userName[result1.data.getQw.seat%2]+' turn'
+		this.playername.text=userName[result1.data.getQw.seat%2]+' turn'
 	
 		// if(result1.data.getQw.seat==1){
 		// 	this.updateCardData(-1,result1.data.getQw.x,result1.data.getQw.y,nameWeGot1,0)
@@ -328,7 +371,7 @@ async updateScreen(){
 
 	
 	update(time, delta) {
-		 this.updateScreen()
+		 this.userNameForUpdate()
 	
 		if(this.CardLeft==0){
 			this.newBoard=this.add.image(400, 80, 'boardbg');
