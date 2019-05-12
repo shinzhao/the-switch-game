@@ -13,13 +13,26 @@
   width: auto;
   position: relative;
   top: 8em;
-  left: 39%;
+  left: 16%;
 }
 
 .profile-back-button {
   position: relative;
   left: 2%;
-  bottom: 8em;
+  bottom: 7em;
+  background-color: #e7e7e7;
+  color: black;
+  border-radius: 8px;
+  border-color: #e7e7e7;
+  font-size: 100%;
+  padding: 0.2% 1%;
+  -webkit-transition-duration: 0.4s;
+  transition-duration: 0.4s;
+}
+.Game-rule-button, .Profile-button {
+  position: relative;
+  left: 2%;
+  bottom: 5em;
   background-color: #e7e7e7;
   color: black;
   border-radius: 8px;
@@ -30,7 +43,7 @@
   transition-duration: 0.4s;
 }
 
-.profile-back-button:hover {
+.profile-back-button:hover, .Game-rule-button:hover, .Profile-button:hover {
   background-color: rgb(93, 106, 134);
   color: white;
   border-color:rgb(93, 106, 134);
@@ -51,4 +64,42 @@
   font-size: 150%;
 }
 
+.passwordsetting{
+  color: white;
+  top: 25%;
+  position: relative;
+  text-align: center;
 
+}
+.oldpassword{
+  margin: 1%;
+}
+
+.newpassword{
+  margin: 1%;
+}
+.confirmpassword{
+  margin: 1%;
+}
+
+.input{
+  padding: 14px 40px;
+  width: 15%;
+  text-align: left;
+}
+
+.submit{
+  margin:1%;
+  color: black;
+  border-radius: 8px;
+  border-color: #e7e7e7;
+  font-size: 100%;
+  -webkit-transition-duration: 0.4s;
+  transition-duration: 0.4s;
+}
+
+.submit:hover{
+  background-color: rgb(93, 106, 134);
+    color: white;
+    border-color:rgb(93, 106, 134);
+}
