@@ -107,8 +107,12 @@ export class GameBoard extends Phaser.Scene {
 		this.initCardData(-1,730,85,'noviah',0)
 		this.playername=this.add.text(500,50,this.userName[0]+' turn')
 
-		this.seat=0;
-		
+		this.Rf1=[0,9,10,11,12]
+		this.Rf2=[13,22,23,24,25]
+		this.Rf3=[26,35,36,37,38]
+		this.Rf4=[39,48,49,50,51]
+
+	
 
 		this.CardLeft=36
 
@@ -136,9 +140,17 @@ export class GameBoard extends Phaser.Scene {
 		}
 	
 
-//************************************************ */
-//the thing you need
-//*********************************************** */
+ifHasAce(the_card_get){
+	for(var i=0;i<the_card_get.length;i++){
+		if(the_card_get[i]%13==0){
+				return true
+		}else{
+			return false
+		}
+	}
+}
+
+
 
 
 
@@ -147,7 +159,7 @@ async round(x,y,cardNum){
 		await client.hydrated();
 		//const getUser = await Auth.currentAuthenticatedUser();
 						
-		var nameWeGot1 = 'switch';
+		var nameWeGot1 = this.userName[0];
 		const result1 = await client.query({
 			query: gql(queries.getQw),
 			variables: {
