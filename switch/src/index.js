@@ -19,7 +19,6 @@ ReactDOM.render(
         <Route path='/game-rule' component={GameRule} />
         <Route path='/room' component={Room} />
         <Route path='/changepasswordconfirmation' component={PasswordConfirmation}/>
-        <Route path='/profile' component={Profile}/>
     </div>
 </BrowserRouter>
 , document.getElementById('root'));

@@ -123,7 +123,6 @@ class ProfilePage extends Component {
                 </div>
                 <div className="submitbutton">
                 <button className="submit" type="submit" id="submit">Submit</button>
-                <button onClick={this.handleBackClick}>test</button>
                 </div>
                 </form>
                 </div>

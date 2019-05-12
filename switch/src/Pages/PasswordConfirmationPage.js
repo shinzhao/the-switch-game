@@ -13,7 +13,7 @@ class PasswordConfirmationPage extends Component {
   }
   handleBackClick(e){
     e.preventDefault();
-    this.props.history.push('/profile');
+    this.props.history.push('my-account');
   }
 
   handleGameRuleClick(e){
