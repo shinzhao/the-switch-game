@@ -34,6 +34,46 @@ export class GameBoard extends Phaser.Scene {
 
 
 	create() {
+		
+		
+		/*
+		************************************************************************
+		getPlayersByID(){
+        (async () => {
+            
+            const getUser = await Auth.currentAuthenticatedUser();
+            const name = getUser.username;
+            const getRoomID = await API.graphql(graphqlOperation(queries.getQw,{
+                username : name
+            }));
+            const result = getRoomID.data.getQw.roomID;
+            console.log('the name is '+ name);
+            console.log('roomid ' + result);
+            console.log('type of result : ' +typeof(result));
+            const getPlayersInTheRoom = await API.graphql(graphqlOperation(queries.getRoompage,{
+                roomid : result
+            }))
+            const playerlist = getPlayersInTheRoom.data.getRoompage.players;
+            console.log('players you have : '+ playerlist);
+            console.log('type of playerlist : '+ typeof(playerlist));
+            console.log('player 1 is ' + playerlist[0] );
+
+        })();
+    }
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		*************************************************************************
+		*/
 
 		this.gameBoard = [0,1,2,3,4,5,6,7,8,9,10,
 			11,12,13,14,15,16,17,18,19,20,21,22,

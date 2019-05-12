@@ -1,3 +1,17 @@
-.test {
+*{
+    font-family: 'Courier New', Courier, monospace;
+}
+
+.room {
+    background-color: #282c34;
+    overflow: auto;
+}
+
+.room-header {
     color: white;
+}
+
+.master-card {
+    position: relative;
+    left: 50%;
 }
