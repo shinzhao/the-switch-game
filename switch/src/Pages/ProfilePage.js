@@ -82,20 +82,30 @@ class ProfilePage extends Component {
 
     }
   }
+
   onInputChange = event => {
     this.setState({
       [event.target.id]: event.target.value
     });
     document.getElementById(event.target.id).classList.remove("is-danger");
   }
-  handleTest(e){
+
+  handleGameRuleClick(e){
     e.preventDefault();
-    this.props.history.push("changepasswordconfirmation")
+    this.props.history.push('game-rule')
   }
+
+  handleProfileClick(e){
+    e.preventDefault();
+    this.props.history.push('my-account')
+  }
+  
   render() {
     return (
         <div className="profile">
           <button className="profile-back-button" onClick={this.handleBackClick}>Back</button>
+          <button className="Game-rule-button" onClick={this.handleGameRuleClick}>Game Rule</button>
+          <button className="Profile-button" onClick={this.handleProfileClick}>My Account</button>
                 <img
                     src="https://www.shareicon.net/download/2015/09/18/103157_man_512x512.png"
                     alt="profile-img"
@@ -107,7 +117,7 @@ class ProfilePage extends Component {
 
                 </div>
                 <p className="score">Win: | Lost: | Presentage: |</p>
-                
+              
                 <div className="passwordsetting">
                 <h1>Change Password</h1>
                 <FormErrors formerrors={this.state.errors} />
