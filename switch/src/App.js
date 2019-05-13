@@ -4,6 +4,7 @@ import Amplify from '@aws-amplify/core';
 import { withRouter } from "react-router-dom";
 import './App.css';
 import img from './img/background.png';
+import Game from './Pages/phaser/Game'
 
 Amplify.configure(aws_config);
 
@@ -25,6 +26,7 @@ class App extends Component {
                     <h1 className="home-header">WELCOME TO SWITCH</h1>
                     <div>
                         <button className="login-button" onClick={this.handleClick}>Login</button>
+                        <Game/>
                     </div>
                 </div>
         )
