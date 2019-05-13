@@ -7,6 +7,7 @@ import Login from './Pages/LoginPage';
 import Profile from './Pages/ProfilePage';
 import GameRule from './Pages/GameRulePage';
 import Room from './Pages/RoomPage';
+import PasswordConfirmation from './Pages/PasswordConfirmationPage'
 import { Router, Route, BrowserRouter } from "react-router-dom";
 
 ReactDOM.render(
@@ -17,6 +18,7 @@ ReactDOM.render(
         <Route path='/my-account' component={Profile} />
         <Route path='/game-rule' component={GameRule} />
         <Route path='/room' component={Room} />
+        <Route path='/changepasswordconfirmation' component={PasswordConfirmation}/>
     </div>
 </BrowserRouter>
 , document.getElementById('root'));
