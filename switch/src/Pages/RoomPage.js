@@ -14,6 +14,28 @@ import { Button, Card } from 'react-bootstrap';
 import { SelectMFAType } from 'aws-amplify-react/dist/Widget';
 import { type } from 'os';
 
+const subtoRoomData = `
+  subscription{
+    OnCreateReadyPageTable{
+        roomID players readyStatus cards GameStart
+    }
+  }
+  `
+  const subtoRoomData2 = `
+  subscription{
+    onUpdateReadyPageTable{
+        roomID players readyStatus cards GameStart
+    }
+  }
+  `
+  const subtoRoomData3 = `
+  subscription{
+    OnDeleteReadyPageTable{
+        roomID players readyStatus cards GameStart
+    }
+  }
+  `
+
 class RoomPage extends React.Component {
     constructor() {
         super();
@@ -23,7 +45,7 @@ class RoomPage extends React.Component {
             isReady: false,
             num_ready: 1,
             roomOwner : false,
-            players : ['p1','p2','p3','p4'],
+            playersList : ['p1','p2','p3','p4'],
             readStatus : ['false','false','false'],
             roomid : Number
         }
@@ -34,16 +56,58 @@ class RoomPage extends React.Component {
         this.showStartButton = this.showStartButton.bind(this);
     }
 
-    componentDidMount(){
+
+    async componentDidMount(){
         this.waitAndGetList();
         const data = this.props.location.query;
         console.log('data from list '+data);
         this.setState({roomid:data});
+
+        this.subU = API.graphql(
+            graphqlOperation(subtoRoomData2)
+        ).subscribe({
+            next: (roomData) =>{
+                //players update sub
+                // const storeStatus = [];
+                console.log(roomData.value.data.onUpdateReadyPageTable.players);
+
+                const newPlyersList = roomData.value.data.onUpdateReadyPageTable.players;
+                this.setState({
+                    playersList : newPlyersList
+                })
+                // const prevPlayersCount = this.state.player_count;
+                // const newRoomID = roomData.value.data.onUpdateRoompage.roomid;
+                // const roomlist = this.state.rID;
+                // const index = roomlist.findIndex(num => num === newRoomID);
+                // console.log('show me the index ' + index);
+                // const updatedPlayersCount = prevPlayersCount;
+                // updatedPlayersCount[index] = newPlyersCount; 
+
+                // for(let i=0;i<updatedPlayersCount.length;i++){
+                //     if(updatedPlayersCount[i]<4){
+                //         storeStatus.push('open');
+                //     }
+                //     if(updatedPlayersCount[i]>=4){
+                //         storeStatus.push('close');
+                //     }
+                // }
+                // this.setState({player_count : updatedPlayersCount,
+                //                 status : storeStatus});
+            }
+        });
+        
+
+
+        
         //this.setPlayers();
         //this.getPlayersByID();
         //this.setRoomOwner();
     }
-
+    componentWillUnmount() {
+       // this.subC.unsubscribe();
+        this.subU.unsubscribe();
+        //this.subD.unsubscribe();
+      }
 
 
     async setRoomOwner(){
@@ -63,11 +127,40 @@ class RoomPage extends React.Component {
 
     }
     async waitAndGetList() {
-        console.log('Just~~~~~~~~')
-        await this.sleep(300)
-        console.log('wait 0.3 second');
+        console.log('Just~~~~~~~~');
+        await this.sleep(250);
+        console.log('wait 1 second');
         this.setPlayers();
         this.setRoomOwner();
+        // this.subU = API.graphql(
+        //     graphqlOperation(subtoRoomData2)
+        // ).subscribe({
+        //     next: (roomData) =>{
+        //         //players update sub
+        //         // const storeStatus = [];
+        //         console.log('Someone come into this room ' + roomData.value.data.OnUpdateReadyPageTable);
+
+        //         // const newPlyersCount = roomData.value.data.onUpdateRoompage.players.length;
+        //         // const prevPlayersCount = this.state.player_count;
+        //         // const newRoomID = roomData.value.data.onUpdateRoompage.roomid;
+        //         // const roomlist = this.state.rID;
+        //         // const index = roomlist.findIndex(num => num === newRoomID);
+        //         // console.log('show me the index ' + index);
+        //         // const updatedPlayersCount = prevPlayersCount;
+        //         // updatedPlayersCount[index] = newPlyersCount; 
+
+        //         // for(let i=0;i<updatedPlayersCount.length;i++){
+        //         //     if(updatedPlayersCount[i]<4){
+        //         //         storeStatus.push('open');
+        //         //     }
+        //         //     if(updatedPlayersCount[i]>=4){
+        //         //         storeStatus.push('close');
+        //         //     }
+        //         // }
+        //         // this.setState({player_count : updatedPlayersCount,
+        //         //                 status : storeStatus});
+        //     }
+        // });
       }
       sleep(ms) {
         return new Promise(resolve => setTimeout(resolve, ms))
@@ -106,7 +199,7 @@ class RoomPage extends React.Component {
             
             const list = getPlayers.data.getRoompage.players;
             this.setState({
-                players : list
+                playersList : list
             })
             
          
@@ -127,6 +220,12 @@ class RoomPage extends React.Component {
             }));
             const list = getPlayers.data.getRoompage.players;
             const result = list.filter(players => players != name);
+            await API.graphql(graphqlOperation(mutations.updateReadyPageTable,{
+                input : {
+                    roomID : data,
+                    players : result
+                }
+            }));
             await API.graphql(graphqlOperation(mutations.updateRoompage,{
                 input : {
                     roomid : data,
@@ -144,6 +243,11 @@ class RoomPage extends React.Component {
                 await API.graphql(graphqlOperation(mutations.deleteRoompage,{
                     input:{
                         roomid : data
+                    }
+                }))
+                await API.graphql(graphqlOperation(mutations.deleteReadyPageTable,{
+                    input:{
+                        roomID : data
                     }
                 }))
             }
@@ -217,7 +321,7 @@ class RoomPage extends React.Component {
             return(
                 <Card bg="warning" style={{width: '20rem'}} className="master-card">
                     <Card.Body>
-                        <Card.Title>The room owner : {this.state.players[0]}</Card.Title>
+                        <Card.Title>The room owner : {this.state.playersList[0]}</Card.Title>
                         { this.showStartButton() }
                     </Card.Body>
                 </Card>
@@ -228,7 +332,7 @@ class RoomPage extends React.Component {
                 return(
                     <Card  style={{width: '20rem'}} className="player-card">
                         <Card.Body>
-                            <Card.Title>Player's Username :{this.state.players[i]}</Card.Title>
+                            <Card.Title>Player's Username :{this.state.playersList[i]}</Card.Title>
                             {/* { this.showReadyButton() } */}
                         </Card.Body>
                     </Card>
@@ -238,7 +342,7 @@ class RoomPage extends React.Component {
                 return(
                     <Card style={{width: '20rem'}} className="player-card">
                         <Card.Body>
-                            <Card.Title>Player's Username :{this.state.players[i]}</Card.Title>
+                            <Card.Title>Player's Username :{this.state.playersList[i]}</Card.Title>
                             {/* { this.showReadyButton() } */}
                         </Card.Body>
                     </Card>
