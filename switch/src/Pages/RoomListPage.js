@@ -12,6 +12,7 @@ import * as mutations from '../graphql/mutations';
 import AWSAppSyncClient, { AUTH_TYPE } from 'aws-appsync';
 import aws_config from '../aws-exports';
 import gql from 'graphql-tag';
+import { Table } from 'react-bootstrap';
 
 
 const client = new AWSAppSyncClient({
@@ -70,8 +71,6 @@ class RoomListPage extends React.Component {
         this.handleProfileClick = this.handleProfileClick.bind(this);
         this.handleGameRuleClick = this.handleGameRuleClick.bind(this);
         this.handleRoomClick = this.handleRoomClick.bind(this);
-        this.handlePrevClick = this.handlePrevClick.bind(this);
-        this.handleNextClick = this.handleNextClick.bind(this);
         this.handleCreateClick=this.handleCreateClick.bind(this);
     }
            
@@ -383,18 +382,6 @@ handleCreateRoom = async (random) =>{
     //         )
     //     }
     // }
-
-    //after clicked, check if the first room id in the current roomID array is equal to the first room id in the database
-    handlePrevClick(e) {
-
-    }
-
-    //after clicked, get the last room id in the current roomID array
-    //then, filter the database and get 18 room ids that are after the last room id we get previously
-    //then, set the roomID array to the new room ids and re-render the components
-    handleNextClick(e) {
-
-    }
     
 
     handleCreateClick (e){
@@ -493,19 +480,18 @@ handleCreateRoom = async (random) =>{
        
     }
 
-    handleRandomClick(e) {
-
-    }
-
     _renderRoom(){
         return Object.entries(this.state.rID).map((r, i) => {
             return (
             <div className="table-row" key={i} value={i} onClick={(e) => {this.handleRoomClick(e,i)}}>
+            <br />
                 <tr>
                     <th className="id">{this.state.rID[i]}</th>
                     <th className="count">{this.state.player_count[i]}/4</th>
                     <th className="status">{this.state.status[i]}</th>
+                    
                 </tr>
+                <br />
             </div>
             )
         })
@@ -515,7 +501,7 @@ handleCreateRoom = async (random) =>{
     render() {
         return (
             <div className="room-list">
-            <h1 className="room-list-header">SWITCH</h1>
+                <h1 className="room-list-header">SWITCH</h1>
                 <button className="game-rule-button" onClick={this.handleGameRuleClick}>Game Rule</button>
                 <button className="profile-button" onClick={this.handleProfileClick}>My Account</button>
                 <img src={img} className="room-img" />
@@ -534,6 +520,7 @@ handleCreateRoom = async (random) =>{
                     </thead>
                     <tbody>
                         {this._renderRoom()}
+                        
                     </tbody>
                 </table>
                 <div className="block"></div>
