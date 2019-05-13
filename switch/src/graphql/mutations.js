@@ -62,6 +62,7 @@ export const createReadyPageTable = `mutation CreateReadyPageTable($input: Creat
     readyStatus
     cards
     GameStart
+    readyNum
   }
 }
 `;
@@ -72,6 +73,7 @@ export const updateReadyPageTable = `mutation UpdateReadyPageTable($input: Updat
     readyStatus
     cards
     GameStart
+    readyNum
   }
 }
 `;
@@ -82,6 +84,7 @@ export const deleteReadyPageTable = `mutation DeleteReadyPageTable($input: Delet
     readyStatus
     cards
     GameStart
+    readyNum
   }
 }
 `;

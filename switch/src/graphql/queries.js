@@ -54,6 +54,7 @@ export const getReadyPageTable = `query GetReadyPageTable($roomID: Int!) {
     readyStatus
     cards
     GameStart
+    readyNum
   }
 }
 `;
@@ -69,6 +70,7 @@ export const listReadyPageTables = `query ListReadyPageTables(
       readyStatus
       cards
       GameStart
+      readyNum
     }
     nextToken
   }
