@@ -387,7 +387,7 @@ class RoomPage extends React.Component {
             return(
                 <Card bg="warning" style={{width: '20rem'}} className="master-card">
                     <Card.Body>
-                        <Card.Title>The room owner : {this.state.playersList[0]}</Card.Title>
+                        <Card.Title>Room Master : {this.state.playersList[0]}</Card.Title>
                         { this.showStartButton() }
                     </Card.Body>
                 </Card>
@@ -399,7 +399,7 @@ class RoomPage extends React.Component {
                     
                     <Card  style={{width: '20rem'}} className="player-card">
                         
-                        <Card.Body >
+                        <Card.Body>
                             
                             <Card.Title bg='success'>Player {i} :{this.state.playersList[i]}</Card.Title>
                             {/* { this.showReadyButton() } */}
@@ -431,25 +431,28 @@ class RoomPage extends React.Component {
         }
     }
 
+
     render() {
         return(
             <div className="room">
                 <head>
                     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous" />
                 </head>
-                <Button variant="secondary" onClick={this.handleBackClick}>Back</Button>
-                <h1 className="room-header">This the room #{this.state.roomid}</h1>
-                { this.state.showGame ? <Game /> : null }
-                
-                { this.showPlayer(0) }
-                <br />
-                { this.showPlayer(1) }
-                <br />
-                { this.showPlayer(2) }
-                <br />
-                { this.showPlayer(3) }
-                <br />
-                {this.showReadyButton()}
+                <Button className="room-back-button" variant="secondary" onClick={this.handleBackClick}>Back</Button>
+                { this.state.showGame ? <Game /> : 
+                    <div>
+                        <h1 className="room-header">Room #{this.state.roomid}</h1>
+                        {this.showReadyButton()} 
+                        <br />
+                        { this.showPlayer(0) }
+                        <br />
+                        { this.showPlayer(1) }
+                        <br />
+                        { this.showPlayer(2) }
+                        <br />
+                        { this.showPlayer(3) }
+                    </div>
+                }
             </div>
         );
     }
