@@ -5,42 +5,107 @@
 }
 
 type Mutation {
-  createTest1(input: CreateTest1Input!): test1
-  deleteTest1(input: DeleteTest1Input!): test1
-  updateTest1(input: UpdateTest1Input!): test1
+  createQw(input: CreateQwInput!): qw
+  createReadyPageTable(input: CreateReadyPageTableInput!): ReadyPageTable
+  createRoompage(input: CreateRoompageInput!): Roompage
+  deleteQw(input: DeleteQwInput!): qw
+  deleteReadyPageTable(input: DeleteReadyPageTableInput!): ReadyPageTable
+  deleteRoompage(input: DeleteRoompageInput!): Roompage
+  updateQw(input: UpdateQwInput!): qw
+  updateReadyPageTable(input: UpdateReadyPageTableInput!): ReadyPageTable
+  updateRoompage(input: UpdateRoompageInput!): Roompage
 }
 
 type Query {
-  getTest1(id: ID!): test1
-  listTest1S(filter: TableTest1FilterInput, limit: Int, nextToken: String): test1Connection
+  getQw(username: String!): qw
+  getReadyPageTable(roomID: Int!): ReadyPageTable
+  getRoompage(roomid: Int!): Roompage
+  listQws(filter: TableQwFilterInput, limit: Int, nextToken: String): qwConnection
+  listReadyPageTables(filter: TableReadyPageTableFilterInput, limit: Int, nextToken: String): ReadyPageTableConnection
+  listRoompages(filter: TableRoompageFilterInput, limit: Int, nextToken: String): RoompageConnection
 }
 
-type Subscription {
-  onCreateTest1(id: ID, whichCard: Int, x: Int, y: Int): test1 @aws_subscribe(mutations : ["createTest1"])
-  onDeleteTest1(id: ID, whichCard: Int, x: Int, y: Int): test1 @aws_subscribe(mutations : ["deleteTest1"])
-  onUpdateTest1(id: ID, whichCard: Int, x: Int, y: Int): test1 @aws_subscribe(mutations : ["updateTest1"])
+type ReadyPageTable {
+  GameStart: Boolean
+  cards: [Int]
+  players: [String]
+  readyStatus: [String]
+  roomID: Int!
 }
 
-type test1 {
-  id: ID!
-  whichCard: Int
-  x: Int
-  y: Int
-}
-
-type test1Connection {
-  items: [test1]
+type ReadyPageTableConnection {
+  items: [ReadyPageTable]
   nextToken: String
 }
 
-input CreateTest1Input {
+type Roompage {
+  players: [String]
+  roomid: Int!
+}
+
+type RoompageConnection {
+  items: [Roompage]
+  nextToken: String
+}
+
+type Subscription {
+  onCreateQw(roomID: Int, seat: Int, username: String, x: Int, y: Int): qw @aws_subscribe(mutations : ["createQw"])
+  onCreateReadyPageTable(GameStart: Boolean, cards: [Int], players: [String], readyStatus: [String], roomID: Int): ReadyPageTable @aws_subscribe(mutations : ["createReadyPageTable"])
+  onCreateRoompage(players: [String], roomid: Int): Roompage @aws_subscribe(mutations : ["createRoompage"])
+  onDeleteQw(roomID: Int, seat: Int, username: String, x: Int, y: Int): qw @aws_subscribe(mutations : ["deleteQw"])
+  onDeleteReadyPageTable(GameStart: Boolean, cards: [Int], players: [String], readyStatus: [String], roomID: Int): ReadyPageTable @aws_subscribe(mutations : ["deleteReadyPageTable"])
+  onDeleteRoompage(players: [String], roomid: Int): Roompage @aws_subscribe(mutations : ["deleteRoompage"])
+  onUpdateQw(roomID: Int, seat: Int, username: String, x: Int, y: Int): qw @aws_subscribe(mutations : ["updateQw"])
+  onUpdateReadyPageTable(GameStart: Boolean, cards: [Int], players: [String], readyStatus: [String], roomID: Int): ReadyPageTable @aws_subscribe(mutations : ["updateReadyPageTable"])
+  onUpdateRoompage(players: [String], roomid: Int): Roompage @aws_subscribe(mutations : ["updateRoompage"])
+}
+
+type qw {
+  roomID: Int
+  seat: Int
+  username: String!
   whichCard: Int
   x: Int
   y: Int
 }
 
-input DeleteTest1Input {
-  id: ID!
+type qwConnection {
+  items: [qw]
+  nextToken: String
+}
+
+input CreateQwInput {
+  roomID: Int
+  seat: Int
+  username: String!
+  whichCard: Int
+  x: Int
+  y: Int
+}
+
+input CreateReadyPageTableInput {
+  GameStart: Boolean
+  cards: [Int]
+  players: [String]
+  readyStatus: [String]
+  roomID: Int!
+}
+
+input CreateRoompageInput {
+  players: [String]
+  roomid: Int!
+}
+
+input DeleteQwInput {
+  username: String!
+}
+
+input DeleteReadyPageTableInput {
+  roomID: Int!
+}
+
+input DeleteRoompageInput {
+  roomid: Int!
 }
 
 input TableBooleanFilterInput {
@@ -85,6 +150,28 @@ input TableIntFilterInput {
   notContains: Int
 }
 
+input TableQwFilterInput {
+  roomID: TableIntFilterInput
+  seat: TableIntFilterInput
+  username: TableStringFilterInput
+  whichCard: TableIntFilterInput
+  x: TableIntFilterInput
+  y: TableIntFilterInput
+}
+
+input TableReadyPageTableFilterInput {
+  GameStart: TableBooleanFilterInput
+  cards: TableIntFilterInput
+  players: TableStringFilterInput
+  readyStatus: TableStringFilterInput
+  roomID: TableIntFilterInput
+}
+
+input TableRoompageFilterInput {
+  players: TableStringFilterInput
+  roomid: TableIntFilterInput
+}
+
 input TableStringFilterInput {
   beginsWith: String
   between: [String]
@@ -98,16 +185,24 @@ input TableStringFilterInput {
   notContains: String
 }
 
-input TableTest1FilterInput {
-  id: TableIDFilterInput
-  whichCard: TableIntFilterInput
-  x: TableIntFilterInput
-  y: TableIntFilterInput
-}
-
-input UpdateTest1Input {
-  id: ID!
+input UpdateQwInput {
+  roomID: Int
+  seat: Int
+  username: String!
   whichCard: Int
   x: Int
   y: Int
+}
+
+input UpdateReadyPageTableInput {
+  GameStart: Boolean
+  cards: [Int]
+  players: [String]
+  readyStatus: [String]
+  roomID: Int!
+}
+
+input UpdateRoompageInput {
+  players: [String]
+  roomid: Int!
 }

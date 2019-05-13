@@ -35,6 +35,15 @@ class ProfilePage extends Component {
       }
     });
   }
+  clearErrorState = () => {
+    this.setState({
+      errors: {
+        cognito: null,
+        blankfield: false,
+        passwordmatch: false
+      }
+    });
+  }
 
   handleBackClick(e) {
     e.preventDefault();
