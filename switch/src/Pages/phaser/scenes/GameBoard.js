@@ -34,47 +34,6 @@ export class GameBoard extends Phaser.Scene {
 
 
 	create() {
-		
-		
-		/*
-		************************************************************************
-		getPlayersByID(){
-        (async () => {
-            
-            const getUser = await Auth.currentAuthenticatedUser();
-            const name = getUser.username;
-            const getRoomID = await API.graphql(graphqlOperation(queries.getQw,{
-                username : name
-            }));
-            const result = getRoomID.data.getQw.roomID;
-            console.log('the name is '+ name);
-            console.log('roomid ' + result);
-            console.log('type of result : ' +typeof(result));
-            const getPlayersInTheRoom = await API.graphql(graphqlOperation(queries.getRoompage,{
-                roomid : result
-            }))
-            const playerlist = getPlayersInTheRoom.data.getRoompage.players;
-            console.log('players you have : '+ playerlist);
-            console.log('type of playerlist : '+ typeof(playerlist));
-            console.log('player 1 is ' + playerlist[0] );
-
-        })();
-    }
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		*************************************************************************
-		*/
-
 		this.gameBoard = [0,1,2,3,4,5,6,7,8,9,10,
 			11,12,13,14,15,16,17,18,19,20,21,22,
 			23,24,25,26,27,28,29,30,31,32,33,34,35,36];
@@ -137,7 +96,7 @@ export class GameBoard extends Phaser.Scene {
 				
 
 		//initalize the data
-		this.userNameForInit()
+		this.getuserName(0,0,0,0,0)
 		
 		this.Rf=[0,9,10,11,12]
 		this.mygetcard=[0,16,25,26,1,27,40]
@@ -155,41 +114,19 @@ export class GameBoard extends Phaser.Scene {
 		this.clickedBox(ranNums)
 		   
 	}
-
-	userNameForInit(){
-		(async () => {
-				const getUser = await Auth.currentAuthenticatedUser();
-				const name = getUser.username;
-				const getRoomID = await API.graphql(graphqlOperation(queries.getQw,{
-						username : name
-				}));
-				const result = getRoomID.data.getQw.roomID;
-				const getPlayersInTheRoom = await API.graphql(graphqlOperation(queries.getRoompage,{
-						roomid : result
-				}))
-				const userName = getPlayersInTheRoom.data.getRoompage.players;
-				console.log('players you have : '+ userName);
-				this.initCardData(-1,405,85,userName[0],0)
-			  this.initCardData(-1,730,85,userName[1],0)
-			  this.playername=this.add.text(500,50,userName[0]+' turn')
-		})();
-}
-
-	  // userNameForInit(){
-		// 	let userName=['switch','noviah']
-		// 	this.initCardData(-1,405,85,userName[0],0)
-		// 	this.initCardData(-1,730,85,userName[1],0)
-		// 	this.playername=this.add.text(500,50,userName[0]+' turn')
-		// }
+	
+	
 
 	
-		checkUserInfo(cardNum,name,x,y,seat) {
+//check if the round is this user's round
+	checkUserInfo(cardNum,name,x,y,seat) {
 			Auth.currentUserInfo().then((userInfo) => {
 				const { username } = userInfo;
 				console.log(name)
 				if(name==username){
 					this.updateCardData(cardNum,x,y,name)
-					this.userNameForRound(seat)
+					this.getuserName(0,0,0,seat,2)
+					this.arrange+=20
 				}else{
 					console.log('invalid move')	
 				}
@@ -280,7 +217,7 @@ ifHas(the_card_get,num){
 // 	return result
 // }
 
-userNameForMove(x,y,i){
+getuserName(x,y,i,theSeat,todo){
 	(async () => {
 		const getUser = await Auth.currentAuthenticatedUser();
 		const name = getUser.username;
@@ -293,12 +230,25 @@ userNameForMove(x,y,i){
 		}))
 		const userName = getPlayersInTheRoom.data.getRoompage.players;
 		console.log('players you have : '+ userName);
+		if(todo==0){
+		this.initCardData(-1,405,85,userName[0],0)
+		this.initCardData(-1,730,85,userName[1],0)
+		this.playername=this.add.text(500,50,userName[0]+' turn')
+		}
+		if(todo==1){
 		this.round(x,y,i,userName)
+		}
+		if(todo==2){
+		 this.updateRound(theSeat,userName)
+		}
+		if(todo==3){
+		this.updateScreen(userName)
+		}
 })();
 }
 
 
-
+//switch user between different round
 async round(x,y,cardNum,userName){
 	(async () => { 
 		await client.hydrated();
@@ -320,23 +270,9 @@ async round(x,y,cardNum,userName){
 	})();
 }
 
-userNameForRound(theSeat){
-	(async () => {
-		const getUser = await Auth.currentAuthenticatedUser();
-		const name = getUser.username;
-		const getRoomID = await API.graphql(graphqlOperation(queries.getQw,{
-				username : name
-		}));
-		const result = getRoomID.data.getQw.roomID;
-		const getPlayersInTheRoom = await API.graphql(graphqlOperation(queries.getRoompage,{
-				roomid : result
-		}))
-		const userName = getPlayersInTheRoom.data.getRoompage.players;
-		console.log('players you have : '+ userName);
-		this.updateRound(theSeat,userName)
-})();
-}
+// get username list apply to round function
 
+//move to next player
 async updateRound(theSeat,userName){
 	const thething = {
 				username : userName[0],
@@ -345,7 +281,7 @@ async updateRound(theSeat,userName){
  const newThing = await API.graphql(graphqlOperation(mutations.updateQw, {input: thething}));
 }
 
-
+//initialize the player's data
 async initCardData(card,x,y,theusername,theSeat){
 	const cardV = card;
 	console.log(cardV)
@@ -365,6 +301,7 @@ async initCardData(card,x,y,theusername,theSeat){
  const newThing = await API.graphql(graphqlOperation(mutations.updateQw, {input: thething}));
 }
 	
+//when move, update data to database
 	async updateCardData(card,x,y,name){
 		const cardV = card;
 		const xV =x;
@@ -386,13 +323,12 @@ async initCardData(card,x,y,theusername,theSeat){
 			for(var i=0;i<36;i++){
 				if(this.gameBoard[i] == i ){
 						if(gameObject.data.get('card_number') == i){
-							//console.log('another test for seat '+this.seat)
-								this.userNameForMove(gameObject.x,gameObject.y,i)
+								this.getuserName(gameObject.x,gameObject.y,i,0,1)
 								this.CardLeft--;
-								this.arrange+=20
+								
 								break;
 						}else if(gameObject.data.get('card_number') == 53){
-							this.userNameForMove(gameObject.x,gameObject.y,-1)
+							this.getuserName(gameObject.x,gameObject.y,-1,0,1)
 								break;
 						}
 					}	
@@ -400,24 +336,12 @@ async initCardData(card,x,y,theusername,theSeat){
 		});
 	}	
 	
+//use usename list apply to update screen function
 
-userNameForUpdate(){
-	(async () => {
-		const getUser = await Auth.currentAuthenticatedUser();
-		const name = getUser.username;
-		const getRoomID = await API.graphql(graphqlOperation(queries.getQw,{
-				username : name
-		}));
-		const result = getRoomID.data.getQw.roomID;
-		const getPlayersInTheRoom = await API.graphql(graphqlOperation(queries.getRoompage,{
-				roomid : result
-		}))
-		const userName = getPlayersInTheRoom.data.getRoompage.players;
-		console.log('players you have : '+ userName);
-		this.updateScreen(userName)
-})();
-	
-}
+		
+
+
+//function to get data from db and update the screen
 
 async updateScreen(userName){
 	(async () => { 
@@ -450,7 +374,6 @@ async updateScreen(userName){
 		this.player[1].setX(x2)
 		this.player[1].setY(y2)
 		this.playername.text=userName[result1.data.getQw.seat%2]+' turn'
-	
 			 
 				if(result1.data.getQw.whichCard!=-1){
 					this.cardSet[result1.data.getQw.whichCard].setX(20+this.arrange)
@@ -469,8 +392,7 @@ async updateScreen(userName){
 }
 	
 	update(time, delta) {
-		 this.userNameForUpdate()
-	
+		 this.getuserName(0,0,0,0,3)	
 		if(this.CardLeft==0){
 			this.newBoard=this.add.image(400, 80, 'boardbg');
 			this.newBoard.setOrigin(0, 0).setScale(2.8,2.8);
