@@ -89,10 +89,14 @@ export class GameBoard extends Phaser.Scene {
 			 
 			 let player1=new Player(this,405,85,'chess_red',1).setOrigin(0,0)
 			 let player2=new Player(this,730,85,'chess_blue',2).setOrigin(0,0)
+			 let player3=new Player(this,405,410,'chess_purple',3).setOrigin(0,0)
+			 let player4=new Player(this,730,410,'chess_orange',4).setOrigin(0,0)
 
 			 this.player=[]
 			 this.player.push(player1)
 			 this.player.push(player2)
+			 this.player.push(player3)
+			 this.player.push(player4)
 				
 
 		//initalize the data
@@ -131,55 +135,6 @@ export class GameBoard extends Phaser.Scene {
 			)
 		}
 	
-
-ifHas(the_card_get,num){
-	let result=[]
-	switch(num){
-	case 1:
-		result=the_card_get.filter(the_card_get=>the_card_get%13==0)
-		break;
-	case 2:
-		result=the_card_get.filter(the_card_get=>the_card_get%13==1)
-		break;
-	case 3:
-		result=the_card_get.filter(the_card_get=>the_card_get%13==2)
-		break;
-	case 4:
-		result=the_card_get.filter(the_card_get=>the_card_get%13==3)
-		break;
-	case 5:
-		result=the_card_get.filter(the_card_get=>the_card_get%13==4)
-		break;
-	case 6:
-		result=the_card_get.filter(the_card_get=>the_card_get%13==5)
-		break;
-	case 7:
-		result=the_card_get.filter(the_card_get=>the_card_get%13==6)
-		break;
-	case 8:
-		result=the_card_get.filter(the_card_get=>the_card_get%13==7)
-		break;
-	case 9:
-		result=the_card_get.filter(the_card_get=>the_card_get%13==8)
-		break;
-	case 10:
-		result=the_card_get.filter(the_card_get=>the_card_get%13==9)
-		break;
-	case 11:
-		result=the_card_get.filter(the_card_get=>the_card_get%13==10)
-		break;
-	case 12:
-		result=the_card_get.filter(the_card_get=>the_card_get%13==11)
-		break;
-	case 13:
-		result=the_card_get.filter(the_card_get=>the_card_get%13==12)
-		break;
-	}
-	return result
-}
-
-
-
 // ifHasPair(the_card_get){
 // 	let result=[0]
 // 	for(var i=0;i<the_card_get.length;i++){
@@ -226,7 +181,7 @@ getuserName(){
 				roomid : result
 		}))
 		const userName = getPlayersInTheRoom.data.getRoompage.players;
-		
+
 		console.log('players you have : '+ userName);
 		this.initCardData(-1,405,85,userName[0],0)
 		this.initCardData(-1,730,85,userName[1],0)
@@ -240,8 +195,6 @@ getuserName(){
 //switch user between different round
 async round(x,y,cardNum){
 	(async () => { 
-		await client.hydrated();
-		
 		const getUser = await Auth.currentAuthenticatedUser();
 		const name = getUser.username;
 		const getRoomID = await API.graphql(graphqlOperation(queries.getQw,{
@@ -252,7 +205,7 @@ async round(x,y,cardNum){
 				roomid : result
 		}))
 		const userName = getPlayersInTheRoom.data.getRoompage.players;
-
+    await client.hydrated();
 		var nameWeGot1 = userName[0];
 		const result1 = await client.query({
 			query: gql(queries.getQw),
@@ -410,6 +363,52 @@ async updateScreen(){
 	})();
 }
 	
+
+ifHas(the_card_get,num){
+	let result=[]
+	switch(num){
+	case 1:
+		result=the_card_get.filter(the_card_get=>the_card_get%13==0)
+		break;
+	case 2:
+		result=the_card_get.filter(the_card_get=>the_card_get%13==1)
+		break;
+	case 3:
+		result=the_card_get.filter(the_card_get=>the_card_get%13==2)
+		break;
+	case 4:
+		result=the_card_get.filter(the_card_get=>the_card_get%13==3)
+		break;
+	case 5:
+		result=the_card_get.filter(the_card_get=>the_card_get%13==4)
+		break;
+	case 6:
+		result=the_card_get.filter(the_card_get=>the_card_get%13==5)
+		break;
+	case 7:
+		result=the_card_get.filter(the_card_get=>the_card_get%13==6)
+		break;
+	case 8:
+		result=the_card_get.filter(the_card_get=>the_card_get%13==7)
+		break;
+	case 9:
+		result=the_card_get.filter(the_card_get=>the_card_get%13==8)
+		break;
+	case 10:
+		result=the_card_get.filter(the_card_get=>the_card_get%13==9)
+		break;
+	case 11:
+		result=the_card_get.filter(the_card_get=>the_card_get%13==10)
+		break;
+	case 12:
+		result=the_card_get.filter(the_card_get=>the_card_get%13==11)
+		break;
+	case 13:
+		result=the_card_get.filter(the_card_get=>the_card_get%13==12)
+		break;
+	}
+	return result
+}
 	update(time, delta) {
 		 this.updateScreen()
 		if(this.CardLeft==0){
