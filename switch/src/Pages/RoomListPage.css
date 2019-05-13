@@ -24,7 +24,7 @@
     right: 46.5%;
 }
 
-.create-button, .profile-button, .game-rule-button{
+.create-button,.profile-button, .game-rule-button{
     background-color: #e7e7e7;
     color: black;
     border-radius: 8px;
@@ -38,8 +38,8 @@
 }
 
 .create-button {
-    bottom: 36.65em;
-    right: 10%;
+    bottom: 29.9em;
+    left: 16%;
 }
 
 .create-button:hover, .profile-button:hover, .game-rule-button:hover{

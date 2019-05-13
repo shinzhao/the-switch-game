@@ -499,6 +499,8 @@ handleCreateRoom = async (random) =>{
         return (
             <div className="room-list">
                 <h1 className="room-list-header">SWITCH</h1>
+                <button className="create-button" onClick={this.handleCreateClick}>Create New Room</button>
+
                 <button className="game-rule-button" onClick={this.handleGameRuleClick}>Game Rule</button>
                 <button className="profile-button" onClick={this.handleProfileClick}>My Account</button>
                 <img src={img} className="room-img" />
@@ -506,7 +508,6 @@ handleCreateRoom = async (random) =>{
                     <label className="room-num">Room #: <input onChange={this.inputChange} type="number" className="room-num-input" /></label>
                     <input type='button' value="ENTER" className="enter-button" onClick={this.handleEnterRoom} />
                 </form>
-                <button className="create-button" onClick={this.handleCreateClick}>Create New Room</button>
                 <table>
                     <thead>
                         <tr>
