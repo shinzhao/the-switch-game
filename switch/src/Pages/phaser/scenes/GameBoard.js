@@ -129,29 +129,27 @@ export class GameBoard extends Phaser.Scene {
 			 }
 			 
 
-
 			 let player1=new Player(this,405,85,'chess_red',1).setOrigin(0,0)
 			 let player2=new Player(this,730,85,'chess_blue',2).setOrigin(0,0)
-
 
 
 			 this.player=[]
 			 this.player.push(player1)
 			 this.player.push(player2)
 				
-		
 
 		//initalize the data
 		this.userNameForInit()
 		
-		
-
-		this.Rf1=[0,9,10,11,12]
-		this.Rf2=[13,22,23,24,25]
-		this.Rf3=[26,35,36,37,38]
-		this.Rf4=[39,48,49,50,51]
+		this.Rf=[0,9,10,11,12]
 		this.mygetcard=[0,16,25,26,1,27,40]
-		//this.ifHasThree(this.mygetcard)
+		this.mygetcard.sort()
+		this.numOfEach=[]
+		for(var m=1;m<=13;m++){
+		  this.numOfEach.push(this.ifHas(this.mygetcard,m).length)
+		}
+		console.log('the card you have'+this.numOfEach)
+		
 		
 		this.arrange=0
 			
@@ -206,22 +204,59 @@ export class GameBoard extends Phaser.Scene {
 		}
 	
 
-// ifHasAce(the_card_get){
-// 	let result=false
-// 	for(var i=0;i<the_card_get.length;i++){
-// 		if(the_card_get[i]%13==0){
-// 				result=true
-// 		}
-// 	}
-// 	console.log(result)
-// 	return result
-// }
+ifHas(the_card_get,num){
+	let result=[]
+	switch(num){
+	case 1:
+		result=the_card_get.filter(the_card_get=>the_card_get%13==0)
+		break;
+	case 2:
+		result=the_card_get.filter(the_card_get=>the_card_get%13==1)
+		break;
+	case 3:
+		result=the_card_get.filter(the_card_get=>the_card_get%13==2)
+		break;
+	case 4:
+		result=the_card_get.filter(the_card_get=>the_card_get%13==3)
+		break;
+	case 5:
+		result=the_card_get.filter(the_card_get=>the_card_get%13==4)
+		break;
+	case 6:
+		result=the_card_get.filter(the_card_get=>the_card_get%13==5)
+		break;
+	case 7:
+		result=the_card_get.filter(the_card_get=>the_card_get%13==6)
+		break;
+	case 8:
+		result=the_card_get.filter(the_card_get=>the_card_get%13==7)
+		break;
+	case 9:
+		result=the_card_get.filter(the_card_get=>the_card_get%13==8)
+		break;
+	case 10:
+		result=the_card_get.filter(the_card_get=>the_card_get%13==9)
+		break;
+	case 11:
+		result=the_card_get.filter(the_card_get=>the_card_get%13==10)
+		break;
+	case 12:
+		result=the_card_get.filter(the_card_get=>the_card_get%13==11)
+		break;
+	case 13:
+		result=the_card_get.filter(the_card_get=>the_card_get%13==12)
+		break;
+	}
+	return result
+}
+
+
 
 // ifHasPair(the_card_get){
 // 	let result=[0]
 // 	for(var i=0;i<the_card_get.length;i++){
 // 		for(var j=0;j<the_card_get.length;j++){
-// 			if(the_card_get[i]+13==the_card_get[j]||the_card_get[i]+26==the_card_get[j]||the_card_get[i]+39==the_card_get[j]){
+// 			if(the_card_get[i]%13==the_card_get[j]%13){
 // 				result[0]=1
 // 				result.push(i)
 // 				result.push(j)
@@ -238,19 +273,7 @@ export class GameBoard extends Phaser.Scene {
 // 	for(var i=0;i<the_card_get.length;i++){
 // 		for(var j=0;j<the_card_get.length;j++){
 // 			for(var m=0;m<the_card_get.length;m++){
-// 				if(the_card_get[i]+13==the_card_get[j]&&the_card_get[i]+26==the_card_get[m]){
-// 					result[0]=1
-// 					result.push(i)
-// 					result.push(j)
-// 					result.push(m)
-// 				}
-// 				if(the_card_get[i]+26==the_card_get[j]&&the_card_get[i]+39==the_card_get[m]){
-// 					result[0]=1
-// 					result.push(i)
-// 					result.push(j)
-// 					result.push(m)
-// 				}
-// 				if(the_card_get[i]+13==the_card_get[j]&&the_card_get[i]+39==the_card_get[m]){
+// 				if(the_card_get[i]%13==the_card_get[j]%13&&the_card_get[i]%13==the_card_get[m]%13){
 // 					result[0]=1
 // 					result.push(i)
 // 					result.push(j)
@@ -325,12 +348,9 @@ async initCardData(card,x,y,theusername,theSeat){
 	
 	async updateCardData(card,x,y,name){
 		const cardV = card;
-		//console.log(cardV)
 		const xV =x;
-		//console.log("x : "+xV)
 		const yV = y;
-		//console.log("y : "+yV);
-		//console.log('your name : ' +name);
+		
 		const thething = {
 					username : name,
 					whichCard : cardV,
@@ -399,40 +419,23 @@ async updateScreen(userName){
 		this.player[1].setY(y2)
 		this.playername.text=userName[result1.data.getQw.seat%2]+' turn'
 	
-		// if(result1.data.getQw.seat==1){
-		// 	this.updateCardData(-1,result1.data.getQw.x,result1.data.getQw.y,nameWeGot1,0)
-		// 	 this.player[0].setX(x1)
-		// 	 this.player[0].setY(y1)
-			 
-			 //console.log('update the player1')
 			 
 				if(result1.data.getQw.whichCard!=-1){
 					this.cardSet[result1.data.getQw.whichCard].setX(20+this.arrange)
 					this.cardSet[result1.data.getQw.whichCard].setY(85)
-				//	this.updateCardData(-1,result1.data.getQw.x,result1.data.getQw.y,nameWeGot1)
 					}
 					
-			// }
 
-			// if(result2.data.getQw.seat==1){
-			// 	this.updateCardData(-1,result2.data.getQw.x,result2.data.getQw.y,nameWeGot2,0)
-			// 	this.player[1].setX(x2)
-			// 	this.player[1].setY(y2)
-				
-			// console.log('update the player2')
-			// this.seat=0
 			if(result2.data.getQw.whichCard!=-1){
-				//console.log('move the card')
+
 				this.cardSet[result2.data.getQw.whichCard].setX(900+this.arrange)
 				this.cardSet[result2.data.getQw.whichCard].setY(85)
-			//	this.updateCardData(-1,result2.data.getQw.x,result2.data.getQw.y,nameWeGot2)
+
 		 }
 		 
 		//}
 	})();
 }
-
-
 	
 	update(time, delta) {
 		 this.userNameForUpdate()
