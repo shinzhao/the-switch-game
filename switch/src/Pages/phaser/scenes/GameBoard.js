@@ -102,7 +102,7 @@ export class GameBoard extends Phaser.Scene {
 		//initalize the data
 		this.getuserName()
 		
-		this.Rf=[0,9,10,11,12]
+		//this.Rf=[0,9,10,11,12]
 		this.mygetcard=[0,16,25,26,1,27,40]
 		this.mygetcard.sort()
 		this.numOfEach=[]
@@ -188,11 +188,9 @@ getuserName(){
 		console.log('players you have : '+ userName);
 		this.initCardData(-1,405,85,userName[0],0)
 		this.initCardData(-1,730,85,userName[1],0)
-		//this.initCardData(-1,405,410,userName[2],0)
-		//this.initCardData(-1,730,410,userName[3],0)
+		this.initCardData(-1,405,410,userName[2],0)
+		this.initCardData(-1,730,410,userName[3],0)
 		this.playername=this.add.text(500,50,userName[0]+' turn')
-
-		
 })();
 }
 
@@ -221,8 +219,8 @@ async round(x,y,cardNum){
 		});
 		const seat=result1.data.getQw.seat
 		console.log('the recent seat'+seat)
-		 if(x==this.player[seat%2].x||y==this.player[seat%2].y){
-			this.checkUserInfo(cardNum,userName[seat%2],x,y,seat)
+		 if(x==this.player[seat%4].x||y==this.player[seat%4].y){
+			this.checkUserInfo(cardNum,userName[seat%4],x,y,seat)
 		 }
 	})();
 }
@@ -342,16 +340,42 @@ async updateScreen(){
 			},
 			fetchPolicy: 'network-only',
 		});
+
+		var nameWeGot3 = userName[2];
+			 const result3 = await client.query({
+			query: gql(queries.getQw),
+			variables: {
+				username: nameWeGot3
+			},
+			fetchPolicy: 'network-only',
+		});
+
+		var nameWeGot4 = userName[3];
+			 const result4 = await client.query({
+			query: gql(queries.getQw),
+			variables: {
+				username: nameWeGot4
+			},
+			fetchPolicy: 'network-only',
+		});
 		let x1=result1.data.getQw.x
 		let y1=result1.data.getQw.y
 		let x2=result2.data.getQw.x
 		let y2=result2.data.getQw.y
+		let x3=result3.data.getQw.x
+		let y3=result3.data.getQw.y
+		let x4=result4.data.getQw.x
+		let y4=result4.data.getQw.y
 		this.player[0].setX(x1)
 		this.player[0].setY(y1)
 		this.player[1].setX(x2)
 		this.player[1].setY(y2)
-		this.playername.text=userName[result1.data.getQw.seat%2]+' turn'
-				if(result1.data.getQw.whichCard!=-1){
+		this.player[2].setX(x3)
+		this.player[2].setY(y3)
+		this.player[3].setX(x4)
+		this.player[3].setY(y4)
+		this.playername.text=userName[result1.data.getQw.seat%4]+' turn'
+			if(result1.data.getQw.whichCard!=-1){
 					this.cardSet[result1.data.getQw.whichCard].setX(20+this.arrange)
 					this.cardSet[result1.data.getQw.whichCard].setY(85)
 					}
@@ -359,7 +383,14 @@ async updateScreen(){
 				this.cardSet[result2.data.getQw.whichCard].setX(900+this.arrange)
 				this.cardSet[result2.data.getQw.whichCard].setY(85)
 		 }
-		 
+		 if(result3.data.getQw.whichCard!=-1){
+			this.cardSet[result2.data.getQw.whichCard].setX(900+this.arrange)
+			this.cardSet[result2.data.getQw.whichCard].setY(200)
+	 }
+	 if(result4.data.getQw.whichCard!=-1){
+		this.cardSet[result2.data.getQw.whichCard].setX(900+this.arrange)
+		this.cardSet[result2.data.getQw.whichCard].setY(200)
+    }
 	})();
 }
 	
