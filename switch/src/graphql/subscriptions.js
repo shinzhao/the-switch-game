@@ -78,7 +78,7 @@ export const onCreateReadyPageTable = `subscription OnCreateReadyPageTable(
   $players: [String]
   $readyStatus: [String]
   $GameStart: Boolean
-  $readyNum: [Int]
+  $readyNum: Int
 ) {
   onCreateReadyPageTable(
     roomID: $roomID
@@ -101,7 +101,7 @@ export const onUpdateReadyPageTable = `subscription OnUpdateReadyPageTable(
   $players: [String]
   $readyStatus: [String]
   $GameStart: Boolean
-  $readyNum: [Int]
+  $readyNum: Int
 ) {
   onUpdateReadyPageTable(
     roomID: $roomID
@@ -124,7 +124,7 @@ export const onDeleteReadyPageTable = `subscription OnDeleteReadyPageTable(
   $players: [String]
   $readyStatus: [String]
   $GameStart: Boolean
-  $readyNum: [Int]
+  $readyNum: Int
 ) {
   onDeleteReadyPageTable(
     roomID: $roomID
