@@ -46,8 +46,8 @@ class RoomPage extends React.Component {
             num_ready: 1,
             roomOwner : false,
             playersList : ['p1','p2','p3','p4'],
-            readStatus : ['false','false','false'],
-            roomid : Number
+            roomid : Number,
+            str : []
         }
         this.handleBackClick = this.handleBackClick.bind(this);
         this.handleStartClick = this.handleStartClick.bind(this);
@@ -67,32 +67,14 @@ class RoomPage extends React.Component {
             graphqlOperation(subtoRoomData2)
         ).subscribe({
             next: (roomData) =>{
-                //players update sub
-                // const storeStatus = [];
+               
                 console.log(roomData.value.data.onUpdateReadyPageTable.players);
 
                 const newPlyersList = roomData.value.data.onUpdateReadyPageTable.players;
                 this.setState({
                     playersList : newPlyersList
                 })
-                // const prevPlayersCount = this.state.player_count;
-                // const newRoomID = roomData.value.data.onUpdateRoompage.roomid;
-                // const roomlist = this.state.rID;
-                // const index = roomlist.findIndex(num => num === newRoomID);
-                // console.log('show me the index ' + index);
-                // const updatedPlayersCount = prevPlayersCount;
-                // updatedPlayersCount[index] = newPlyersCount; 
-
-                // for(let i=0;i<updatedPlayersCount.length;i++){
-                //     if(updatedPlayersCount[i]<4){
-                //         storeStatus.push('open');
-                //     }
-                //     if(updatedPlayersCount[i]>=4){
-                //         storeStatus.push('close');
-                //     }
-                // }
-                // this.setState({player_count : updatedPlayersCount,
-                //                 status : storeStatus});
+           
             }
         });
         
@@ -109,7 +91,20 @@ class RoomPage extends React.Component {
         //this.subD.unsubscribe();
       }
 
-
+    async setReadyStatus(){
+        const data = this.props.location.query;
+        const getPlayers = await API.graphql(graphqlOperation(queries.getReadyPageTable,{
+            roomID : data
+        }));
+        const temp = [];
+      
+        for(let i=0;i<getPlayers.data.getReadyPageTable.readyStatus.length;i++){
+            temp.push(getPlayers.data.getReadyPageTable.readyStatus[i]);
+            }
+        this.setState({
+            str : temp
+        })
+    }
     async setRoomOwner(){
         const getUser = await Auth.currentAuthenticatedUser();
         const name = getUser.username;
@@ -132,35 +127,8 @@ class RoomPage extends React.Component {
         console.log('wait 1 second');
         this.setPlayers();
         this.setRoomOwner();
-        // this.subU = API.graphql(
-        //     graphqlOperation(subtoRoomData2)
-        // ).subscribe({
-        //     next: (roomData) =>{
-        //         //players update sub
-        //         // const storeStatus = [];
-        //         console.log('Someone come into this room ' + roomData.value.data.OnUpdateReadyPageTable);
-
-        //         // const newPlyersCount = roomData.value.data.onUpdateRoompage.players.length;
-        //         // const prevPlayersCount = this.state.player_count;
-        //         // const newRoomID = roomData.value.data.onUpdateRoompage.roomid;
-        //         // const roomlist = this.state.rID;
-        //         // const index = roomlist.findIndex(num => num === newRoomID);
-        //         // console.log('show me the index ' + index);
-        //         // const updatedPlayersCount = prevPlayersCount;
-        //         // updatedPlayersCount[index] = newPlyersCount; 
-
-        //         // for(let i=0;i<updatedPlayersCount.length;i++){
-        //         //     if(updatedPlayersCount[i]<4){
-        //         //         storeStatus.push('open');
-        //         //     }
-        //         //     if(updatedPlayersCount[i]>=4){
-        //         //         storeStatus.push('close');
-        //         //     }
-        //         // }
-        //         // this.setState({player_count : updatedPlayersCount,
-        //         //                 status : storeStatus});
-        //     }
-        // });
+        this.setReadyStatus()
+       
       }
       sleep(ms) {
         return new Promise(resolve => setTimeout(resolve, ms))
@@ -255,9 +223,7 @@ class RoomPage extends React.Component {
         this.props.history.push('/room-list')
     }
 
-    componentWillUnmount(){
-        
-    }
+  
 
     handleStartClick(e) {
         e.preventDefault();
@@ -268,22 +234,67 @@ class RoomPage extends React.Component {
         
     }
 
-    handleReadyClick(e) {
+    async handleReadyClick(e) {
         e.preventDefault();
+        
+
+
         if(this.state.isReady == true) {
-            console.log("false")
             this.setState({
-                num_ready: this.state.num_ready-1
-            })
+                
+                isReady : false
+            });
+           
+            
+                const storelist = [];
+                const getUser = await Auth.currentAuthenticatedUser();
+                const name = getUser.username;
+                const data = this.props.location.query;
+                const getPlayers = await API.graphql(graphqlOperation(queries.getRoompage,{
+                roomid : data
+                }));
+                const list = getPlayers.data.getRoompage.players;
+                for(let i=0;i<getPlayers.data.getRoompage.players.length;i++){
+                    storelist.push(getPlayers.data.getRoompage.players[i]);
+                    }
+                var index = storelist.findIndex(num => num === name);
+                console.log('index is ' +index);
+                var newstr = this.state.str;
+                newstr[index] = 'Not Ready ....';
+                this.setState({
+                str : newstr
+                })    
+                
+            
         }
         else{
+         this.setState({
+                num_ready: this.state.num_ready+1 , isReady: !this.state.isReady
+            });   
+        
+            
+            const storelist = [];
+            const getUser = await Auth.currentAuthenticatedUser();
+            const name = getUser.username;
+            const data = this.props.location.query;
+            const getPlayers = await API.graphql(graphqlOperation(queries.getRoompage,{
+            roomid : data
+            }));
+            const list = getPlayers.data.getRoompage.players;
+            for(let i=0;i<getPlayers.data.getRoompage.players.length;i++){
+                storelist.push(getPlayers.data.getRoompage.players[i]);
+                }
+            var index = storelist.findIndex(num => num === name);
+            console.log('index is ' +index);
+            var newstr = this.state.str;
+            newstr[index] = 'Ready !!!!!!!!!!!';
             this.setState({
-                num_ready: this.state.num_ready+1
-            })
-        }
-        this.setState({
-            isReady: !this.state.isReady
-        })
+            str : newstr
+            })    
+            
+    
+       
+    }
     }
 
     showReadyButton() {
@@ -330,21 +341,35 @@ class RoomPage extends React.Component {
         else {
             if(this.state.isReady == true){
                 return(
+                    
                     <Card  style={{width: '20rem'}} className="player-card">
-                        <Card.Body>
-                            <Card.Title>Player's Username :{this.state.playersList[i]}</Card.Title>
+                        
+                        <Card.Body >
+                            
+                            <Card.Title bg='success'>Player {i} :{this.state.playersList[i]}</Card.Title>
                             {/* { this.showReadyButton() } */}
+                            
                         </Card.Body>
+                        <Card.Footer>
+                            {this.state.str[i]}  
+                        </Card.Footer>
                     </Card>
+                    
                 )
             }
             else {
                 return(
                     <Card style={{width: '20rem'}} className="player-card">
+                        
                         <Card.Body>
-                            <Card.Title>Player's Username :{this.state.playersList[i]}</Card.Title>
+                            
+                            <Card.Title>Player {i} :{this.state.playersList[i]}</Card.Title>
                             {/* { this.showReadyButton() } */}
+                           
                         </Card.Body>
+                        <Card.Footer>
+                            {this.state.str[i]}  
+                        </Card.Footer>
                     </Card>
                 )
             }
@@ -358,13 +383,17 @@ class RoomPage extends React.Component {
                     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous" />
                 </head>
                 <Button variant="secondary" onClick={this.handleBackClick}>Back</Button>
-                <h1 className="room-header">This the room {this.state.roomid}</h1>
+                <h1 className="room-header">This the room #{this.state.roomid}</h1>
                 { this.state.showGame ? <Game /> : null }
                 
                 { this.showPlayer(0) }
+                <br />
                 { this.showPlayer(1) }
+                <br />
                 { this.showPlayer(2) }
+                <br />
                 { this.showPlayer(3) }
+                <br />
                 {this.showReadyButton()}
             </div>
         );

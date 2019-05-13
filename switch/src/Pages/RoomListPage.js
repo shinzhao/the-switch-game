@@ -143,11 +143,9 @@ getRoom = async () => {
     var storeRoom = [];
     const result = await API.graphql(graphqlOperation(queries.listRoompages));
     for(let i=0;i<result.data.listRoompages.items.length;i++){
-        console.log(result.data.listRoompages.items[i].roomid);
         storeRoom.push(result.data.listRoompages.items[i].roomid);
         }
     this.setState({rID : storeRoom });
-    console.log('TEST FOR QUERY ' + this.state.rID);
     }
 
 getPlayersCount = async ()=>{
@@ -260,8 +258,9 @@ handleCreateRoom = async (random) =>{
                     roomID : random,
                     players : name,
                     cards : ranNums,
-                    readyStatus : ['false','false','false'],
-                    GameStart : false
+                    readyStatus : ['Not Ready ....','Not Ready ....','Not Ready ....','Not Ready ....'],
+                    GameStart : false,
+                    readyNum : 0
                     }}
                 ));
 }
