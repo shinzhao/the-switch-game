@@ -5,7 +5,6 @@ import { withRouter } from "react-router-dom";
 import './App.css';
 import img from './img/background.png';
 
-
 Amplify.configure(aws_config);
 
 class App extends Component {

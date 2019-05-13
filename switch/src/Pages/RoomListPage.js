@@ -500,6 +500,7 @@ handleCreateRoom = async (random) =>{
             <div className="room-list">
                 <h1 className="room-list-header">SWITCH</h1>
                 <button className="create-button" onClick={this.handleCreateClick}>Create New Room</button>
+
                 <button className="game-rule-button" onClick={this.handleGameRuleClick}>Game Rule</button>
                 <button className="profile-button" onClick={this.handleProfileClick}>My Account</button>
                 <img src={img} className="room-img" />
