@@ -47,3 +47,32 @@ export const listRoompages = `query ListRoompages(
   }
 }
 `;
+export const getReadyPageTable = `query GetReadyPageTable($roomID: Int!) {
+  getReadyPageTable(roomID: $roomID) {
+    roomID
+    players
+    readyStatus
+    cards
+    GameStart
+    readyNum
+  }
+}
+`;
+export const listReadyPageTables = `query ListReadyPageTables(
+  $filter: TableReadyPageTableFilterInput
+  $limit: Int
+  $nextToken: String
+) {
+  listReadyPageTables(filter: $filter, limit: $limit, nextToken: $nextToken) {
+    items {
+      roomID
+      players
+      readyStatus
+      cards
+      GameStart
+      readyNum
+    }
+    nextToken
+  }
+}
+`;
