@@ -84,7 +84,7 @@
 				"TemplateURL": "https://s3.amazonaws.com/switch-20190429012622-deployment/amplify-cfn-templates/auth/cognito3750a61c-cloudformation-template.yml",
 				"Parameters": {
 					"identityPoolName": "cognito3750a61c_identitypool_3750a61c",
-					"allowUnauthenticatedIdentities": true,
+					"allowUnauthenticatedIdentities": false,
 					"lambdaLogPolicy": "cognito3750a61c_lambda_log_policy",
 					"openIdLambdaRoleName": "cognito3750a61c_openid_lambda_role",
 					"openIdRolePolicy": "cognito3750a61c_openid_pass_role_policy",
@@ -148,6 +148,24 @@
 			"Properties": {
 				"TemplateURL": "https://s3.amazonaws.com/switch-20190429012622-deployment/amplify-cfn-templates/analytics/pinpoint-cloudformation-template.json",
 				"Parameters": {
+					"appName": "switch",
+					"roleName": "pinpointLambdaRolee2cab12d",
+					"cloudWatchPolicyName": "cloudWatchPolicye2cab12d",
+					"pinpointPolicyName": "pinpointPolicye2cab12d",
+					"authPolicyName": "pinpoint_amplify_e2cab12d",
+					"unauthPolicyName": "pinpoint_amplify_e2cab12d",
+					"authRoleName": {
+						"Ref": "AuthRoleName"
+					},
+					"unauthRoleName": {
+						"Ref": "UnauthRoleName"
+					},
+					"authRoleArn": {
+						"Fn::GetAtt": [
+							"AuthRole",
+							"Arn"
+						]
+					},
 					"env": "switch"
 				}
 			}
@@ -157,6 +175,30 @@
 			"Properties": {
 				"TemplateURL": "https://s3.amazonaws.com/switch-20190429012622-deployment/amplify-cfn-templates/storage/s3-cloudformation-template.json",
 				"Parameters": {
+					"bucketName": "switchae1f9c76e2d145e58bf39bd3ef6b68de",
+					"authPolicyName": "s3_amplify_89b1b273",
+					"unauthPolicyName": "s3_amplify_89b1b273",
+					"authRoleName": {
+						"Ref": "AuthRoleName"
+					},
+					"unauthRoleName": {
+						"Ref": "UnauthRoleName"
+					},
+					"selectedGuestPermissions": "s3:PutObject,s3:GetObject,s3:ListBucket,s3:DeleteObject",
+					"selectedAuthenticatedPermissions": "",
+					"s3PermissionsAuthenticatedPublic": "DISALLOW",
+					"s3PublicPolicy": "Public_policy_2c14890c",
+					"s3PermissionsAuthenticatedUploads": "DISALLOW",
+					"s3UploadsPolicy": "Uploads_policy_2c14890c",
+					"s3PermissionsAuthenticatedProtected": "DISALLOW",
+					"s3ProtectedPolicy": "Protected_policy_5dacc294",
+					"s3PermissionsAuthenticatedPrivate": "DISALLOW",
+					"s3PrivatePolicy": "Private_policy_5dacc294",
+					"AuthenticatedAllowList": "DISALLOW",
+					"s3ReadPolicy": "read_policy_2c14890c",
+					"s3PermissionsGuestPublic": "s3:PutObject,s3:GetObject,s3:DeleteObject",
+					"s3PermissionsGuestUploads": "s3:PutObject",
+					"GuestAllowList": "ALLOW",
 					"env": "switch"
 				}
 			}

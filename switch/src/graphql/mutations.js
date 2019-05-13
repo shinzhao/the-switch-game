@@ -55,3 +55,33 @@ export const deleteRoompage = `mutation DeleteRoompage($input: DeleteRoompageInp
   }
 }
 `;
+export const createReadyPageTable = `mutation CreateReadyPageTable($input: CreateReadyPageTableInput!) {
+  createReadyPageTable(input: $input) {
+    roomID
+    players
+    readyStatus
+    cards
+    GameStart
+  }
+}
+`;
+export const updateReadyPageTable = `mutation UpdateReadyPageTable($input: UpdateReadyPageTableInput!) {
+  updateReadyPageTable(input: $input) {
+    roomID
+    players
+    readyStatus
+    cards
+    GameStart
+  }
+}
+`;
+export const deleteReadyPageTable = `mutation DeleteReadyPageTable($input: DeleteReadyPageTableInput!) {
+  deleteReadyPageTable(input: $input) {
+    roomID
+    players
+    readyStatus
+    cards
+    GameStart
+  }
+}
+`;

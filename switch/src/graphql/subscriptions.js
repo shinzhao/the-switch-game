@@ -73,3 +73,69 @@ export const onDeleteRoompage = `subscription OnDeleteRoompage($roomid: Int, $pl
   }
 }
 `;
+export const onCreateReadyPageTable = `subscription OnCreateReadyPageTable(
+  $roomID: Int
+  $players: [String]
+  $readyStatus: [String]
+  $cards: [Int]
+  $GameStart: Boolean
+) {
+  onCreateReadyPageTable(
+    roomID: $roomID
+    players: $players
+    readyStatus: $readyStatus
+    cards: $cards
+    GameStart: $GameStart
+  ) {
+    roomID
+    players
+    readyStatus
+    cards
+    GameStart
+  }
+}
+`;
+export const onUpdateReadyPageTable = `subscription OnUpdateReadyPageTable(
+  $roomID: Int
+  $players: [String]
+  $readyStatus: [String]
+  $cards: [Int]
+  $GameStart: Boolean
+) {
+  onUpdateReadyPageTable(
+    roomID: $roomID
+    players: $players
+    readyStatus: $readyStatus
+    cards: $cards
+    GameStart: $GameStart
+  ) {
+    roomID
+    players
+    readyStatus
+    cards
+    GameStart
+  }
+}
+`;
+export const onDeleteReadyPageTable = `subscription OnDeleteReadyPageTable(
+  $roomID: Int
+  $players: [String]
+  $readyStatus: [String]
+  $cards: [Int]
+  $GameStart: Boolean
+) {
+  onDeleteReadyPageTable(
+    roomID: $roomID
+    players: $players
+    readyStatus: $readyStatus
+    cards: $cards
+    GameStart: $GameStart
+  ) {
+    roomID
+    players
+    readyStatus
+    cards
+    GameStart
+  }
+}
+`;
