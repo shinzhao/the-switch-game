@@ -5,18 +5,17 @@
 			"providerPlugin": "awscloudformation"
 		}
 	},
-	"api": {
-		"ver01": {
-			"service": "AppSync",
-			"providerPlugin": "awscloudformation",
-			"output": {
-				"securityType": "API_KEY"
-			}
+	"api": {},
+	"hosting": {},
+	"analytics": {
+		"switch": {
+			"service": "Pinpoint",
+			"providerPlugin": "awscloudformation"
 		}
 	},
-	"hosting": {
-		"S3AndCloudFront": {
-			"service": "S3AndCloudFront",
+	"storage": {
+		"s389b1b273": {
+			"service": "S3",
 			"providerPlugin": "awscloudformation"
 		}
 	}

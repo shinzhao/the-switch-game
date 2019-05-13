@@ -24,7 +24,16 @@ class ProfilePage extends Component {
     })
     this.handleBackClick = this.handleBackClick.bind(this);
     this.handleGameRuleClick=this.handleGameRuleClick.bind(this);
-    this.handleProfileClick=this.handleProfileClick.bind(this);
+    
+  }
+  clearErrorState = () => {
+    this.setState({
+      errors: {
+        cognito: null,
+        blankfield: false,
+        passwordmatch: false
+      }
+    });
   }
   clearErrorState = () => {
     this.setState({

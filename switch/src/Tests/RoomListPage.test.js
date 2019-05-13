@@ -1,11 +1,20 @@
 import 'react-testing-library/cleanup-after-each';
 import 'jest-dom/extend-expect';
 import React from 'react';
-import ProfilePage from '../Pages/GameRulePage';
+import RoomListPage from '../Pages/RoomListPage';
 import {render} from 'react-testing-library'
 const puppeteer = require('puppeteer');
+import ReactShallowRenderer from 'react-test-renderer/shallow';
 
+var ShallowRenderer = require('react-test-renderer/shallow');
 jest.setTimeout(30000);
+describe('RoomList Page screenshot test', () => {
+  test('RoomList page should render correctly', () => {
+      const renderer = new ReactShallowRenderer();
+      renderer.render(<RoomListPage />);
+      expect(renderer.getRenderOutput()).toMatchSnapshot();
+  });
+});
 
 test("go to game rule page", async()=>{
     const browser = await puppeteer.launch({
