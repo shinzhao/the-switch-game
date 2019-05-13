@@ -14,13 +14,7 @@ import { Button, Card } from 'react-bootstrap';
 import { SelectMFAType } from 'aws-amplify-react/dist/Widget';
 import { type } from 'os';
 
-const subtoRoomData = `
-  subscription{
-    OnCreateReadyPageTable{
-        roomID players readyStatus cards GameStart
-    }
-  }
-  `
+
   const subtoRoomData2 = `
   subscription{
     onUpdateReadyPageTable{
@@ -28,13 +22,7 @@ const subtoRoomData = `
     }
   }
   `
-  const subtoRoomData3 = `
-  subscription{
-    OnDeleteReadyPageTable{
-        roomID players readyStatus cards GameStart
-    }
-  }
-  `
+ 
 
 class RoomPage extends React.Component {
     constructor() {
@@ -43,11 +31,11 @@ class RoomPage extends React.Component {
             showGame: false,
             isRoomMaster: true,
             isReady: false,
-            num_ready: 1,
+            num_ready: 0,
             roomOwner : false,
             playersList : ['p1','p2','p3','p4'],
             roomid : Number,
-            str : []
+            str : ['Not Ready ....','Not Ready ....','Not Ready ....','Not Ready ....']
         }
         this.handleBackClick = this.handleBackClick.bind(this);
         this.handleStartClick = this.handleStartClick.bind(this);
@@ -69,10 +57,21 @@ class RoomPage extends React.Component {
             next: (roomData) =>{
                
                 console.log(roomData.value.data.onUpdateReadyPageTable.players);
-
+                console.log(roomData.value.data.onUpdateReadyPageTable.readyNum);
+                console.log(roomData.value.data.onUpdateReadyPageTable.readyStatus);
                 const newPlyersList = roomData.value.data.onUpdateReadyPageTable.players;
+                const newReadyNum = roomData.value.data.onUpdateReadyPageTable.readyNum;
+                const newReadyStatus = roomData.value.data.onUpdateReadyPageTable.readyStatus;
+                const newGameStart = roomData.value.data.onUpdateReadyPageTable.GameStart;
+                console.log('show me the gamestart : '+newGameStart);
+                this.setRoomOwner();
+                this.setReadyStatus()
                 this.setState({
-                    playersList : newPlyersList
+                    playersList : newPlyersList,
+                    num_ready : newReadyNum,
+                    readyStatus : newReadyStatus,
+                    str : newReadyStatus,
+                    showGame : newGameStart
                 })
            
             }
@@ -80,15 +79,12 @@ class RoomPage extends React.Component {
         
 
 
-        
-        //this.setPlayers();
-        //this.getPlayersByID();
-        //this.setRoomOwner();
+    
     }
     componentWillUnmount() {
-       // this.subC.unsubscribe();
+
         this.subU.unsubscribe();
-        //this.subD.unsubscribe();
+
       }
 
     async setReadyStatus(){
@@ -178,6 +174,37 @@ class RoomPage extends React.Component {
         this.setState({
             showGame: false
         })
+        if(this.state.isReady == true || this.state.roomOwner == true){
+            (async () => {
+                const storelist = [];
+                const getUser = await Auth.currentAuthenticatedUser();
+                const name = getUser.username;
+                const data = this.props.location.query;
+                const getPlayers = await API.graphql(graphqlOperation(queries.getRoompage,{
+                roomid : data
+                }));
+                const getNumber = await API.graphql(graphqlOperation(queries.getReadyPageTable,{
+                    roomID : data
+                    }));
+                const number = getNumber.data.getReadyPageTable.readyNum;
+                console.log('ready number ' + number);
+                
+                
+                for(let i=0;i<getPlayers.data.getRoompage.players.length;i++){
+                    storelist.push(getPlayers.data.getRoompage.players[i]);
+                    }
+                var index = storelist.findIndex(num => num === name);
+                
+                var newstr = this.state.str;
+                newstr[index] = 'Not Ready ....';
+                await API.graphql(graphqlOperation(mutations.updateReadyPageTable,{
+                    input:{
+                        roomID : data,
+                        readyNum : number-1,
+                        readyStatus : newstr
+                    }}));
+            })();
+        }
         const data = this.props.location.query;
         console.log('data from list '+data);
         (async () => {
@@ -225,13 +252,19 @@ class RoomPage extends React.Component {
 
   
 
-    handleStartClick(e) {
+    async handleStartClick(e) {
         e.preventDefault();
         //need to check if the room has 4 players, otherwise cannot start the game as well
         this.setState({
             showGame: true
+
         });
-        
+        const data = this.props.location.query;
+        await API.graphql(graphqlOperation(mutations.updateReadyPageTable,{
+            input:{ 
+                roomID : data,
+                GameStart : true 
+            }}));
     }
 
     async handleReadyClick(e) {
@@ -239,13 +272,12 @@ class RoomPage extends React.Component {
         
 
 
-        if(this.state.isReady == true) {
+        if(this.state.isReady == true || this.state.roomOwner == true) {
             this.setState({
-                
+                num_ready: this.state.num_ready-1,
                 isReady : false
             });
-           
-            
+                
                 const storelist = [];
                 const getUser = await Auth.currentAuthenticatedUser();
                 const name = getUser.username;
@@ -253,19 +285,29 @@ class RoomPage extends React.Component {
                 const getPlayers = await API.graphql(graphqlOperation(queries.getRoompage,{
                 roomid : data
                 }));
-                const list = getPlayers.data.getRoompage.players;
+                const getNumber = await API.graphql(graphqlOperation(queries.getReadyPageTable,{
+                    roomID : data
+                    }));
+                const number = getNumber.data.getReadyPageTable.readyNum;
+                console.log('ready number ' + number);
+                
+                
                 for(let i=0;i<getPlayers.data.getRoompage.players.length;i++){
                     storelist.push(getPlayers.data.getRoompage.players[i]);
                     }
                 var index = storelist.findIndex(num => num === name);
-                console.log('index is ' +index);
+                
                 var newstr = this.state.str;
                 newstr[index] = 'Not Ready ....';
+                await API.graphql(graphqlOperation(mutations.updateReadyPageTable,{
+                    input:{
+                        roomID : data,
+                        readyNum : number-1,
+                        readyStatus : newstr
+                    }}));
                 this.setState({
                 str : newstr
                 })    
-                
-            
         }
         else{
          this.setState({
@@ -280,6 +322,12 @@ class RoomPage extends React.Component {
             const getPlayers = await API.graphql(graphqlOperation(queries.getRoompage,{
             roomid : data
             }));
+            const getNumber = await API.graphql(graphqlOperation(queries.getReadyPageTable,{
+                roomID : data
+                }));
+            const number = getNumber.data.getReadyPageTable.readyNum;
+            console.log('ready number ' + number);
+            
             const list = getPlayers.data.getRoompage.players;
             for(let i=0;i<getPlayers.data.getRoompage.players.length;i++){
                 storelist.push(getPlayers.data.getRoompage.players[i]);
@@ -288,6 +336,13 @@ class RoomPage extends React.Component {
             console.log('index is ' +index);
             var newstr = this.state.str;
             newstr[index] = 'Ready !!!!!!!!!!!';
+            await API.graphql(graphqlOperation(mutations.updateReadyPageTable,{
+                input:{
+                    roomID : data,
+                    readyNum : number+1,
+                    readyStatus : newstr
+                }
+            }));
             this.setState({
             str : newstr
             })    
@@ -314,7 +369,7 @@ class RoomPage extends React.Component {
     }
 
     showStartButton() {
-        if(this.state.num_ready == 3) {
+        if(this.state.num_ready == 3 && this.state.roomOwner == true) {
             return (
                 <Button className="start-button" variant="success" onClick={this.handleStartClick}>Start</Button>
             )
