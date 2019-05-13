@@ -176,15 +176,20 @@ getuserName(){
 		const getRoomID = await API.graphql(graphqlOperation(queries.getQw,{
 				username : name
 		}));
+		
 		const result = getRoomID.data.getQw.roomID;
+		console.log(result)
 		const getPlayersInTheRoom = await API.graphql(graphqlOperation(queries.getRoompage,{
 				roomid : result
 		}))
+		
 		const userName = getPlayersInTheRoom.data.getRoompage.players;
-
+		console.log(userName)
 		console.log('players you have : '+ userName);
 		this.initCardData(-1,405,85,userName[0],0)
 		this.initCardData(-1,730,85,userName[1],0)
+		//this.initCardData(-1,405,410,userName[2],0)
+		//this.initCardData(-1,730,410,userName[3],0)
 		this.playername=this.add.text(500,50,userName[0]+' turn')
 
 		
@@ -346,18 +351,13 @@ async updateScreen(){
 		this.player[1].setX(x2)
 		this.player[1].setY(y2)
 		this.playername.text=userName[result1.data.getQw.seat%2]+' turn'
-			 
 				if(result1.data.getQw.whichCard!=-1){
 					this.cardSet[result1.data.getQw.whichCard].setX(20+this.arrange)
 					this.cardSet[result1.data.getQw.whichCard].setY(85)
 					}
-					
-
 			if(result2.data.getQw.whichCard!=-1){
-
 				this.cardSet[result2.data.getQw.whichCard].setX(900+this.arrange)
 				this.cardSet[result2.data.getQw.whichCard].setY(85)
-
 		 }
 		 
 	})();
