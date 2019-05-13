@@ -4,7 +4,7 @@ import './GameRulePage.css';
 import { withRouter } from "react-router-dom";
 import { withAuthenticator } from 'aws-amplify-react';
 
-class GameRulePage extends React.Component {
+class GameRulePage extends Component {
     constructor() {
         super();
         this.handleBackClick = this.handleBackClick.bind(this);

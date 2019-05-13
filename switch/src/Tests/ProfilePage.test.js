@@ -4,8 +4,18 @@ import React from 'react';
 import ProfilePage from '../Pages/ProfilePage';
 import {render} from 'react-testing-library'
 const puppeteer = require('puppeteer');
+import ReactShallowRenderer from 'react-test-renderer/shallow';
 
+var ShallowRenderer = require('react-test-renderer/shallow');
 jest.setTimeout(30000);
+describe('Profile Page screenshot test', () => {
+  test('Profile page should render correctly', () => {
+      const renderer = new ReactShallowRenderer();
+      renderer.render(<ProfilePage />);
+      expect(renderer.getRenderOutput()).toMatchSnapshot();
+  });
+});
+
 test("go to back page", async()=>{
   const browser = await puppeteer.launch({
         headless: false,
