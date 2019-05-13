@@ -1,0 +1,7 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Profile Page screenshot test Profile page should render correctly 1`] = `
+<Route>
+  [Function]
+</Route>
+`;
