@@ -11,6 +11,10 @@ const awsmobile = {
     "aws_appsync_region": "us-east-2",
     "aws_appsync_authenticationType": "API_KEY",
     "aws_appsync_apiKey": "da2-3wxinbhikrea5magdrrxvqqgiq",
+    "aws_mobile_analytics_app_id": "f99226a0fff044d69639189c5173d3ef",
+    "aws_mobile_analytics_app_region": "us-east-1",
+    "aws_user_files_s3_bucket": "switchae1f9c76e2d145e58bf39bd3ef6b68de-switch",
+    "aws_user_files_s3_bucket_region": "us-east-2",
     "aws_content_delivery_bucket": "switch-20190429040250-hostingbucket-switch",
     "aws_content_delivery_bucket_region": "us-east-2",
     "aws_content_delivery_url": "http://switch-20190429040250-hostingbucket-switch.s3-website.us-east-2.amazonaws.com"
