@@ -15,6 +15,10 @@ export const onCreateQw = `subscription OnCreateQw(
     x
     y
     whichCard
+    cardLeft
+    userList
+    cardGet
+    rank
   }
 }
 `;
@@ -32,6 +36,10 @@ export const onUpdateQw = `subscription OnUpdateQw(
     x
     y
     whichCard
+    cardLeft
+    userList
+    cardGet
+    rank
   }
 }
 `;
@@ -49,6 +57,10 @@ export const onDeleteQw = `subscription OnDeleteQw(
     x
     y
     whichCard
+    cardLeft
+    userList
+    cardGet
+    rank
   }
 }
 `;

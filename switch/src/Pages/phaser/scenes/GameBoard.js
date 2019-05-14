@@ -32,7 +32,6 @@ export class GameBoard extends Phaser.Scene {
 	}
 	
 
-
 	create() {
 		this.gameBoard = [0,1,2,3,4,5,6,7,8,9,10,
 			11,12,13,14,15,16,17,18,19,20,21,22,
@@ -52,21 +51,6 @@ export class GameBoard extends Phaser.Scene {
 			   x_pos1=0;
 			 }
 			 
-
-		//    let card_number=0;
-		//    let nums=[],
-		// 	   ranNums = [];
-		//   for(var k=0;k<52;k++){
-		//    nums.push(k);
-		// 	}
-		//    let m = nums.length,
-		// 	   n = 0;
-	  //  while (m--) {
-		//    n = Math.floor(Math.random() * (m+1));
-		//    ranNums.push(nums[n]);
-		//    nums.splice(n,1);
-		//  }
-		 
 		let card_number=0;
 		let ranNums=[3,7,15,33,25,46,8,9,28,53,11,6,34,36,21,23,41,19,16,1,47,29,51,39,2,25,27,40,30,
 		              37,10,22,10,20,50,38,26]
@@ -87,6 +71,7 @@ export class GameBoard extends Phaser.Scene {
 			   x_pos=0;
 			 }
 			 
+			 //add player chess
 			 let player1=new Player(this,405,85,'chess_red',1).setOrigin(0,0)
 			 let player2=new Player(this,730,85,'chess_blue',2).setOrigin(0,0)
 			 let player3=new Player(this,405,410,'chess_purple',3).setOrigin(0,0)
@@ -97,30 +82,36 @@ export class GameBoard extends Phaser.Scene {
 			 this.player.push(player2)
 			 this.player.push(player3)
 			 this.player.push(player4)
-				
 
-		//initalize the data
-		//this.getuserName()
+
 		
-		//this.Rf=[0,9,10,11,12]
-		this.mygetcard=[0,16,25,26,1,27,40]
-		this.mygetcard.sort()
-		this.numOfEach=[]
-		for(var m=1;m<=13;m++){
-		  this.numOfEach.push(this.ifHas(this.mygetcard,m).length)
-		}
-
-		this.arrange=0
 		this.userName=['switch','test3','test5','noviah']
-		//test 4 player
-		this.initCardData(-1,405,85,this.userName[0],0)
-		this.initCardData(-1,730,85,this.userName[1],0)
-		this.initCardData(-1,405,410,this.userName[2],0)
-		this.initCardData(-1,730,410,this.userName[3],0)
-		this.initCardData(-1,730,410,this.userName[3],0)
+
+		//test 4 player mode
+		this.initCardData(-1,405,85,this.userName[0])
+		this.initCardData(-1,730,85,this.userName[1])
+		this.initCardData(-1,405,410,this.userName[2])
+		this.initCardData(-1,730,410,this.userName[3])
 		this.playername=this.add.text(500,50,this.userName[0]+' turn').setScale(1.5,1.5)	
+
+		//display player name
+		this.name1=this.add.text(20,70,this.userName[0])
+		this.name2=this.add.text(900,70,this.userName[1])
+		this.name3=this.add.text(20,370,this.userName[2])
+		this.name4=this.add.text(900,370,this.userName[3])
 	
 		this.clickedBox(ranNums)
+
+//decide poker hands
+		this.cardWeGet=[]
+		//this.mygetcard=[0,16,25,26,40,2,3,4,5,13,39]
+		//this.mygetcard.sort()
+		this.numOfEach=[]
+		this.spade=[]
+		this.club=[]
+		this.heart=[]
+		this.dia=[]
+	
 		   
 	}
 	
@@ -128,13 +119,21 @@ export class GameBoard extends Phaser.Scene {
 
 	
 //check if the round is this user's round
-	checkUserInfo(cardNum,name,x,y,seat) {
+	checkUserInfo(cardNum,name,x,y,seat,cardleft,ifdecrease,ranNums) {
 			Auth.currentUserInfo().then((userInfo) => {
 				const { username } = userInfo;
 				if(name==username){
 					this.updateCardData(cardNum,x,y,name)
-					this.updateRound(seat)
-					this.arrange+=20
+					if(ifdecrease==0){
+						this.cardWeGet.push(ranNums[cardNum])
+						console.log('so far we get',this.cardWeGet)
+						this.decideSuit(this.cardWeGet)
+		        this.checkPH(this.cardWeGet)
+		        this.updateRank()
+					this.updateRound(seat,cardleft-1)
+					}else if(ifdecrease==1){
+						this.updateRound(seat,cardleft)
+					}
 				}else{
 					console.log('invalid move')	
 				}
@@ -159,20 +158,12 @@ getuserName(){
 		}))
 		
 		const userName = getPlayersInTheRoom.data.getRoompage.players;
-		console.log(userName)
-		console.log('players you have : '+ userName);
-		this.initCardData(-1,405,85,userName[0],0)
-		this.initCardData(-1,730,85,userName[1],0)
-		this.initCardData(-1,405,410,userName[2],0)
-		this.initCardData(-1,730,410,userName[3],0)
-		this.playername=this.add.text(500,50,userName[0]+' turn').setScale(1.5,1.5)
-		console.log(userName[0])
 })();
 }
 
 
 //switch user between different round
-async round(x,y,cardNum){
+async round(x,y,cardNum,ifdecrease,ranNums){
 	(async () => { 
 		// const getUser = await Auth.currentAuthenticatedUser();
 		// const name = getUser.username;
@@ -194,9 +185,10 @@ async round(x,y,cardNum){
 			fetchPolicy: 'network-only',
 		});
 		const seat=result1.data.getQw.seat
+		const cardleft=result1.data.getQw.cardLeft
 		console.log('the recent seat'+seat)
 		 if(x==this.player[seat%4].x||y==this.player[seat%4].y){
-			this.checkUserInfo(cardNum,this.userName[seat%4],x,y,seat)
+			this.checkUserInfo(cardNum,this.userName[seat%4],x,y,seat,cardleft,ifdecrease,ranNums)
 		 }
 	})();
 }
@@ -204,7 +196,7 @@ async round(x,y,cardNum){
 // get username list apply to round function
 
 //move to next player
-async updateRound(theSeat){
+async updateRound(theSeat,theCard){
   // const getUser = await Auth.currentAuthenticatedUser();
 	// 	const name = getUser.username;
 	// 	const getRoomID = await API.graphql(graphqlOperation(queries.getQw,{
@@ -218,13 +210,14 @@ async updateRound(theSeat){
 
 	const thething = {
 				username : this.userName[0],
-				seat:theSeat+1
+				seat:theSeat+1,
+				cardLeft:theCard
 					};
  const newThing = await API.graphql(graphqlOperation(mutations.updateQw, {input: thething}));
 }
 
 //initialize the player's data
-async initCardData(card,x,y,theusername,theSeat){
+async initCardData(card,x,y,theusername){
 	const cardV = card;
 	console.log(cardV)
 	const xV =x;
@@ -238,17 +231,17 @@ async initCardData(card,x,y,theusername,theSeat){
 				whichCard : cardV,
 						x : xV,
 						y : yV,
-						seat: theSeat
+						seat: 0,
+						cardLeft:36,
 					};
  const newThing = await API.graphql(graphqlOperation(mutations.updateQw, {input: thething}));
 }
 	
 //when move, update data to database
-	async updateCardData(card,x,y,name){
+	async updateCardData(card,x,y,name,newCard){
 		const cardV = card;
 		const xV =x;
 		const yV = y;
-		
 		const thething = {
 					username : name,
 					whichCard : cardV,
@@ -258,6 +251,18 @@ async initCardData(card,x,y,theusername,theSeat){
 	 const newThing = await API.graphql(graphqlOperation(mutations.updateQw, {input: thething}));
 	}
 
+	async updateRank(){
+		const getUser = await Auth.currentAuthenticatedUser();
+		const name = getUser.username;
+		const thething = {
+					username : name,
+					rank: this.rank
+						};
+	 const newThing = await API.graphql(graphqlOperation(mutations.updateQw, {input: thething}));
+	 console.log('rank is',this.rank)
+	}
+
+
 
 	//click the card and make it move
 	clickedBox(ranNums){
@@ -265,11 +270,11 @@ async initCardData(card,x,y,theusername,theSeat){
 			for(var i=0;i<36;i++){
 				if(this.gameBoard[i] == i ){
 						if(gameObject.data.get('card_number') == i){
-								this.round(gameObject.x,gameObject.y,i)
-								this.CardLeft--;
+								this.round(gameObject.x,gameObject.y,i,0,ranNums)
+								console.log(this.cardWeGet)
 								break;
 						}else if(gameObject.data.get('card_number') == 53){
-							this.round(gameObject.x,gameObject.y,-1)
+							this.round(gameObject.x,gameObject.y,-1,1,ranNums)
 								break;
 						}
 					}	
@@ -353,24 +358,43 @@ async updateScreen(){
 
 		this.playername.text=this.userName[result1.data.getQw.seat%4]+' turn'
 
+		let arrange=result1.data.getQw.seat
+		let cardleft=result1.data.getQw.cardLeft
+
 			if(result1.data.getQw.whichCard!=-1){
-					this.cardSet[result1.data.getQw.whichCard].setX(20+this.arrange)
+					this.cardSet[result1.data.getQw.whichCard].setX(20+arrange*10)
 					this.cardSet[result1.data.getQw.whichCard].setY(100)
+					this.cardSet[result1.data.getQw.whichCard].setScale(0.8,0.8)
 					}
 			if(result2.data.getQw.whichCard!=-1){
-				this.cardSet[result2.data.getQw.whichCard].setX(900+this.arrange)
+				this.cardSet[result2.data.getQw.whichCard].setX(900+arrange*10)
 				this.cardSet[result2.data.getQw.whichCard].setY(100)
+				this.cardSet[result2.data.getQw.whichCard].setScale(0.8,0.8)
 		 }
 		 if(result3.data.getQw.whichCard!=-1){
-			this.cardSet[result3.data.getQw.whichCard].setX(20+this.arrange)
+			this.cardSet[result3.data.getQw.whichCard].setX(20+arrange*10)
 			this.cardSet[result3.data.getQw.whichCard].setY(400)
+			this.cardSet[result3.data.getQw.whichCard].setScale(0.8,0.8)
 	 }
 	 if(result4.data.getQw.whichCard!=-1){
-		this.cardSet[result4.data.getQw.whichCard].setX(900+this.arrange)
+		this.cardSet[result4.data.getQw.whichCard].setX(900+arrange*10)
 		this.cardSet[result4.data.getQw.whichCard].setY(400)
-    }
+		this.cardSet[result4.data.getQw.whichCard].setScale(0.8,0.8)
+		}
+		
+		if(cardleft<=0){
+			this.newBoard=this.add.image(400, 80, 'boardbg');
+			this.newBoard.setOrigin(0, 0).setScale(2.8,2.8);
+			this.playername.text='Game Over'
+			this.rank1=this.add.text(470,120,nameWeGot1+':  rank '+result1.data.getQw.rank)
+			this.rank2=this.add.text(470,160,nameWeGot2+':  rank '+result2.data.getQw.rank)
+			this.rank3=this.add.text(470,200,nameWeGot3+':  rank '+result3.data.getQw.rank)
+			this.rank4=this.add.text(470,240,nameWeGot4+':   rank '+result4.data.getQw.rank)
+		}
 	})();
 }
+
+
 	
 
 ifHas(the_card_get,num){
@@ -418,13 +442,53 @@ ifHas(the_card_get,num){
 	}
 	return result
 }
+
+decideSuit(the_card_get){
+	for(var i=0;i<the_card_get.length;i++){
+		if(the_card_get[i]>=0&&the_card_get[i]<=12){
+			this.spade.push(the_card_get[i])
+		}else if(the_card_get[i]>=13&&the_card_get[i]<=25){
+			this.club.push(the_card_get[i])
+		}else if(the_card_get[i]>=26&&the_card_get[i]<=38){
+			this.dia.push(the_card_get[i])
+		}else{
+			this.heart.push(the_card_get[i])
+		}
+	}
+}
+
+checkPH(the_card_get){
+	this.rank=6
+	for(var m=1;m<=13;m++){
+		this.numOfEach.push(this.ifHas(the_card_get,m).length)
+	}
+	if(!this.numOfEach.includes(3)&&this.numOfEach.includes(2)){
+		//console.log('pair')
+		this.rank=5
+	}
+	if(this.numOfEach.includes(3)&&!this.numOfEach.includes(2)){
+		//console.log('three of a kind')
+		this.rank=4
+	}
+	if(this.spade.length>=5||this.club.length>=5||this.heart.length>=5||this.dia.length>=5){
+		//console.log('Flush')
+		this.rank=3
+	}
+	if(this.numOfEach.includes(3)&&this.numOfEach.includes(2)){
+		//console.log('full house')
+		this.rank=2
+	}
+	//console.log(this.numOfEach)
+	if(this.numOfEach.includes(4)){
+		//console.log('4 of a kind')
+		this.rank=1
+	}
+	console.log(this.rank)
+	
+}
 	update(time, delta) {
 		 this.updateScreen()
-		if(this.CardLeft==0){
-			this.newBoard=this.add.image(400, 80, 'boardbg');
-			this.newBoard.setOrigin(0, 0).setScale(2.8,2.8);
-			this.text=this.add.text(500,200,'game over').setScale(3,3)
-		}
+	
 		
 	}
 }
