@@ -2,9 +2,10 @@
     font-family: 'Courier New', Courier, monospace;
 }
 
-.room {
+.running {
     background-color: #282c34;
-    overflow : auto;
+    overflow : hidden;
+    height: 10vh;
 }
 
 .room-back-button {
