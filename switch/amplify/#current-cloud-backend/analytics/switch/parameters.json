@@ -1,0 +1,20 @@
+{
+    "appName": "switch",
+    "roleName": "pinpointLambdaRolee2cab12d",
+    "cloudWatchPolicyName": "cloudWatchPolicye2cab12d",
+    "pinpointPolicyName": "pinpointPolicye2cab12d",
+    "authPolicyName": "pinpoint_amplify_e2cab12d",
+    "unauthPolicyName": "pinpoint_amplify_e2cab12d",
+    "authRoleName": {
+        "Ref": "AuthRoleName"
+    },
+    "unauthRoleName": {
+        "Ref": "UnauthRoleName"
+    },
+    "authRoleArn": {
+        "Fn::GetAtt": [
+            "AuthRole",
+            "Arn"
+        ]
+    }
+}

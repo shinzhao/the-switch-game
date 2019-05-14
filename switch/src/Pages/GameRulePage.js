@@ -4,10 +4,12 @@ import './GameRulePage.css';
 import { withRouter } from "react-router-dom";
 import { withAuthenticator } from 'aws-amplify-react';
 
-class GameRulePage extends React.Component {
+class GameRulePage extends Component {
     constructor() {
         super();
         this.handleBackClick = this.handleBackClick.bind(this);
+        this.handleGameRuleClick=this.handleGameRuleClick.bind(this);
+        this.handleProfileClick=this.handleProfileClick.bind(this);
     }
 
     handleBackClick(e) {
@@ -15,10 +17,23 @@ class GameRulePage extends React.Component {
         this.props.history.push('/room-list');
     }
 
+    handleGameRuleClick(e){
+        e.preventDefault();
+        this.props.history.push('game-rule');
+    }
+
+    handleProfileClick(e){
+        e.preventDefault();
+        this.props.history.push('my-account');
+        
+    }
+    
     render() {
         return(
             <div className="game-rule">
                 <button className="back-button" onClick={this.handleBackClick}>Back</button>
+                <button className="Gamerule-button" onClick={this.handleGameRuleClick}>Game Rule</button>
+                <button className="MyAccount-button" onClick={this.handleProfileClick}>My Account</button>
                 <div className="text">
                     <h1 className="title">Switch Game Rule</h1>
                     <h2>--- 4 Players ---</h2>

@@ -8,7 +8,6 @@ import { withRouter } from "react-router-dom";
 import { Auth } from 'aws-amplify';
 import Amplify, { API, graphqlOperation } from "aws-amplify";
 import * as queries from './phaser/../../graphql/queries';
-import {onCreateRoompage} from'./phaser/../../graphql/subscriptions';
 import * as mutations from '../graphql/mutations';
 import AWSAppSyncClient, { AUTH_TYPE } from 'aws-appsync';
 import aws_config from '../aws-exports';
@@ -16,6 +15,7 @@ import gql from 'graphql-tag';
 import { Table } from 'react-bootstrap';
 import { withAuthenticator } from 'aws-amplify-react';
 
+<<<<<<< HEAD
 /**
  * @type {Object}
  */
@@ -28,6 +28,8 @@ const client = new AWSAppSyncClient({
     }
   });
 
+=======
+>>>>>>> 8fd9777b8b956243ea6bc9fd0c6df1b8e3718372
   const subtoRoomData = `
   subscription{
     onCreateRoompage{
@@ -55,20 +57,12 @@ class RoomListPage extends React.Component {
     constructor(){
         super();
         this.state={
-            /* 
-            ************************
-            READ!!!!!!
-            ***********************
-
-            roomID -> rID, I am using roomID in DB, and these 2 roomID mess me up
-
-            */
             rID: '',
             player_count: [],
             roomCount: Number,
-            status: ''
-            
-            
+            status: '',
+            inputNum:Number,
+            check : Number       
         };
         this.handleProfileClick = this.handleProfileClick.bind(this);
         this.handleGameRuleClick = this.handleGameRuleClick.bind(this);
@@ -77,16 +71,10 @@ class RoomListPage extends React.Component {
     }
            
 componentDidMount() {
-        //this.getOnTime();
+        //create
         this.getRoom();
         this.getPlayersCount();
         this.getStatus();
-
-        //this.deleteEmptyRoom();
-        //console.log('show me the ' + this.state.player_count.length);
-
-
-        //create
         this.subC = API.graphql(
             graphqlOperation(subtoRoomData)
         ).subscribe({
@@ -141,68 +129,30 @@ componentDidMount() {
                         storeStatus.push('close');
                     }
                 }
-                
                 this.setState({player_count : updatedPlayersCount,
                                 status : storeStatus});
-
             }
         });
-
-
-       
-
-
-
-
-//         let subscription;
-
-//         (async () => {
-//         subscription = client.subscribe({ query: gql(onCreateRoompage) }).subscribe({
-//         next: data => {
-//         console.log(data);
-//         },
-//         error: error => {
-//         console.warn(error);
-//         }
-//         });
-//         })();
-
-// // Unsubscribe after 10 secs
-//         setTimeout(() => {
-//         subscription.unsubscribe();
-//         }, 100000);
-        // this.creatRoomListener = API.graphql(graphqlOperation(onCreateRoompage)).subscribe({
-        //     next: roomData => {
-        //       const newRoom = roomData.data.onCreateRoompage;
-        //       console.log('sub test, hello ');
-        //       const updatedRoom = [newRoom];
-        //       this.setState({ rID: updatedRoom });
-        //     }
-        //   });
+        
+        this.waitAndGetList();
   }
   
    componentWillUnmount() {
      this.subC.unsubscribe();
      this.subU.unsubscribe();
-     //this.subD.unsubscribe();
-
+     this.subD.unsubscribe();
    }
-
-// getOnTime = async () => {
-//     let subscription;
-//     subscription = client.subscribe({ query: gql(onCreateRoompage) }).subscribe({
-//         next: data => {
-//         console.log('something happen');
-//         },
-//         error: error => {
-//         console.warn(error);
-//         }
-//         });
-//         setTimeout(() => {
-//             subscription.unsubscribe();
-//             }, 100000);
-// }
-
+async waitAndGetList() {
+    console.log('Just~~~~~~~~')
+    await this.sleep(1000)
+    console.log('wait 1 second');
+    this.getRoom();
+    this.getPlayersCount();
+    this.getStatus();
+  }
+  sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms))
+  }
 
 /**
  * This function gets an array of roomid from database and setState rID equal to the array
@@ -211,11 +161,9 @@ getRoom = async () => {
     var storeRoom = [];
     const result = await API.graphql(graphqlOperation(queries.listRoompages));
     for(let i=0;i<result.data.listRoompages.items.length;i++){
-        console.log(result.data.listRoompages.items[i].roomid);
         storeRoom.push(result.data.listRoompages.items[i].roomid);
         }
     this.setState({rID : storeRoom });
-    console.log('TEST FOR QUERY ' + this.state.rID);
     }
 
 /**
@@ -285,6 +233,7 @@ getStatus = async() => {
 
 }  
 
+<<<<<<< HEAD
 /**
  * This function deletes the room after its player_count = 0,
  * which means the room is empty
@@ -308,6 +257,8 @@ for(let i=0;i<this.state.player_count.length;i++){
 }
 
 
+=======
+>>>>>>> 8fd9777b8b956243ea6bc9fd0c6df1b8e3718372
 //appsync get the playerCount in each room 
 // getPlayerCount = async () =>{
 //     var storePlayerCount = [];
@@ -328,14 +279,41 @@ handleCreateRoom = async (random) =>{
     
     const getUser = await Auth.currentAuthenticatedUser();
                 const name = getUser.username;
-    
     const result = await API.graphql(graphqlOperation(mutations.createRoompage,{
         input : {
             roomid : random,
             players : name
         }
-
-    }));
+        }));
+        var nums=[];
+		var ranNums = [];
+		for(var k=0;k<52;k++){
+		   nums.push(k);
+        }
+        console.log('show me the card '+ nums);
+		   let m = nums.length,
+               n = 0;
+               
+	    while (m--) {
+           n = Math.floor(Math.random() * (m+1));
+           
+		   ranNums.push(nums[n]);
+		   nums.splice(n,1);
+        }
+         console.log('show me the card '+ ranNums.slice(0,35));
+         ranNums = ranNums.slice(0,36);
+         console.log('show me the card '+ ranNums.length);
+            await API.graphql(graphqlOperation(mutations.createReadyPageTable, 
+                {
+                    input:{
+                    roomID : random,
+                    players : name,
+                    cards : ranNums,
+                    readyStatus : ['Not Ready ....','Not Ready ....','Not Ready ....','Not Ready ....'],
+                    GameStart : false,
+                    readyNum : 0
+                    }}
+                ));
 }
 
 
@@ -370,6 +348,13 @@ handleCreateRoom = async (random) =>{
                             players : updatedPlayers
                         }
                     }));
+                    await API.graphql(graphqlOperation(mutations.updateReadyPageTable, 
+                        {
+                            input:{
+                                roomID : roomnum,
+                                players : updatedPlayers
+                            }
+                        }));
             })();
                 const roomID = this.state.rID[i];
                 
@@ -410,7 +395,6 @@ handleCreateRoom = async (random) =>{
         var random =Math.floor(Math.random() * (+max - +min)) + +min; 
         console.log("Random Number Generated : " + random ); 
         this.handleCreateRoom(random);
-        console.log('hello?');
         let path = {
             pathname: '/room',
             query: random,
@@ -435,16 +419,91 @@ handleCreateRoom = async (random) =>{
         */
        
     }
+    inputChange=(number)=>{
+        this.setState({
+            inputNum : number.target.value
+        })
+    }
+
+    handleEnterRoom=()=>{
+        var value = 0;
+        var check = 0;
+        console.log('show me the rooms you have ' + this.state.rID);
+        console.log('show me what you typed ' + this.state.inputNum);
+        (async () => {
+            //get current user name
+            var i = 0;
+            const getUser = await Auth.currentAuthenticatedUser();
+            const name = getUser.username;
+            
+            const result1 = await API.graphql(graphqlOperation(queries.listRoompages));
+            console.log(result1.data.listRoompages.items.length);
+
+             while(i<result1.data.listRoompages.items.length){
+                 
+                  console.log('check ' + i + ' time'); 
+                if(result1.data.listRoompages.items[i].roomid == this.state.inputNum){
+                    const result2 = await API.graphql(graphqlOperation(queries.getRoompage,{
+                        roomid : this.state.inputNum
+                        }))
+                    if(result2.data.getRoompage.players.length < 4){
+                        const prevPlayers = result2.data.getRoompage.players;
+                        const updatedPlayers = [...prevPlayers,name];
+                        const newThing = await API.graphql(graphqlOperation(mutations.updateRoompage, 
+                        {
+                        input:{
+                            roomid : this.state.inputNum,
+                            players : updatedPlayers
+                        }
+                        }));
+                        await API.graphql(graphqlOperation(mutations.updateReadyPageTable, 
+                            {
+                                input:{
+                                    roomID : this.state.inputNum,
+                                    players : updatedPlayers
+                                }
+                            }));
+                        const ID = this.state.inputNum;
+                        let path = {
+                        pathname: '/room',
+                        query: ID,
+                        }
+                        this.props.history.push(path);
+                        break;
+                        }
+                    
+                    else{
+                        alert('room is full');
+                        break;
+                    }
+                }
+                if(i == (result1.data.listRoompages.items.length-1)){
+                    alert("room does not exist");
+                }
+                i++;
+            }
+            
+            
+
+            
+        })();
+       
+    }
 
     _renderRoom(){
         return Object.entries(this.state.rID).map((r, i) => {
             return (
-            <div className="table-row" key={i} value={i} onClick={(e) => {this.handleRoomClick(e,i)}}>
+            <div  className="table-row" key={i} value={i} onClick={(e)  => {this.handleRoomClick(e,i)}}>
+            <br />
+            <br />
                 <tr>
                     <th className="id">{this.state.rID[i]}</th>
                     <th className="count">{this.state.player_count[i]}/4</th>
                     <th className="status">{this.state.status[i]}</th>
+                    
                 </tr>
+                <br />
+                <br />
             </div>
             )
         })
@@ -459,8 +518,8 @@ handleCreateRoom = async (random) =>{
                 <button className="profile-button" onClick={this.handleProfileClick}>My Account</button>
                 <img src={img} className="room-img" />
                 <form>
-                    <label className="room-num">Room #: <input type="number" className="room-num-input" /></label>
-                    <input type="submit" value="ENTER" className="enter-button" />
+                    <label className="room-num">Room #: <input onChange={this.inputChange} type="number" className="room-num-input" /></label>
+                    <input type='button' value="ENTER" className="enter-button" onClick={this.handleEnterRoom} />
                 </form>
                 <button className="create-button" onClick={this.handleCreateClick}>Create New Room</button>
                 <table>
@@ -473,6 +532,7 @@ handleCreateRoom = async (random) =>{
                     </thead>
                     <tbody>
                         {this._renderRoom()}
+                        
                     </tbody>
                 </table>
                 <div className="block"></div>
