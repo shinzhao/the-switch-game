@@ -104,15 +104,14 @@ export class GameBoard extends Phaser.Scene {
 
 //decide poker hands
 		this.cardWeGet=[]
-		this.mygetcard=[0,16,25,26,40,2,3,4,5,13,39]
-		this.mygetcard.sort()
+		//this.mygetcard=[0,16,25,26,40,2,3,4,5,13,39]
+		//this.mygetcard.sort()
 		this.numOfEach=[]
 		this.spade=[]
 		this.club=[]
 		this.heart=[]
 		this.dia=[]
-		// this.decideSuit(this.mygetcard)
-		// this.checkPH(this.mygetcard)
+	
 		   
 	}
 	
@@ -127,6 +126,10 @@ export class GameBoard extends Phaser.Scene {
 					this.updateCardData(cardNum,x,y,name)
 					if(ifdecrease==0){
 						this.cardWeGet.push(ranNums[cardNum])
+						console.log('so far we get',this.cardWeGet)
+						this.decideSuit(this.cardWeGet)
+		        this.checkPH(this.cardWeGet)
+		        this.updateRank()
 					this.updateRound(seat,cardleft-1)
 					}else if(ifdecrease==1){
 						this.updateRound(seat,cardleft)
@@ -256,6 +259,7 @@ async initCardData(card,x,y,theusername){
 					rank: this.rank
 						};
 	 const newThing = await API.graphql(graphqlOperation(mutations.updateQw, {input: thething}));
+	 console.log('rank is',this.rank)
 	}
 
 
@@ -373,12 +377,15 @@ async updateScreen(){
 		this.cardSet[result4.data.getQw.whichCard].setX(900+arrange*10)
 		this.cardSet[result4.data.getQw.whichCard].setY(400)
 		}
-		this.decideSuit(this.cardWeGet)
-		this.checkPH(this.cardWeGet)
-		if(cardleft<=0){
+		
+		if(cardleft<=28){
 			this.newBoard=this.add.image(400, 80, 'boardbg');
 			this.newBoard.setOrigin(0, 0).setScale(2.8,2.8);
 			this.playername.text='Game Over'
+			this.rank1=this.add.text(470,120,nameWeGot1+':  rank '+result1.data.getQw.rank)
+			this.rank2=this.add.text(470,160,nameWeGot2+':  rank '+result2.data.getQw.rank)
+			this.rank3=this.add.text(470,200,nameWeGot3+':  rank '+result3.data.getQw.rank)
+			this.rank4=this.add.text(470,240,nameWeGot4+':   rank '+result4.data.getQw.rank)
 		}
 	})();
 }
@@ -452,24 +459,24 @@ checkPH(the_card_get){
 		this.numOfEach.push(this.ifHas(the_card_get,m).length)
 	}
 	if(!this.numOfEach.includes(3)&&this.numOfEach.includes(2)){
-		console.log('pair')
+		//console.log('pair')
 		this.rank=5
 	}
 	if(this.numOfEach.includes(3)&&!this.numOfEach.includes(2)){
-		console.log('three of a kind')
+		//console.log('three of a kind')
 		this.rank=4
 	}
 	if(this.spade.length>=5||this.club.length>=5||this.heart.length>=5||this.dia.length>=5){
-		console.log('Flush')
+		//console.log('Flush')
 		this.rank=3
 	}
 	if(this.numOfEach.includes(3)&&this.numOfEach.includes(2)){
-		console.log('full house')
+		//console.log('full house')
 		this.rank=2
 	}
-	console.log(this.numOfEach)
+	//console.log(this.numOfEach)
 	if(this.numOfEach.includes(4)){
-		console.log('4 of a kind')
+		//console.log('4 of a kind')
 		this.rank=1
 	}
 	console.log(this.rank)
