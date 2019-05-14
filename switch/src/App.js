@@ -17,7 +17,7 @@ class App extends Component {
     /**
      * This function handles login button click in home page,
      * which directs to the room list page(which requires login first)
-     * @param {event} e 
+     * @param {Event} e 
      */
     handleClick(e) {
         e.preventDefault();
