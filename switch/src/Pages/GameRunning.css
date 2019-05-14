@@ -5,18 +5,8 @@
 .room {
     background-color: #282c34;
     height: 10vh;
-    
+    overflow : atuo;
 }
-
-.room-header {
-    color: white;
-    position: relative;
-    text-align: center;
-    top: 1em;
-}
-
-
-
 
 .room-back-button {
     position: relative;
