@@ -364,18 +364,22 @@ async updateScreen(){
 			if(result1.data.getQw.whichCard!=-1){
 					this.cardSet[result1.data.getQw.whichCard].setX(20+arrange*10)
 					this.cardSet[result1.data.getQw.whichCard].setY(100)
+					this.cardSet[result1.data.getQw.whichCard].setScale(0.8,0.8)
 					}
 			if(result2.data.getQw.whichCard!=-1){
 				this.cardSet[result2.data.getQw.whichCard].setX(900+arrange*10)
 				this.cardSet[result2.data.getQw.whichCard].setY(100)
+				this.cardSet[result2.data.getQw.whichCard].setScale(0.8,0.8)
 		 }
 		 if(result3.data.getQw.whichCard!=-1){
 			this.cardSet[result3.data.getQw.whichCard].setX(20+arrange*10)
 			this.cardSet[result3.data.getQw.whichCard].setY(400)
+			this.cardSet[result3.data.getQw.whichCard].setScale(0.8,0.8)
 	 }
 	 if(result4.data.getQw.whichCard!=-1){
 		this.cardSet[result4.data.getQw.whichCard].setX(900+arrange*10)
 		this.cardSet[result4.data.getQw.whichCard].setY(400)
+		this.cardSet[result4.data.getQw.whichCard].setScale(0.8,0.8)
 		}
 		
 		if(cardleft<=0){
