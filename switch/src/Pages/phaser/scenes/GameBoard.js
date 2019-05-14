@@ -82,24 +82,9 @@ export class GameBoard extends Phaser.Scene {
 			 this.player.push(player2)
 			 this.player.push(player3)
 			 this.player.push(player4)
-				
 
-		//initalize the data
-		//this.getuserName()
+
 		
-		this.mygetcard=[0,16,25,26,1,27,40]
-		this.mygetcard.sort()
-		this.numOfEach=[]
-		this.spade=[]
-		this.club=[]
-		this.heart=[]
-		this.dia=[]
-		for(var m=1;m<=13;m++){
-		  this.numOfEach.push(this.ifHas(this.mygetcard,m).length)
-		}
-
-
-		this.arrange=0
 		this.userName=['switch','test3','test5','noviah']
 
 		//test 4 player mode
@@ -117,6 +102,16 @@ export class GameBoard extends Phaser.Scene {
 		this.name4=this.add.text(900,370,this.userName[3])
 	
 		this.clickedBox(ranNums)
+
+//decide poker hands
+		this.mygetcard=[0,16,25,26,1,27,40]
+		this.mygetcard.sort()
+		this.numOfEach=[]
+		this.spade=[]
+		this.club=[]
+		this.heart=[]
+		this.dia=[]
+		this.checkPH(this.mygetcard)
 		   
 	}
 	
@@ -130,7 +125,6 @@ export class GameBoard extends Phaser.Scene {
 				if(name==username){
 					this.updateCardData(cardNum,x,y,name)
 					this.updateRound(seat)
-					this.arrange+=20
 				}else{
 					console.log('invalid move')	
 				}
@@ -350,20 +344,22 @@ async updateScreen(){
 
 		this.playername.text=this.userName[result1.data.getQw.seat%4]+' turn'
 
+		let arrange=result1.data.getQw.seat
+
 			if(result1.data.getQw.whichCard!=-1){
-					this.cardSet[result1.data.getQw.whichCard].setX(20+this.arrange)
+					this.cardSet[result1.data.getQw.whichCard].setX(20+arrange*10)
 					this.cardSet[result1.data.getQw.whichCard].setY(100)
 					}
 			if(result2.data.getQw.whichCard!=-1){
-				this.cardSet[result2.data.getQw.whichCard].setX(900+this.arrange)
+				this.cardSet[result2.data.getQw.whichCard].setX(900+arrange*10)
 				this.cardSet[result2.data.getQw.whichCard].setY(100)
 		 }
 		 if(result3.data.getQw.whichCard!=-1){
-			this.cardSet[result3.data.getQw.whichCard].setX(20+this.arrange)
+			this.cardSet[result3.data.getQw.whichCard].setX(20+arrange*10)
 			this.cardSet[result3.data.getQw.whichCard].setY(400)
 	 }
 	 if(result4.data.getQw.whichCard!=-1){
-		this.cardSet[result4.data.getQw.whichCard].setX(900+this.arrange)
+		this.cardSet[result4.data.getQw.whichCard].setX(900+arrange*10)
 		this.cardSet[result4.data.getQw.whichCard].setY(400)
     }
 	})();
@@ -427,6 +423,21 @@ decideSuit(the_card_get){
 		}else{
 			this.heart.push(the_card_get[i])
 		}
+	}
+}
+
+checkPH(the_card_get){
+	for(var m=1;m<=13;m++){
+		this.numOfEach.push(this.ifHas(the_card_get,m).length)
+	}
+	if(this.numOfEach.includes(4)){
+		console.log('4 of a kind')
+	}else if(this.numOfEach.includes(3)&&this.numOfEach.includes(2)){
+		console.log('full house')
+	}else if(this.numOfEach.includes(3)&&!this.numOfEach.includes(2)){
+		console.log('three of a kind')
+	}else if(!this.numOfEach.includes(3)&&this.numOfEach.includes(2)){
+		console.log('pair')
 	}
 }
 	update(time, delta) {
