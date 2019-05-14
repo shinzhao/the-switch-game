@@ -4,8 +4,7 @@
 
 .room {
     background-color: #282c34;
-    height: 10vh;
-    overflow : atuo;
+    overflow : auto;
 }
 
 .room-back-button {
