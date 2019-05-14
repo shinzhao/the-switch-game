@@ -8,6 +8,7 @@ export const createQw = `mutation CreateQw($input: CreateQwInput!) {
     seat
     x
     y
+    whichCard
     cardLeft
     userList
     cardGet
@@ -21,6 +22,7 @@ export const updateQw = `mutation UpdateQw($input: UpdateQwInput!) {
     seat
     x
     y
+    whichCard
     cardLeft
     userList
     cardGet
@@ -34,6 +36,7 @@ export const deleteQw = `mutation DeleteQw($input: DeleteQwInput!) {
     seat
     x
     y
+    whichCard
     cardLeft
     userList
     cardGet

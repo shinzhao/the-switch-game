@@ -8,6 +8,7 @@ export const getQw = `query GetQw($username: String!) {
     seat
     x
     y
+    whichCard
     cardLeft
     userList
     cardGet
@@ -22,6 +23,7 @@ export const listQws = `query ListQws($filter: TableQwFilterInput, $limit: Int, 
       seat
       x
       y
+      whichCard
       cardLeft
       userList
       cardGet

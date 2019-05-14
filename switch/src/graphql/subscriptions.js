@@ -14,6 +14,7 @@ export const onCreateQw = `subscription OnCreateQw(
     seat
     x
     y
+    whichCard
     cardLeft
     userList
     cardGet
@@ -33,6 +34,7 @@ export const onUpdateQw = `subscription OnUpdateQw(
     seat
     x
     y
+    whichCard
     cardLeft
     userList
     cardGet
@@ -52,6 +54,7 @@ export const onDeleteQw = `subscription OnDeleteQw(
     seat
     x
     y
+    whichCard
     cardLeft
     userList
     cardGet
