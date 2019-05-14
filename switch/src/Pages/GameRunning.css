@@ -1,0 +1,16 @@
+*{
+    font-family: 'Courier New', Courier, monospace;
+}
+
+.running {
+    background-color: #282c34;
+    overflow : hidden;
+    height: 10vh;
+}
+
+.room-back-button {
+    position: relative;
+    left: 1%;
+    top: 1em;
+}
+
