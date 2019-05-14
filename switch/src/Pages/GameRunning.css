@@ -4,8 +4,8 @@
 
 .room {
     background-color: #282c34;
-    height: 100vh;
-    overflow: auto;
+    height: 10vh;
+    
 }
 
 .room-header {
@@ -15,11 +15,7 @@
     top: 1em;
 }
 
-.master-card, .player-card {
-    position: relative;
-    left: 38.5%;
-    top: 3em;
-}
+
 
 
 .room-back-button {
@@ -28,8 +24,3 @@
     top: 1em;
 }
 
-.unready-button .ready-button {
-    position: relative;
-    left: 40%;
-    top: 1em;
-}

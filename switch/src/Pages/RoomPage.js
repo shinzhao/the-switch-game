@@ -445,7 +445,7 @@ class RoomPage extends React.Component {
                     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous" />
                 </head>
                 <Button className="room-back-button" variant="secondary" onClick={this.handleBackClick}>Back</Button>
-                { this.state.showGame ? <Game /> : 
+                { this.state.showGame ? this.props.history.push('/gameRunning') : 
                     <div>
                         <h1 className="room-header">Room #{this.state.roomid}</h1>
                         {this.showReadyButton()} 

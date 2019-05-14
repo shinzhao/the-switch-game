@@ -7,10 +7,6 @@ import RoomList from './RoomListPage';
 Amplify.configure(awsmobile);
 
 class Login extends Component {
-  /**
-   * after login through amplify authenticator,
-   * render the room list page
-   */
   render() {
     return (
       <div>

@@ -29,7 +29,7 @@
         "IdentityPoolName": "cognito3750a61c_identitypool_3750a61c__switch",
         "UserPoolName": "cognito3750a61c_userpool_3750a61c"
       },
-      "lastPushTimeStamp": "2019-05-14T06:24:38.227Z",
+      "lastPushTimeStamp": "2019-05-13T07:20:25.212Z",
       "providerMetadata": {
         "s3TemplateURL": "https://s3.amazonaws.com/switch-20190429012622-deployment/amplify-cfn-templates/auth/cognito3750a61c-cloudformation-template.yml",
         "logicalId": "authcognito3750a61c"
@@ -45,7 +45,7 @@
         "GraphQLAPIEndpointOutput": "https://y42fsdlw35g47fjzpgaswmve6y.appsync-api.us-east-2.amazonaws.com/graphql",
         "GraphQLAPIKeyOutput": "da2-3wxinbhikrea5magdrrxvqqgiq"
       },
-      "lastPushTimeStamp": "2019-05-14T06:24:49.396Z"
+      "lastPushTimeStamp": "2019-05-13T07:20:32.094Z"
     }
   },
   "hosting": {},
@@ -57,7 +57,7 @@
         "s3TemplateURL": "https://s3.amazonaws.com/switch-20190429012622-deployment/amplify-cfn-templates/analytics/pinpoint-cloudformation-template.json",
         "logicalId": "analyticsswitch"
       },
-      "lastPushTimeStamp": "2019-05-14T06:24:38.271Z",
+      "lastPushTimeStamp": "2019-05-13T07:20:25.301Z",
       "output": {
         "appName": "switch-switch",
         "Region": "us-east-1",
@@ -74,7 +74,7 @@
         "s3TemplateURL": "https://s3.amazonaws.com/switch-20190429012622-deployment/amplify-cfn-templates/storage/s3-cloudformation-template.json",
         "logicalId": "storages389b1b273"
       },
-      "lastPushTimeStamp": "2019-05-14T06:24:38.237Z",
+      "lastPushTimeStamp": "2019-05-13T07:20:25.221Z",
       "output": {
         "BucketName": "switchae1f9c76e2d145e58bf39bd3ef6b68de-switch",
         "Region": "us-east-2"
