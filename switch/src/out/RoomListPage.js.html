@@ -1,4 +1,32 @@
-import React, { Component } from 'react';
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: RoomListPage.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: RoomListPage.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import React, { Component } from 'react';
 import img from '../img/background.png';
 import './RoomListPage.css';
 import RoomPage from './RoomPage';
@@ -118,8 +146,8 @@ componentDidMount() {
                 const updatedPlayersCount = prevPlayersCount;
                 updatedPlayersCount[index] = newPlyersCount; 
 
-                for(let i=0;i<updatedPlayersCount.length;i++){
-                    if(updatedPlayersCount[i]<4){
+                for(let i=0;i&lt;updatedPlayersCount.length;i++){
+                    if(updatedPlayersCount[i]&lt;4){
                         storeStatus.push('open');
                     }
                     if(updatedPlayersCount[i]>=4){
@@ -161,7 +189,7 @@ async waitAndGetList() {
 getRoom = async () => {
     var storeRoom = [];
     const result = await API.graphql(graphqlOperation(queries.listRoompages));
-    for(let i=0;i<result.data.listRoompages.items.length;i++){
+    for(let i=0;i&lt;result.data.listRoompages.items.length;i++){
         storeRoom.push(result.data.listRoompages.items[i].roomid);
         }
     this.setState({rID : storeRoom });
@@ -174,7 +202,7 @@ getRoom = async () => {
 getPlayersCount = async ()=>{
     var playercount = [];
     const result = await API.graphql(graphqlOperation(queries.listRoompages));
-    for(let i=0;i<result.data.listRoompages.items.length;i++){
+    for(let i=0;i&lt;result.data.listRoompages.items.length;i++){
         const obj = result.data.listRoompages.items[i].players;
         var count = 0;
         for (var property in obj) {
@@ -209,7 +237,7 @@ getStatus = async() => {
     var storeStatus = [];
     var playercount = [];
     const result = await API.graphql(graphqlOperation(queries.listRoompages));
-    for(let i=0;i<result.data.listRoompages.items.length;i++){
+    for(let i=0;i&lt;result.data.listRoompages.items.length;i++){
         const obj = result.data.listRoompages.items[i].players;
         var count = 0;
         for (var property in obj) {
@@ -222,8 +250,8 @@ getStatus = async() => {
         
     }
     console.log('get status check '+playercount);
-    for(let i=0;i<playercount.length;i++){
-        if(playercount[i]<4){
+    for(let i=0;i&lt;playercount.length;i++){
+        if(playercount[i]&lt;4){
             storeStatus.push('open');
         }
         if(playercount[i]>=4){
@@ -242,7 +270,7 @@ getStatus = async() => {
 handleRanDomRoom = async () =>{
     var storeRoom = [];
     const result = await API.graphql(graphqlOperation(queries.listRoompages));
-    for(let i=0;i<result.data.listRoompages.items.length;i++){
+    for(let i=0;i&lt;result.data.listRoompages.items.length;i++){
         console.log(result.data.listRoompages.items[i].roomid);
         storeRoom.push(result.data.listRoompages.items[i].roomid);
         }
@@ -266,7 +294,7 @@ handleCreateRoom = async (random) =>{
         }));
         var nums=[];
 		var ranNums = [];
-		for(var k=0;k<52;k++){
+		for(var k=0;k&lt;52;k++){
 		   nums.push(k);
         }
         console.log('show me the card '+ nums);
@@ -366,16 +394,16 @@ handleCreateRoom = async (random) =>{
     // renderRoom(i){
     //     if (this.state.rID[i]){
     //         return(
-    //             <button className="room-button" onClick={(e) => {this.handleRoomClick(e,i)}}>
-    //                     Room {this.state.rID[i]} <br />
-    //                     {this.state.player_count[i]}/4 <br />
+    //             &lt;button className="room-button" onClick={(e) => {this.handleRoomClick(e,i)}}>
+    //                     Room {this.state.rID[i]} &lt;br />
+    //                     {this.state.player_count[i]}/4 &lt;br />
     //                     {this.state.status[i]}
-    //             </button>
+    //             &lt;/button>
     //         );
     //     }
     //     else {
     //         return(
-    //             <button className="empty-room-button"></button>
+    //             &lt;button className="empty-room-button">&lt;/button>
     //         )
     //     }
     // }
@@ -401,7 +429,7 @@ handleCreateRoom = async (random) =>{
         
         
         /*
-        for(let i = 0; i < this.state.status.length; i++) {
+        for(let i = 0; i &lt; this.state.status.length; i++) {
             if(this.state.status[i] == 'closed') {
                 let temp_status = this.state.status;
                 temp_status[i] = 'open';
@@ -443,14 +471,14 @@ handleCreateRoom = async (random) =>{
             const result1 = await API.graphql(graphqlOperation(queries.listRoompages));
             console.log(result1.data.listRoompages.items.length);
 
-             while(i<result1.data.listRoompages.items.length){
+             while(i&lt;result1.data.listRoompages.items.length){
                  
                   console.log('check ' + i + ' time'); 
                 if(result1.data.listRoompages.items[i].roomid == this.state.inputNum){
                     const result2 = await API.graphql(graphqlOperation(queries.getRoompage,{
                         roomid : this.state.inputNum
                         }))
-                    if(result2.data.getRoompage.players.length < 4){
+                    if(result2.data.getRoompage.players.length &lt; 4){
                         const prevPlayers = result2.data.getRoompage.players;
                         const updatedPlayers = [...prevPlayers,name];
                         const newThing = await API.graphql(graphqlOperation(mutations.updateRoompage, 
@@ -500,18 +528,18 @@ handleCreateRoom = async (random) =>{
     _renderRoom(){
         return Object.entries(this.state.rID).map((r, i) => {
             return (
-            <div  className="table-row" key={i} value={i} onClick={(e)  => {this.handleRoomClick(e,i)}}>
-            <br />
-            <br />
-                <tr>
-                    <th className="id">{this.state.rID[i]}</th>
-                    <th className="count">{this.state.player_count[i]}/4</th>
-                    <th className="status">{this.state.status[i]}</th>
+            &lt;div  className="table-row" key={i} value={i} onClick={(e)  => {this.handleRoomClick(e,i)}}>
+            &lt;br />
+            &lt;br />
+                &lt;tr>
+                    &lt;th className="id">{this.state.rID[i]}&lt;/th>
+                    &lt;th className="count">{this.state.player_count[i]}/4&lt;/th>
+                    &lt;th className="status">{this.state.status[i]}&lt;/th>
                     
-                </tr>
-                <br />
-                <br />
-            </div>
+                &lt;/tr>
+                &lt;br />
+                &lt;br />
+            &lt;/div>
             )
         })
     }
@@ -521,31 +549,31 @@ handleCreateRoom = async (random) =>{
      */
     render() {
         return (
-            <div className="room-list">
-                <h1 className="room-list-header">SWITCH</h1>
-                <button className="game-rule-button" onClick={this.handleGameRuleClick}>Game Rule</button>
-                <button className="profile-button" onClick={this.handleProfileClick}>My Account</button>
-                <img src={img} className="room-img" />
-                <form>
-                    <label className="room-num">Room #: <input onChange={this.inputChange} type="number" className="room-num-input" /></label>
-                    <input type='button' value="ENTER" className="enter-button" onClick={this.handleEnterRoom} />
-                </form>
-                <button className="create-button" onClick={this.handleCreateClick}>Create New Room</button>
-                <table>
-                    <thead>
-                        <tr>
-                            <th className="id">Room ID</th>
-                            <th className="count">Player Number</th>
-                            <th className="status">Status</th>
-                        </tr>
-                    </thead>
-                    <tbody>
+            &lt;div className="room-list">
+                &lt;h1 className="room-list-header">SWITCH&lt;/h1>
+                &lt;button className="game-rule-button" onClick={this.handleGameRuleClick}>Game Rule&lt;/button>
+                &lt;button className="profile-button" onClick={this.handleProfileClick}>My Account&lt;/button>
+                &lt;img src={img} className="room-img" />
+                &lt;form>
+                    &lt;label className="room-num">Room #: &lt;input onChange={this.inputChange} type="number" className="room-num-input" />&lt;/label>
+                    &lt;input type='button' value="ENTER" className="enter-button" onClick={this.handleEnterRoom} />
+                &lt;/form>
+                &lt;button className="create-button" onClick={this.handleCreateClick}>Create New Room&lt;/button>
+                &lt;table>
+                    &lt;thead>
+                        &lt;tr>
+                            &lt;th className="id">Room ID&lt;/th>
+                            &lt;th className="count">Player Number&lt;/th>
+                            &lt;th className="status">Status&lt;/th>
+                        &lt;/tr>
+                    &lt;/thead>
+                    &lt;tbody>
                         {this._renderRoom()}
                         
-                    </tbody>
-                </table>
-                <div className="block"></div>
-        </div>
+                    &lt;/tbody>
+                &lt;/table>
+                &lt;div className="block">&lt;/div>
+        &lt;/div>
         );
     }
 }
@@ -556,3 +584,30 @@ handleCreateRoom = async (random) =>{
 
 export default withRouter(withAuthenticator(RoomListPage));
 
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3><a href="App.js.html">App</a></h3>
+    <ul>
+        <li><a href="LoginPage.js.html">Login</a></li>
+        <li><a href="RoomListPage.js.html">Room List</a></li>
+    </ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.2</a> on Tue May 14 2019 01:28:01 GMT-0400 (Eastern Daylight Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

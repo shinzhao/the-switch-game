@@ -14,11 +14,18 @@ class App extends Component {
         this.handleClick = this.handleClick.bind(this);
     }
 
+    /**
+     * This function handles login button click in home page,
+     * which directs to the room list page(which requires login first)
+     * @param {Event} e 
+     */
     handleClick(e) {
         e.preventDefault();
         this.props.history.push('/room-list');
     }
-
+    /**
+     * Renders home page
+     */
     render() {
         return (
                 <div className="home">
