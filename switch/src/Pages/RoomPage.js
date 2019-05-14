@@ -29,7 +29,7 @@ class RoomPage extends React.Component {
         super();
         this.state={
             showGame: false,
-            isRoomMaster: true,
+            
             isReady: false,
             num_ready: 0,
             roomOwner : false,
@@ -55,25 +55,12 @@ class RoomPage extends React.Component {
             graphqlOperation(subtoRoomData2)
         ).subscribe({
             next: (roomData) =>{
-               
-                console.log(roomData.value.data.onUpdateReadyPageTable.players);
-                console.log(roomData.value.data.onUpdateReadyPageTable.readyNum);
-                console.log(roomData.value.data.onUpdateReadyPageTable.readyStatus);
-                const newPlyersList = roomData.value.data.onUpdateReadyPageTable.players;
-                const newReadyNum = roomData.value.data.onUpdateReadyPageTable.readyNum;
-                const newReadyStatus = roomData.value.data.onUpdateReadyPageTable.readyStatus;
-                const newGameStart = roomData.value.data.onUpdateReadyPageTable.GameStart;
-                console.log('show me the gamestart : '+newGameStart);
+            
+                this.setPlayers();
                 this.setRoomOwner();
-                this.setReadyStatus()
-                this.setState({
-                    playersList : newPlyersList,
-                    num_ready : newReadyNum,
-                    readyStatus : newReadyStatus,
-                    str : newReadyStatus,
-                    showGame : newGameStart
-                })
-           
+                this.setReadyStatus();
+                this.setReadyNum();
+                this.setGameStart();
             }
         });
         
@@ -86,7 +73,26 @@ class RoomPage extends React.Component {
         this.subU.unsubscribe();
 
       }
-
+    async setReadyNum(){
+        const data = this.props.location.query;
+        const getData = await API.graphql(graphqlOperation(queries.getReadyPageTable,{
+            roomID : data
+        }));
+        const readyNumber = getData.data.getReadyPageTable.readyNum;
+        this.setState({
+            num_ready : readyNumber
+        })
+    }
+    async setGameStart(){
+        const data = this.props.location.query;
+        const getData = await API.graphql(graphqlOperation(queries.getReadyPageTable,{
+            roomID : data
+        }));
+        const start = getData.data.getReadyPageTable.GameStart;
+        this.setState({
+            showGame : start
+        })
+    }
     async setReadyStatus(){
         const data = this.props.location.query;
         const getPlayers = await API.graphql(graphqlOperation(queries.getReadyPageTable,{
@@ -439,7 +445,7 @@ class RoomPage extends React.Component {
                     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous" />
                 </head>
                 <Button className="room-back-button" variant="secondary" onClick={this.handleBackClick}>Back</Button>
-                { this.state.showGame ? <Game /> : 
+                { this.state.showGame ? this.props.history.push('/gameRunning') : 
                     <div>
                         <h1 className="room-header">Room #{this.state.roomid}</h1>
                         {this.showReadyButton()} 
