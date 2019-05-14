@@ -378,7 +378,7 @@ async updateScreen(){
 		this.cardSet[result4.data.getQw.whichCard].setY(400)
 		}
 		
-		if(cardleft<=28){
+		if(cardleft<=0){
 			this.newBoard=this.add.image(400, 80, 'boardbg');
 			this.newBoard.setOrigin(0, 0).setScale(2.8,2.8);
 			this.playername.text='Game Over'
@@ -454,7 +454,7 @@ decideSuit(the_card_get){
 }
 
 checkPH(the_card_get){
-	this.rank=0
+	this.rank=6
 	for(var m=1;m<=13;m++){
 		this.numOfEach.push(this.ifHas(the_card_get,m).length)
 	}
