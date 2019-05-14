@@ -248,6 +248,17 @@ async initCardData(card,x,y,theusername){
 	 const newThing = await API.graphql(graphqlOperation(mutations.updateQw, {input: thething}));
 	}
 
+	async updateRank(){
+		const getUser = await Auth.currentAuthenticatedUser();
+		const name = getUser.username;
+		const thething = {
+					username : name,
+					rank: this.rank
+						};
+	 const newThing = await API.graphql(graphqlOperation(mutations.updateQw, {input: thething}));
+	}
+
+
 
 	//click the card and make it move
 	clickedBox(ranNums){
@@ -362,10 +373,9 @@ async updateScreen(){
 		this.cardSet[result4.data.getQw.whichCard].setX(900+arrange*10)
 		this.cardSet[result4.data.getQw.whichCard].setY(400)
 		}
-		
+		this.decideSuit(this.cardWeGet)
+		this.checkPH(this.cardWeGet)
 		if(cardleft<=0){
-			this.decideSuit(this.cardWeGet)
-			this.checkPH(this.cardWeGet)
 			this.newBoard=this.add.image(400, 80, 'boardbg');
 			this.newBoard.setOrigin(0, 0).setScale(2.8,2.8);
 			this.playername.text='Game Over'
