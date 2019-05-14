@@ -12,6 +12,7 @@ export const createQw = `mutation CreateQw($input: CreateQwInput!) {
     cardLeft
     userList
     cardGet
+    rank
   }
 }
 `;
@@ -26,6 +27,7 @@ export const updateQw = `mutation UpdateQw($input: UpdateQwInput!) {
     cardLeft
     userList
     cardGet
+    rank
   }
 }
 `;
@@ -40,6 +42,7 @@ export const deleteQw = `mutation DeleteQw($input: DeleteQwInput!) {
     cardLeft
     userList
     cardGet
+    rank
   }
 }
 `;

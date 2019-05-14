@@ -12,6 +12,7 @@ export const getQw = `query GetQw($username: String!) {
     cardLeft
     userList
     cardGet
+    rank
   }
 }
 `;
@@ -27,6 +28,7 @@ export const listQws = `query ListQws($filter: TableQwFilterInput, $limit: Int, 
       cardLeft
       userList
       cardGet
+      rank
     }
     nextToken
   }

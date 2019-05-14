@@ -18,6 +18,7 @@ export const onCreateQw = `subscription OnCreateQw(
     cardLeft
     userList
     cardGet
+    rank
   }
 }
 `;
@@ -38,6 +39,7 @@ export const onUpdateQw = `subscription OnUpdateQw(
     cardLeft
     userList
     cardGet
+    rank
   }
 }
 `;
@@ -58,6 +60,7 @@ export const onDeleteQw = `subscription OnDeleteQw(
     cardLeft
     userList
     cardGet
+    rank
   }
 }
 `;
