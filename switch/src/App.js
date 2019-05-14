@@ -4,6 +4,7 @@ import Amplify from '@aws-amplify/core';
 import { withRouter } from "react-router-dom";
 import './App.css';
 import img from './img/background.png';
+import Game from './Pages/phaser/Game'
 
 Amplify.configure(aws_config);
 

@@ -4,14 +4,32 @@
 
 .room {
     background-color: #282c34;
+    height: 100vh;
     overflow: auto;
 }
 
 .room-header {
     color: white;
+    position: relative;
+    text-align: center;
+    top: 1em;
 }
 
-.master-card {
+.master-card, .player-card {
     position: relative;
-    left: 50%;
+    left: 38.5%;
+    top: 3em;
+}
+
+
+.room-back-button {
+    position: relative;
+    left: 1%;
+    top: 1em;
+}
+
+.unready-button .ready-button {
+    position: relative;
+    left: 40%;
+    top: 1em;
 }
