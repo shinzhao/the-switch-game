@@ -32,7 +32,6 @@ export class GameBoard extends Phaser.Scene {
 	}
 	
 
-
 	create() {
 		this.gameBoard = [0,1,2,3,4,5,6,7,8,9,10,
 			11,12,13,14,15,16,17,18,19,20,21,22,
@@ -52,21 +51,6 @@ export class GameBoard extends Phaser.Scene {
 			   x_pos1=0;
 			 }
 			 
-
-		//    let card_number=0;
-		//    let nums=[],
-		// 	   ranNums = [];
-		//   for(var k=0;k<52;k++){
-		//    nums.push(k);
-		// 	}
-		//    let m = nums.length,
-		// 	   n = 0;
-	  //  while (m--) {
-		//    n = Math.floor(Math.random() * (m+1));
-		//    ranNums.push(nums[n]);
-		//    nums.splice(n,1);
-		//  }
-		 
 		let card_number=0;
 		let ranNums=[3,7,15,33,25,46,8,9,28,53,11,6,34,36,21,23,41,19,16,1,47,29,51,39,2,25,27,40,30,
 		              37,10,22,10,20,50,38,26]
@@ -87,6 +71,7 @@ export class GameBoard extends Phaser.Scene {
 			   x_pos=0;
 			 }
 			 
+			 //add player chess
 			 let player1=new Player(this,405,85,'chess_red',1).setOrigin(0,0)
 			 let player2=new Player(this,730,85,'chess_blue',2).setOrigin(0,0)
 			 let player3=new Player(this,405,410,'chess_purple',3).setOrigin(0,0)
@@ -102,23 +87,34 @@ export class GameBoard extends Phaser.Scene {
 		//initalize the data
 		//this.getuserName()
 		
-		//this.Rf=[0,9,10,11,12]
 		this.mygetcard=[0,16,25,26,1,27,40]
 		this.mygetcard.sort()
 		this.numOfEach=[]
+		this.spade=[]
+		this.club=[]
+		this.heart=[]
+		this.dia=[]
 		for(var m=1;m<=13;m++){
 		  this.numOfEach.push(this.ifHas(this.mygetcard,m).length)
 		}
 
+
 		this.arrange=0
 		this.userName=['switch','test3','test5','noviah']
-		//test 4 player
+
+		//test 4 player mode
 		this.initCardData(-1,405,85,this.userName[0],0)
 		this.initCardData(-1,730,85,this.userName[1],0)
 		this.initCardData(-1,405,410,this.userName[2],0)
 		this.initCardData(-1,730,410,this.userName[3],0)
 		this.initCardData(-1,730,410,this.userName[3],0)
 		this.playername=this.add.text(500,50,this.userName[0]+' turn').setScale(1.5,1.5)	
+
+		//display player name
+		this.name1=this.add.text(20,70,this.userName[0])
+		this.name2=this.add.text(900,70,this.userName[1])
+		this.name3=this.add.text(20,370,this.userName[2])
+		this.name4=this.add.text(900,370,this.userName[3])
 	
 		this.clickedBox(ranNums)
 		   
@@ -166,6 +162,7 @@ getuserName(){
 		this.initCardData(-1,405,410,userName[2],0)
 		this.initCardData(-1,730,410,userName[3],0)
 		this.playername=this.add.text(500,50,userName[0]+' turn').setScale(1.5,1.5)
+		
 		console.log(userName[0])
 })();
 }
@@ -417,6 +414,20 @@ ifHas(the_card_get,num){
 		break;
 	}
 	return result
+}
+
+decideSuit(the_card_get){
+	for(var i=0;i<the_card_get.length;i++){
+		if(the_card_get[i]>=0&&the_card_get[i]<=12){
+			this.spade.push(the_card_get[i])
+		}else if(the_card_get[i]>=13&&the_card_get[i]<=25){
+			this.club.push(the_card_get[i])
+		}else if(the_card_get[i]>=26&&the_card_get[i]<=38){
+			this.dia.push(the_card_get[i])
+		}else{
+			this.heart.push(the_card_get[i])
+		}
+	}
 }
 	update(time, delta) {
 		 this.updateScreen()
