@@ -14,8 +14,11 @@ import AWSAppSyncClient, { AUTH_TYPE } from 'aws-appsync';
 import aws_config from '../aws-exports';
 import gql from 'graphql-tag';
 import { Table } from 'react-bootstrap';
+import { withAuthenticator } from 'aws-amplify-react';
 
-
+/**
+ * @type {Object}
+ */
 const client = new AWSAppSyncClient({
     url: aws_config.aws_appsync_graphqlEndpoint,
     region: aws_config.aws_appsync_region,
@@ -177,6 +180,7 @@ componentDidMount() {
         //     }
         //   });
   }
+  
    componentWillUnmount() {
      this.subC.unsubscribe();
      this.subU.unsubscribe();
@@ -200,8 +204,9 @@ componentDidMount() {
 // }
 
 
-
-//appsync get room (query)
+/**
+ * This function gets an array of roomid from database and setState rID equal to the array
+ */
 getRoom = async () => {
     var storeRoom = [];
     const result = await API.graphql(graphqlOperation(queries.listRoompages));
@@ -213,6 +218,10 @@ getRoom = async () => {
     console.log('TEST FOR QUERY ' + this.state.rID);
     }
 
+/**
+ * This function gets an array of numbers of players in each open room from database,
+ * and setState player_count equal to the array
+ */
 getPlayersCount = async ()=>{
     var playercount = [];
     const result = await API.graphql(graphqlOperation(queries.listRoompages));
@@ -243,7 +252,10 @@ getPlayersCount = async ()=>{
 }
 
 
-//appsync get status
+/**
+ * This function gets an array of status of each room from database,
+ * and setState status equal to the array
+ */
 getStatus = async() => {
     var storeStatus = [];
     var playercount = [];
@@ -273,7 +285,10 @@ getStatus = async() => {
 
 }  
 
-
+/**
+ * This function deletes the room after its player_count = 0,
+ * which means the room is empty
+ */
 deleteEmptyRoom = async ()=>{
 this.getPlayersCount();
 
@@ -470,5 +485,5 @@ handleCreateRoom = async (random) =>{
 
 
 
-export default withRouter(RoomListPage);
+export default withRouter(withAuthenticator(RoomListPage));
 
