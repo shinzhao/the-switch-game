@@ -88,10 +88,10 @@ export class GameBoard extends Phaser.Scene {
 		this.userName=['switch','test3','test5','noviah']
 
 		//test 4 player mode
-		this.initCardData(-1,405,85,this.userName[0],0,36)
-		this.initCardData(-1,730,85,this.userName[1],0,36)
-		this.initCardData(-1,405,410,this.userName[2],0,36)
-		this.initCardData(-1,730,410,this.userName[3],0,36)
+		this.initCardData(-1,405,85,this.userName[0])
+		this.initCardData(-1,730,85,this.userName[1])
+		this.initCardData(-1,405,410,this.userName[2])
+		this.initCardData(-1,730,410,this.userName[3])
 		this.playername=this.add.text(500,50,this.userName[0]+' turn').setScale(1.5,1.5)	
 
 		//display player name
@@ -103,14 +103,16 @@ export class GameBoard extends Phaser.Scene {
 		this.clickedBox(ranNums)
 
 //decide poker hands
-		this.mygetcard=[0,16,25,26,1,27,40]
+		this.cardWeGet=[]
+		this.mygetcard=[0,16,25,26,40,2,3,4,5,13,39]
 		this.mygetcard.sort()
 		this.numOfEach=[]
 		this.spade=[]
 		this.club=[]
 		this.heart=[]
 		this.dia=[]
-		this.checkPH(this.mygetcard)
+		// this.decideSuit(this.mygetcard)
+		// this.checkPH(this.mygetcard)
 		   
 	}
 	
@@ -118,12 +120,13 @@ export class GameBoard extends Phaser.Scene {
 
 	
 //check if the round is this user's round
-	checkUserInfo(cardNum,name,x,y,seat,cardleft,ifdecrease) {
+	checkUserInfo(cardNum,name,x,y,seat,cardleft,ifdecrease,ranNums) {
 			Auth.currentUserInfo().then((userInfo) => {
 				const { username } = userInfo;
 				if(name==username){
 					this.updateCardData(cardNum,x,y,name)
 					if(ifdecrease==0){
+						this.cardWeGet.push(ranNums[cardNum])
 					this.updateRound(seat,cardleft-1)
 					}else if(ifdecrease==1){
 						this.updateRound(seat,cardleft)
@@ -152,21 +155,12 @@ getuserName(){
 		}))
 		
 		const userName = getPlayersInTheRoom.data.getRoompage.players;
-		console.log(userName)
-		console.log('players you have : '+ userName);
-		this.initCardData(-1,405,85,userName[0],0)
-		this.initCardData(-1,730,85,userName[1],0)
-		this.initCardData(-1,405,410,userName[2],0)
-		this.initCardData(-1,730,410,userName[3],0)
-		this.playername=this.add.text(500,50,userName[0]+' turn').setScale(1.5,1.5)
-		
-		console.log(userName[0])
 })();
 }
 
 
 //switch user between different round
-async round(x,y,cardNum,ifdecrease){
+async round(x,y,cardNum,ifdecrease,ranNums){
 	(async () => { 
 		// const getUser = await Auth.currentAuthenticatedUser();
 		// const name = getUser.username;
@@ -191,7 +185,7 @@ async round(x,y,cardNum,ifdecrease){
 		const cardleft=result1.data.getQw.cardLeft
 		console.log('the recent seat'+seat)
 		 if(x==this.player[seat%4].x||y==this.player[seat%4].y){
-			this.checkUserInfo(cardNum,this.userName[seat%4],x,y,seat,cardleft,ifdecrease)
+			this.checkUserInfo(cardNum,this.userName[seat%4],x,y,seat,cardleft,ifdecrease,ranNums)
 		 }
 	})();
 }
@@ -220,7 +214,7 @@ async updateRound(theSeat,theCard){
 }
 
 //initialize the player's data
-async initCardData(card,x,y,theusername,theSeat,cardleft){
+async initCardData(card,x,y,theusername){
 	const cardV = card;
 	console.log(cardV)
 	const xV =x;
@@ -229,20 +223,19 @@ async initCardData(card,x,y,theusername,theSeat,cardleft){
 	console.log("y : "+yV);
 	const name = theusername;
 	console.log('your name : ' +name);
-	const cl=cardleft
 	const thething = {
 				username : name,
 				whichCard : cardV,
 						x : xV,
 						y : yV,
-						seat: theSeat,
-						cardLeft:cl
+						seat: 0,
+						cardLeft:36,
 					};
  const newThing = await API.graphql(graphqlOperation(mutations.updateQw, {input: thething}));
 }
 	
 //when move, update data to database
-	async updateCardData(card,x,y,name){
+	async updateCardData(card,x,y,name,newCard){
 		const cardV = card;
 		const xV =x;
 		const yV = y;
@@ -251,7 +244,6 @@ async initCardData(card,x,y,theusername,theSeat,cardleft){
 					whichCard : cardV,
 							x : xV,
 							y : yV,
-						
 						};
 	 const newThing = await API.graphql(graphqlOperation(mutations.updateQw, {input: thething}));
 	}
@@ -263,11 +255,11 @@ async initCardData(card,x,y,theusername,theSeat,cardleft){
 			for(var i=0;i<36;i++){
 				if(this.gameBoard[i] == i ){
 						if(gameObject.data.get('card_number') == i){
-								this.round(gameObject.x,gameObject.y,i,0)
-								this.CardLeft--;
+								this.round(gameObject.x,gameObject.y,i,0,ranNums)
+								console.log(this.cardWeGet)
 								break;
 						}else if(gameObject.data.get('card_number') == 53){
-							this.round(gameObject.x,gameObject.y,-1,1)
+							this.round(gameObject.x,gameObject.y,-1,1,ranNums)
 								break;
 						}
 					}	
@@ -372,12 +364,16 @@ async updateScreen(){
 		}
 		
 		if(cardleft<=0){
+			this.decideSuit(this.cardWeGet)
+			this.checkPH(this.cardWeGet)
 			this.newBoard=this.add.image(400, 80, 'boardbg');
 			this.newBoard.setOrigin(0, 0).setScale(2.8,2.8);
 			this.playername.text='Game Over'
 		}
 	})();
 }
+
+
 	
 
 ifHas(the_card_get,num){
@@ -441,24 +437,32 @@ decideSuit(the_card_get){
 }
 
 checkPH(the_card_get){
+	this.rank=0
 	for(var m=1;m<=13;m++){
 		this.numOfEach.push(this.ifHas(the_card_get,m).length)
 	}
-	if(this.numOfEach.includes(4)){
-		console.log('4 of a kind')
-	}
-	if(this.numOfEach.includes(3)&&this.numOfEach.includes(2)){
-		console.log('full house')
-	}
-	if(this.spade.length>=5||this.club.length>=5||this.heart.length>=5||this.dia.length>=5){
-		console.log('Flush')
+	if(!this.numOfEach.includes(3)&&this.numOfEach.includes(2)){
+		console.log('pair')
+		this.rank=5
 	}
 	if(this.numOfEach.includes(3)&&!this.numOfEach.includes(2)){
 		console.log('three of a kind')
+		this.rank=4
 	}
-	if(!this.numOfEach.includes(3)&&this.numOfEach.includes(2)){
-		console.log('pair')
+	if(this.spade.length>=5||this.club.length>=5||this.heart.length>=5||this.dia.length>=5){
+		console.log('Flush')
+		this.rank=3
 	}
+	if(this.numOfEach.includes(3)&&this.numOfEach.includes(2)){
+		console.log('full house')
+		this.rank=2
+	}
+	console.log(this.numOfEach)
+	if(this.numOfEach.includes(4)){
+		console.log('4 of a kind')
+		this.rank=1
+	}
+	console.log(this.rank)
 	
 }
 	update(time, delta) {
