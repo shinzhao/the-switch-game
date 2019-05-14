@@ -100,9 +100,9 @@ export class GameBoard extends Phaser.Scene {
 				
 
 		//initalize the data
-		this.getuserName()
+		//this.getuserName()
 		
-		this.Rf=[0,9,10,11,12]
+		//this.Rf=[0,9,10,11,12]
 		this.mygetcard=[0,16,25,26,1,27,40]
 		this.mygetcard.sort()
 		this.numOfEach=[]
@@ -111,7 +111,14 @@ export class GameBoard extends Phaser.Scene {
 		}
 
 		this.arrange=0
-			
+		this.userName=['switch','test3','test5','noviah']
+		//test 4 player
+		this.initCardData(-1,405,85,this.userName[0],0)
+		this.initCardData(-1,730,85,this.userName[1],0)
+		this.initCardData(-1,405,410,this.userName[2],0)
+		this.initCardData(-1,730,410,this.userName[3],0)
+		this.initCardData(-1,730,410,this.userName[3],0)
+		this.playername=this.add.text(500,50,this.userName[0]+' turn').setScale(1.5,1.5)	
 	
 		this.clickedBox(ranNums)
 		   
@@ -135,39 +142,7 @@ export class GameBoard extends Phaser.Scene {
 			)
 		}
 	
-// ifHasPair(the_card_get){
-// 	let result=[0]
-// 	for(var i=0;i<the_card_get.length;i++){
-// 		for(var j=0;j<the_card_get.length;j++){
-// 			if(the_card_get[i]%13==the_card_get[j]%13){
-// 				result[0]=1
-// 				result.push(i)
-// 				result.push(j)
-// 				break;
-// 			}
-// 		}
-// 	}
-// 	console.log(result)
-// 	return result
-// }
 
-// ifHasThree(the_card_get){
-// 	let result=[0]
-// 	for(var i=0;i<the_card_get.length;i++){
-// 		for(var j=0;j<the_card_get.length;j++){
-// 			for(var m=0;m<the_card_get.length;m++){
-// 				if(the_card_get[i]%13==the_card_get[j]%13&&the_card_get[i]%13==the_card_get[m]%13){
-// 					result[0]=1
-// 					result.push(i)
-// 					result.push(j)
-// 					result.push(m)
-// 				}
-// 			}
-// 		}
-// 	}
-// 	console.log(result)
-// 	return result
-// }
 
 getuserName(){
 	(async () => {
@@ -188,11 +163,10 @@ getuserName(){
 		console.log('players you have : '+ userName);
 		this.initCardData(-1,405,85,userName[0],0)
 		this.initCardData(-1,730,85,userName[1],0)
-		//this.initCardData(-1,405,410,userName[2],0)
-		//this.initCardData(-1,730,410,userName[3],0)
-		this.playername=this.add.text(500,50,userName[0]+' turn')
-
-		
+		this.initCardData(-1,405,410,userName[2],0)
+		this.initCardData(-1,730,410,userName[3],0)
+		this.playername=this.add.text(500,50,userName[0]+' turn').setScale(1.5,1.5)
+		console.log(userName[0])
 })();
 }
 
@@ -200,18 +174,18 @@ getuserName(){
 //switch user between different round
 async round(x,y,cardNum){
 	(async () => { 
-		const getUser = await Auth.currentAuthenticatedUser();
-		const name = getUser.username;
-		const getRoomID = await API.graphql(graphqlOperation(queries.getQw,{
-				username : name
-		}));
-		const result = getRoomID.data.getQw.roomID;
-		const getPlayersInTheRoom = await API.graphql(graphqlOperation(queries.getRoompage,{
-				roomid : result
-		}))
-		const userName = getPlayersInTheRoom.data.getRoompage.players;
-    await client.hydrated();
-		var nameWeGot1 = userName[0];
+		// const getUser = await Auth.currentAuthenticatedUser();
+		// const name = getUser.username;
+		// const getRoomID = await API.graphql(graphqlOperation(queries.getQw,{
+		// 		username : name
+		// }));
+		// const result = getRoomID.data.getQw.roomID;
+		// const getPlayersInTheRoom = await API.graphql(graphqlOperation(queries.getRoompage,{
+		// 		roomid : result
+		// }))
+		// const userName = getPlayersInTheRoom.data.getRoompage.players;
+    // await client.hydrated();
+		var nameWeGot1 = this.userName[0];
 		const result1 = await client.query({
 			query: gql(queries.getQw),
 			variables: {
@@ -221,8 +195,8 @@ async round(x,y,cardNum){
 		});
 		const seat=result1.data.getQw.seat
 		console.log('the recent seat'+seat)
-		 if(x==this.player[seat%2].x||y==this.player[seat%2].y){
-			this.checkUserInfo(cardNum,userName[seat%2],x,y,seat)
+		 if(x==this.player[seat%4].x||y==this.player[seat%4].y){
+			this.checkUserInfo(cardNum,this.userName[seat%4],x,y,seat)
 		 }
 	})();
 }
@@ -231,19 +205,19 @@ async round(x,y,cardNum){
 
 //move to next player
 async updateRound(theSeat){
-  const getUser = await Auth.currentAuthenticatedUser();
-		const name = getUser.username;
-		const getRoomID = await API.graphql(graphqlOperation(queries.getQw,{
-				username : name
-		}));
-		const result = getRoomID.data.getQw.roomID;
-		const getPlayersInTheRoom = await API.graphql(graphqlOperation(queries.getRoompage,{
-				roomid : result
-		}))
-		const userName = getPlayersInTheRoom.data.getRoompage.players;
+  // const getUser = await Auth.currentAuthenticatedUser();
+	// 	const name = getUser.username;
+	// 	const getRoomID = await API.graphql(graphqlOperation(queries.getQw,{
+	// 			username : name
+	// 	}));
+	// 	const result = getRoomID.data.getQw.roomID;
+	// 	const getPlayersInTheRoom = await API.graphql(graphqlOperation(queries.getRoompage,{
+	// 			roomid : result
+	// 	}))
+	// 	const userName = getPlayersInTheRoom.data.getRoompage.players;
 
 	const thething = {
-				username : userName[0],
+				username : this.userName[0],
 				seat:theSeat+1
 					};
  const newThing = await API.graphql(graphqlOperation(mutations.updateQw, {input: thething}));
@@ -314,18 +288,18 @@ async updateScreen(){
  
 		await client.hydrated();
 
-		const getUser = await Auth.currentAuthenticatedUser();
-		const name = getUser.username;
-		const getRoomID = await API.graphql(graphqlOperation(queries.getQw,{
-				username : name
-		}));
-		const result = getRoomID.data.getQw.roomID;
-		const getPlayersInTheRoom = await API.graphql(graphqlOperation(queries.getRoompage,{
-				roomid : result
-		}))
-		const userName = getPlayersInTheRoom.data.getRoompage.players;
+		// const getUser = await Auth.currentAuthenticatedUser();
+		// const name = getUser.username;
+		// const getRoomID = await API.graphql(graphqlOperation(queries.getQw,{
+		// 		username : name
+		// }));
+		// const result = getRoomID.data.getQw.roomID;
+		// const getPlayersInTheRoom = await API.graphql(graphqlOperation(queries.getRoompage,{
+		// 		roomid : result
+		// }))
+		// const userName = getPlayersInTheRoom.data.getRoompage.players;
 						
-		var nameWeGot1 = userName[0];
+		var nameWeGot1 = this.userName[0];
 		const result1 = await client.query({
 			query: gql(queries.getQw),
 			variables: {
@@ -334,7 +308,7 @@ async updateScreen(){
 			fetchPolicy: 'network-only',
 		});
 
-		var nameWeGot2 = userName[1];
+		var nameWeGot2 = this.userName[1];
 			 const result2 = await client.query({
 			query: gql(queries.getQw),
 			variables: {
@@ -342,24 +316,59 @@ async updateScreen(){
 			},
 			fetchPolicy: 'network-only',
 		});
+
+		var nameWeGot3 = this.userName[2];
+			 const result3 = await client.query({
+			query: gql(queries.getQw),
+			variables: {
+				username: nameWeGot3
+			},
+			fetchPolicy: 'network-only',
+		});
+
+		var nameWeGot4 = this.userName[3];
+			 const result4 = await client.query({
+			query: gql(queries.getQw),
+			variables: {
+				username: nameWeGot4
+			},
+			fetchPolicy: 'network-only',
+		});
 		let x1=result1.data.getQw.x
 		let y1=result1.data.getQw.y
 		let x2=result2.data.getQw.x
 		let y2=result2.data.getQw.y
+		let x3=result3.data.getQw.x
+		let y3=result3.data.getQw.y
+		let x4=result4.data.getQw.x
+		let y4=result4.data.getQw.y
 		this.player[0].setX(x1)
 		this.player[0].setY(y1)
 		this.player[1].setX(x2)
 		this.player[1].setY(y2)
-		this.playername.text=userName[result1.data.getQw.seat%2]+' turn'
-				if(result1.data.getQw.whichCard!=-1){
+		this.player[2].setX(x3)
+		this.player[2].setY(y3)
+		this.player[3].setX(x4)
+		this.player[3].setY(y4)
+
+		this.playername.text=this.userName[result1.data.getQw.seat%4]+' turn'
+
+			if(result1.data.getQw.whichCard!=-1){
 					this.cardSet[result1.data.getQw.whichCard].setX(20+this.arrange)
-					this.cardSet[result1.data.getQw.whichCard].setY(85)
+					this.cardSet[result1.data.getQw.whichCard].setY(100)
 					}
 			if(result2.data.getQw.whichCard!=-1){
 				this.cardSet[result2.data.getQw.whichCard].setX(900+this.arrange)
-				this.cardSet[result2.data.getQw.whichCard].setY(85)
+				this.cardSet[result2.data.getQw.whichCard].setY(100)
 		 }
-		 
+		 if(result3.data.getQw.whichCard!=-1){
+			this.cardSet[result3.data.getQw.whichCard].setX(20+this.arrange)
+			this.cardSet[result3.data.getQw.whichCard].setY(400)
+	 }
+	 if(result4.data.getQw.whichCard!=-1){
+		this.cardSet[result4.data.getQw.whichCard].setX(900+this.arrange)
+		this.cardSet[result4.data.getQw.whichCard].setY(400)
+    }
 	})();
 }
 	
