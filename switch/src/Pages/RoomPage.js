@@ -121,8 +121,33 @@ class RoomPage extends React.Component {
                 roomOwner : true
             })
         }
-
+        let cardset = getCardset();
+        //put the cardset into the db associate with either the room master or the room number?
     }
+
+    getCardset() {
+        let cardset = [];
+        let cardnum = 0;
+        let isNotUnique = true;
+        for(let i = 0; i < 36; i++) {
+            while(isNotUnique) {
+                cardnum = Math.floor(Math.random() * 52);
+                isUnique = checkCard(cardset, cardnum);
+            }
+            cardset.append(cardnum);
+        }
+        return cardset;
+    }
+
+    checkCard(cardset, cardnum) {
+        for(let i = 0; i < cardset.length; i++){
+            if(cardnum == cardset[i]) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     async waitAndGetList() {
         console.log('Just~~~~~~~~');
         await this.sleep(250);
