@@ -14,7 +14,6 @@ import { Button, Card } from 'react-bootstrap';
 import { SelectMFAType } from 'aws-amplify-react/dist/Widget';
 import { type } from 'os';
 
-
   const subtoRoomData2 = `
   subscription{
     onUpdateReadyPageTable{
@@ -24,7 +23,7 @@ import { type } from 'os';
   `
  
 
-class RoomPage extends React.Component {
+class RoomPage extends Component {
     constructor() {
         super();
         this.state={

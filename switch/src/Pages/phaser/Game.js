@@ -1,4 +1,4 @@
-/** @type {import { "../typing/phaser" };} */
+
 
 import React, { Component } from 'react';
 import Phaser from 'phaser';

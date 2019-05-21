@@ -1,9 +1,13 @@
 import React, { Component } from 'react';
-import RoomListPage from './RoomListPage';
 import './GameRulePage.css';
 import { withRouter } from "react-router-dom";
 import { withAuthenticator } from 'aws-amplify-react';
 
+/**
+ * This component is the page for game rules.
+ * It will render if a "game rule" button was clicked,
+ * and redirect to /game-rule.
+ */
 class GameRulePage extends Component {
     constructor() {
         super();
@@ -12,16 +16,29 @@ class GameRulePage extends Component {
         this.handleProfileClick=this.handleProfileClick.bind(this);
     }
 
+    /**
+     * Handles the "back" button click, will redirect to room list page.
+     * @param {event} e 
+     */
     handleBackClick(e) {
         e.preventDefault();
         this.props.history.push('/room-list');
     }
 
+    /**
+     * Handles the "game rule" button click, will redirect to game rule page,
+     * which is the current page.
+     * @param {event} e 
+     */
     handleGameRuleClick(e){
         e.preventDefault();
         this.props.history.push('game-rule');
     }
 
+    /**
+     * Handles the "my account" button click, will redirect to profile page.
+     * @param {event} e 
+     */
     handleProfileClick(e){
         e.preventDefault();
         this.props.history.push('my-account');
