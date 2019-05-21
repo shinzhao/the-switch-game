@@ -1,8 +1,11 @@
 import React, { Component } from "react";
-import './PasswordConfirmationPage.css'
+import { withAuthenticator } from 'aws-amplify-react';
+import { withRouter } from 'react-router-dom';
+import './PasswordConfirmationPage.css';
 
-
-
+/**
+ * This component is the page for confirming change of user password in the profile page.
+ */
 class PasswordConfirmationPage extends Component {
   constructor(){
     super();
@@ -10,20 +13,34 @@ class PasswordConfirmationPage extends Component {
     this.handleGameRuleClick=this.handleGameRuleClick.bind(this);
     this.handleProfileClick=this.handleProfileClick.bind(this);
   }
+
+  /**
+   * Handles the "back" button click, will redirect to profile page.
+   * @param {event} e 
+   */
   handleBackClick(e){
     e.preventDefault();
-    this.props.history.push('my-account');
+    this.props.history.push('/my-account');
   }
 
+  /**
+   * Handles the "game rule" button click, will redirect to game rule page.
+   * @param {event} e 
+   */
   handleGameRuleClick(e){
     e.preventDefault();
-    this.props.history.push('game-rule')
+    this.props.history.push('game-rule');
   }
 
+  /**
+   * Handles the "my account" button click, will redirect back to profile page. 
+   * @param {event} e 
+   */
   handleProfileClick(e){
     e.preventDefault();
-    this.props.history.push('my-account')
+    this.props.history.push('/my-account');
   }
+
   render() {
     return ( 
       <div className="confirmation-page">   
@@ -43,4 +60,4 @@ class PasswordConfirmationPage extends Component {
   }
 }
 
-export default PasswordConfirmationPage;
+export default withRouter(withAuthenticator(PasswordConfirmationPage,true));

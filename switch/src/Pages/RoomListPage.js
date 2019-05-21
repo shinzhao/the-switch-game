@@ -1,43 +1,55 @@
 import React, { Component } from 'react';
+import { withAuthenticator } from 'aws-amplify-react';
 import img from '../img/background.png';
 import './RoomListPage.css';
-import RoomPage from './RoomPage';
-import GameRulePage from './GameRulePage';
-import ProfilePage from './ProfilePage';
 import { withRouter } from "react-router-dom";
 import { Auth } from 'aws-amplify';
-import Amplify, { API, graphqlOperation } from "aws-amplify";
+import { API, graphqlOperation } from "aws-amplify";
 import * as queries from './phaser/../../graphql/queries';
 import * as mutations from '../graphql/mutations';
-import AWSAppSyncClient, { AUTH_TYPE } from 'aws-appsync';
-import aws_config from '../aws-exports';
-import gql from 'graphql-tag';
-import { Table } from 'react-bootstrap';
 
-  const subtoRoomData = `
+/**
+ * A string for Appsync subscription to create a room
+ * @constant {string}
+ */
+const subtoRoomData = `
   subscription{
     onCreateRoompage{
         roomid players
     }
   }
-  `
-  const subtoRoomData2 = `
+`
+
+/**
+ * A string for Appsync subscription to update the room
+ * @constant {string}
+ */
+const subtoRoomData2 = `
   subscription{
     onUpdateRoompage{
         roomid players
     }
   }
-  `
-  const subtoRoomData3 = `
+`
+
+/**
+ * A string for Appsync subscription to delete the room
+ * @constant {string}
+ */
+const subtoRoomData3 = `
   subscription{
     onDeleteRoompage{
         roomid players
     }
   }
-  `
-  
+`
 
-class RoomListPage extends React.Component {
+/**
+ * This component is the page for room list.
+ * It will render after the user was logged in from welcome page,
+ * and redirect to /room-list.
+ */
+class RoomListPage extends Component {
     constructor(){
         super();
         this.state={
@@ -53,9 +65,8 @@ class RoomListPage extends React.Component {
         this.handleRoomClick = this.handleRoomClick.bind(this);
         this.handleCreateClick=this.handleCreateClick.bind(this);
     }
-           
-componentDidMount() {
-        //create
+
+    componentDidMount() {
         this.getRoom();
         this.getPlayersCount();
         this.getStatus();
@@ -87,12 +98,10 @@ componentDidMount() {
             this.setState({rID : updatedRooms});
             }
         })
-        //update
         this.subU = API.graphql(
             graphqlOperation(subtoRoomData2)
         ).subscribe({
             next: (roomData) =>{
-                //players update sub
                 const storeStatus = [];
                 console.log('we update the playerscount ' + roomData.value.data.onUpdateRoompage.players.length);
                 console.log('we update the playerscount ' + roomData.value.data.onUpdateRoompage.roomid);
@@ -117,141 +126,140 @@ componentDidMount() {
                                 status : storeStatus});
             }
         });
-        
         this.waitAndGetList();
-  }
-   componentWillUnmount() {
-     this.subC.unsubscribe();
-     this.subU.unsubscribe();
-     this.subD.unsubscribe();
-   }
-async waitAndGetList() {
-    console.log('Just~~~~~~~~')
-    await this.sleep(1000)
-    console.log('wait 1 second');
-    this.getRoom();
-    this.getPlayersCount();
-    this.getStatus();
-  }
-  sleep(ms) {
-    return new Promise(resolve => setTimeout(resolve, ms))
-  }
-
-
-//appsync get room (query)
-getRoom = async () => {
-    var storeRoom = [];
-    const result = await API.graphql(graphqlOperation(queries.listRoompages));
-    for(let i=0;i<result.data.listRoompages.items.length;i++){
-        storeRoom.push(result.data.listRoompages.items[i].roomid);
-        }
-    this.setState({rID : storeRoom });
     }
 
-getPlayersCount = async ()=>{
-    var playercount = [];
-    const result = await API.graphql(graphqlOperation(queries.listRoompages));
-    for(let i=0;i<result.data.listRoompages.items.length;i++){
-        const obj = result.data.listRoompages.items[i].players;
-        var count = 0;
-        for (var property in obj) {
-        if (Object.prototype.hasOwnProperty.call(obj, property)) {
-            count++;
-        }
+    componentWillUnmount() {
+        this.subC.unsubscribe();
+        this.subU.unsubscribe();
+        this.subD.unsubscribe();
     }
-         console.log('show the obj ' + count);
-        playercount.push(count);
-        
+
+    /**
+     * Gets the list of room info after 1 second.
+     */
+    async waitAndGetList() {
+        console.log('Just~~~~~~~~');
+        await this.sleep(1000)
+        console.log('wait 1 second');
+        this.getRoom();
+        this.getPlayersCount();
+        this.getStatus();
     }
-    
-    this.setState(function (state, props) {
-        return {
-         player_count: playercount
-        }
-       });
-    //this.setState({player_count:playercount});
-    const roomCount = this.state.player_count.length;
 
-    console.log('TEST FOR playercount ' + this.state.player_count.length);
-    console.log('show the roomCount ' + roomCount);
-    
-}
-
-
-//appsync get status
-getStatus = async() => {
-    var storeStatus = [];
-    var playercount = [];
-    const result = await API.graphql(graphqlOperation(queries.listRoompages));
-    for(let i=0;i<result.data.listRoompages.items.length;i++){
-        const obj = result.data.listRoompages.items[i].players;
-        var count = 0;
-        for (var property in obj) {
-        if (Object.prototype.hasOwnProperty.call(obj, property)) {
-            count++;
-        }
+    /**
+     * Returns a promise.
+     * @param {number} ms 
+     * @returns {Promise}
+     */
+    sleep(ms) {
+        return new Promise(resolve => setTimeout(resolve, ms));
     }
-         console.log('show the obj ' + count);
-        playercount.push(count);
-        
-    }
-    console.log('get status check '+playercount);
-    for(let i=0;i<playercount.length;i++){
-        if(playercount[i]<4){
-            storeStatus.push('open');
-        }
-        if(playercount[i]>=4){
-            storeStatus.push('close');
-        }
-    }
-    this.setState({status : storeStatus});
 
-}  
+    /**
+     * Gets an array of room id from the database and set it to rID state.
+     */
+    getRoom = async () => {
+        var storeRoom = [];
+        const result = await API.graphql(graphqlOperation(queries.listRoompages));
+        for(let i=0;i<result.data.listRoompages.items.length;i++){
+            storeRoom.push(result.data.listRoompages.items[i].roomid);
+            }
+        this.setState({rID : storeRoom });
+    }
 
-//appsync get the playerCount in each room 
-// getPlayerCount = async () =>{
-//     var storePlayerCount = [];
-//     const result = await API.graphql(graphqlOperation(queries.getRoompage, {roomid : rID});
-// }
-handleRanDomRoom = async () =>{
-    var storeRoom = [];
-    const result = await API.graphql(graphqlOperation(queries.listRoompages));
-    for(let i=0;i<result.data.listRoompages.items.length;i++){
-        console.log(result.data.listRoompages.items[i].roomid);
-        storeRoom.push(result.data.listRoompages.items[i].roomid);
+    /**
+     * Gets an array of player count in each room from the database
+     * and set it to player_count state.
+     */
+    getPlayersCount = async () =>{
+        var playercount = [];
+        const result = await API.graphql(graphqlOperation(queries.listRoompages));
+        for(let i=0;i<result.data.listRoompages.items.length;i++){
+            const obj = result.data.listRoompages.items[i].players;
+            var count = 0;
+            for (var property in obj) {
+                if (Object.prototype.hasOwnProperty.call(obj, property)) {
+                    count++;
+                }
+            }
+            console.log('show the obj ' + count);
+            playercount.push(count);
         }
     
-   
-}
+        this.setState(function (state, props) {
+            return {
+            player_count: playercount
+            }
+        });
+        const roomCount = this.state.player_count.length;
 
-handleCreateRoom = async (random) =>{
-    
-    const getUser = await Auth.currentAuthenticatedUser();
-                const name = getUser.username;
-    const result = await API.graphql(graphqlOperation(mutations.createRoompage,{
-        input : {
-            roomid : random,
-            players : name
+        console.log('TEST FOR playercount ' + this.state.player_count.length);
+        console.log('show the roomCount ' + roomCount);
+    }
+
+    /**
+     * Gets an array of status of each room from the database
+     * and set it to status state.
+     */
+    getStatus = async() => {
+        var storeStatus = [];
+        var playercount = [];
+        const result = await API.graphql(graphqlOperation(queries.listRoompages));
+        for(let i=0;i<result.data.listRoompages.items.length;i++){
+            const obj = result.data.listRoompages.items[i].players;
+            var count = 0;
+            for (var property in obj) {
+                if (Object.prototype.hasOwnProperty.call(obj, property)) {
+                    count++;
+                }
+            }
+            console.log('show the obj ' + count);
+            playercount.push(count);  
         }
-        }));
-        var nums=[];
-		var ranNums = [];
-		for(var k=0;k<52;k++){
-		   nums.push(k);
+        console.log('get status check '+playercount);
+        for(let i=0;i<playercount.length;i++){
+            if(playercount[i]<4){
+                storeStatus.push('open');
+            }
+            if(playercount[i]>=4){
+                storeStatus.push('close');
+            }
         }
-        console.log('show me the card '+ nums);
-		   let m = nums.length,
-               n = 0;
-               
-	    while (m--) {
-           n = Math.floor(Math.random() * (m+1));
-           
-		   ranNums.push(nums[n]);
-		   nums.splice(n,1);
-        }
-         console.log('show me the card '+ ranNums.slice(0,35));
-         ranNums = ranNums.slice(0,36);
-         console.log('show me the card '+ ranNums.length);
+        this.setState({status : storeStatus});
+    }  
+
+    /**
+     * Creates new room based on random room id passed to this function.
+     * @param {number} random - randomly generated number for room id
+     */
+    handleCreateRoom = async (random) =>{
+        const getUser = await Auth.currentAuthenticatedUser();
+        const name = getUser.username;
+        const result = await API.graphql(graphqlOperation(mutations.createRoompage,{
+            input : {
+                roomid : random,
+                players : name
+            }
+            }));
+            var nums=[];
+            var ranNums = [];
+            for(var k=0;k<52;k++){
+            nums.push(k);
+            }
+            console.log('show me the card '+ nums);
+            let m = nums.length,
+                n = 0;
+                
+            while (m--) {
+            n = Math.floor(Math.random() * (m+1));
+            
+            ranNums.push(nums[n]);
+            nums.splice(n,1);
+            }
+            console.log('show me the card '+ ranNums.slice(0,35));
+            ranNums = ranNums.slice(0,36);
+            console.log('show me the card '+ ranNums.length);
             await API.graphql(graphqlOperation(mutations.createReadyPageTable, 
                 {
                     input:{
@@ -261,22 +269,35 @@ handleCreateRoom = async (random) =>{
                     readyStatus : ['Not Ready ....','Not Ready ....','Not Ready ....','Not Ready ....'],
                     GameStart : false,
                     readyNum : 0
-                    }}
-                ));
-}
+                }}
+            ));
+    }
 
-
+    /**
+     * Handles the "my account" button click, will redirect to profile page.
+     * @param {event} e 
+     */
     handleProfileClick(e) {
         e.preventDefault();
         this.props.history.push('/my-account');
     }
 
+    /**
+     * Handles the "game rule" button click, will redirect to game rule page.
+     * @param {event} e
+     */
     handleGameRuleClick(e) {
         e.preventDefault();
         this.props.history.push('/game-rule');
     }
     
-    //user allowed to enter the room only when the status of the room is not 'playing'
+    /**
+     * Handles click on the room id in the table of room list,
+     * will redirect user to the corresponding room page if player count of the room is not 4 yet,
+     * and/or the room status is not "playing" or "closed"
+     * @param {event} e 
+     * @param {number} i - room id
+     */
     handleRoomClick(e, i) {
         if(this.state.status[i] != 'close'){
             (async () => {
@@ -318,25 +339,13 @@ handleCreateRoom = async (random) =>{
         }
     }
 
-    //render the room button only when the room id is available
-    // renderRoom(i){
-    //     if (this.state.rID[i]){
-    //         return(
-    //             <button className="room-button" onClick={(e) => {this.handleRoomClick(e,i)}}>
-    //                     Room {this.state.rID[i]} <br />
-    //                     {this.state.player_count[i]}/4 <br />
-    //                     {this.state.status[i]}
-    //             </button>
-    //         );
-    //     }
-    //     else {
-    //         return(
-    //             <button className="empty-room-button"></button>
-    //         )
-    //     }
-    // }
-    
-
+    /**
+     * Handles the "create new room" button click,
+     * will generate random number as the new room id.
+     * Passes the random number to function handleCreateRoom,
+     * then redirects user into the newly created room.
+     * @param {event} e 
+     */
     handleCreateClick (e){
         e.preventDefault();
         var min=1; 
@@ -349,38 +358,29 @@ handleCreateRoom = async (random) =>{
             query: random,
         }
         this.props.history.push(path);
-        
-        
-        /*
-        for(let i = 0; i < this.state.status.length; i++) {
-            if(this.state.status[i] == 'closed') {
-                let temp_status = this.state.status;
-                temp_status[i] = 'open';
-                let temp_player_count = this.state.player_count;
-                temp_player_count[i] = 1;
-                this.setState({
-                    status: temp_status,
-                    player_count: temp_player_count
-                });
-        
-            }
-        }
-        */
-       
     }
+
+    /**
+     * Sets inputNum statte as the number passed to this function.
+     * @param {number} number
+     */
     inputChange=(number)=>{
         this.setState({
             inputNum : number.target.value
         })
     }
 
+    /**
+     * Handles the "enter" button click,
+     * will redirect user into the corresponding room with the room id they entered into the input field,
+     * if the room is not full or is not in "playing" or "closed" status.
+     */
     handleEnterRoom=()=>{
         var value = 0;
         var check = 0;
         console.log('show me the rooms you have ' + this.state.rID);
         console.log('show me what you typed ' + this.state.inputNum);
         (async () => {
-            //get current user name
             var i = 0;
             const getUser = await Auth.currentAuthenticatedUser();
             const name = getUser.username;
@@ -431,33 +431,27 @@ handleCreateRoom = async (random) =>{
                 }
                 i++;
             }
-            
-            
-
-            
         })();
-       
     }
 
+    /**
+     * Renders all of room info out into the table list
+     */
     _renderRoom(){
         return Object.entries(this.state.rID).map((r, i) => {
             return (
             <div  className="table-row" key={i} value={i} onClick={(e)  => {this.handleRoomClick(e,i)}}>
             <br />
-            <br />
                 <tr>
-                    <th className="id">{this.state.rID[i]}</th>
-                    <th className="count">{this.state.player_count[i]}/4</th>
-                    <th className="status">{this.state.status[i]}</th>
-                    
+                    <td className="id">{this.state.rID[i]}</td>
+                    <td className="count">{this.state.player_count[i]}/4</td>
+                    <td className="status">{this.state.status[i]}</td>
                 </tr>
-                <br />
-                <br />
+            <br />
             </div>
             )
         })
     }
-
 
     render() {
         return (
@@ -481,7 +475,6 @@ handleCreateRoom = async (random) =>{
                     </thead>
                     <tbody>
                         {this._renderRoom()}
-                        
                     </tbody>
                 </table>
                 <div className="block"></div>
@@ -490,9 +483,5 @@ handleCreateRoom = async (random) =>{
     }
 }
 
-
-
-
-
-export default withRouter(RoomListPage);
+export default withRouter(withAuthenticator(RoomListPage,true));
 

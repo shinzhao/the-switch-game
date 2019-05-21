@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: ProfilePage.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: ProfilePage.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import React, { Component } from 'react';
+import { withRouter } from 'react-router-dom';
+import { withAuthenticator } from 'aws-amplify-react';
+import './ProfilePage.css';
+import { Auth } from 'aws-amplify';
+import Validate from './FormValidation'
+import FormErrors from "./FormErrors";
+
+/**
+ * This component is the page for user profile.
+ * It will render if a "my account" button was clicked,
+ * and redirect to /profile.
+ */
+class ProfilePage extends Component {
+  constructor(){
+    super();
+    this.state=({
+      name: '',
+      oldpassword: "",
+      newpassword: "",
+      confirmpassword: "",
+      errors: {
+        cognito: null,
+        blankfield: false,
+        passwordmatch: false
+      }
+    })
+    this.handleBackClick = this.handleBackClick.bind(this);
+    this.handleGameRuleClick=this.handleGameRuleClick.bind(this);
+  }
+
+  componentDidMount() {
+    this.getUserInfo();
+  }
+  
+  clearErrorState = () => {
+    this.setState({
+      errors: {
+        cognito: null,
+        blankfield: false,
+        passwordmatch: false
+      }
+    });
+  }
+
+  /**
+   * Handles the "back" button click, will redirect to room list page.
+   * @param {event} e 
+   */
+  handleBackClick(e) {
+    e.preventDefault();
+    this.props.history.push('/room-list');
+  }
+
+  /**
+   * Gets current authenticated user's username.
+   * Then, sets name state as the username gotten from Amplify.
+   */
+  getUserInfo() {
+    Auth.currentUserInfo().then((userInfo) => {
+      const { username } = userInfo;
+      this.setState({
+        name: username
+      });
+    });
+  }
+
+  /**
+   * Handles the "submit" button click.
+   * Changes password and redirects to the password confirmation page
+   * if there's no error with the input
+   * @param {event} event
+   */
+  handlesubmit = async event => {
+    event.preventDefault();
+    this.clearErrorState();
+    const error = Validate(event, this.state);
+    if(error){
+      this.setState({
+        errors:{...this.state.error, ...error}
+      });
+    }
+    try {
+      const user = await Auth.currentAuthenticatedUser();
+      console.log(user);
+      await Auth.changePassword(
+        user, 
+        this.state.oldpassword,
+        this.state.newpassword
+      );
+      this.props.history.push("/changepasswordconfirmation")
+    }
+    catch(error){
+      console.log(error);
+    }
+  }
+
+  /**
+   * Handles input change.
+   * Sets the value entered by user in the input area to corresponding state
+   * @param {event} event
+   */
+  onInputChange = event => {
+    this.setState({
+      [event.target.id]: event.target.value
+    });
+    document.getElementById(event.target.id).classList.remove("is-danger");
+  }
+
+  /**
+   * Handles "game rule" button click, will redirect to game rule page
+   * @param {event} e
+   */
+  handleGameRuleClick=(e)=>{
+    e.preventDefault();
+    this.props.history.push('/game-rule')
+  }
+  
+  render() {
+    return (
+        &lt;div className="profile">
+          &lt;button className="profile-back-button" onClick={this.handleBackClick}>Back&lt;/button>
+          &lt;button className="Game-rule-button" onClick={this.handleGameRuleClick}>Game Rule&lt;/button>
+          
+                &lt;img
+                    src="https://www.shareicon.net/download/2015/09/18/103157_man_512x512.png"
+                    alt="profile-img"
+                    className="profile-img"
+                />
+
+                &lt;div className="username">
+                    &lt;h1>{this.state.name}&lt;/h1>
+
+                &lt;/div>
+                &lt;p className="score">Win: | Lost: | Presentage: |&lt;/p>
+              
+                &lt;div className="passwordsetting">
+                &lt;h1>Change Password&lt;/h1>
+                &lt;FormErrors formerrors={this.state.errors} />
+                &lt;form onSubmit={this.handlesubmit}>
+                &lt;div className="oldpassword">
+                &lt;input className="input" type="password" id="oldpassword" placeholder="Old Password" value={this.state.oldpassword} onChange={this.onInputChange}>&lt;/input>
+                &lt;/div>
+                &lt;div className="newpassword">
+                &lt;input className="input" type="password" id="newpassword" placeholder="New Password" value={this.state.newpassword} onChange={this.onInputChange}>&lt;/input>
+                &lt;/div>
+                &lt;div className="confirmpassword">
+                &lt;input className="input" type="password" id="confirmpassword" placeholder="Confirm Paaword" value={this.state.confirmpassword} onChange={this.onInputChange}>&lt;/input>
+                &lt;/div>
+                &lt;div className="submitbutton">
+                &lt;button className="submit" type="submit" id="submit">Submit&lt;/button>
+                &lt;/div>
+                &lt;/form>
+                &lt;/div>
+        &lt;/div>
+    )
+}
+}
+
+export default withRouter(withAuthenticator(ProfilePage,true));
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="GameRulePage.html">GameRulePage</a></li><li><a href="GameRunning.html">GameRunning</a></li><li><a href="Login.html">Login</a></li><li><a href="PasswordConfirmationPage.html">PasswordConfirmationPage</a></li><li><a href="ProfilePage.html">ProfilePage</a></li><li><a href="RoomListPage.html">RoomListPage</a></li><li><a href="RoomPage.html">RoomPage</a></li></ul><h3>Global</h3><ul><li><a href="global.html#subtoRoomData">subtoRoomData</a></li><li><a href="global.html#subtoRoomData2">subtoRoomData2</a></li><li><a href="global.html#subtoRoomData3">subtoRoomData3</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.2</a> on Mon May 20 2019 23:38:12 GMT-0400 (Eastern Daylight Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

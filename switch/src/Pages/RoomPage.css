@@ -28,7 +28,7 @@
     top: 1em;
 }
 
-.unready-button .ready-button {
+.unready-button, .ready-button {
     position: relative;
     left: 40%;
     top: 1em;
