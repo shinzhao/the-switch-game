@@ -33,29 +33,9 @@ export class GameBoard extends Phaser.Scene {
 	
 
 	create() {
-		(async () => {
-			await client.hydrated();
-			const getUser = await Auth.currentAuthenticatedUser();
-			const name = getUser.username;
-			const result = await client.query({
-				query: gql(queries.getQw),
-				variables: {
-					username: name
-				},
-				fetchPolicy: 'network-only',
-			});
-			const roomid = result.data.getQw.roomID;
-			const result2 = await client.query({
-				query: gql(queries.getReadyPageTable),
-				variables: {
-					roomID: roomid
-				},
-				fetchPolicy: 'network-only',
-			});
-			const cardSet = result2.data.getReadyPageTable.cards;
-			console.log('show me the cards in the game board : ' + cardSet);
-		})();
 	
+		//console.log(this.cardSet)
+	  
 		this.gameBoard = [0,1,2,3,4,5,6,7,8,9,10,
 			11,12,13,14,15,16,17,18,19,20,21,22,
 			23,24,25,26,27,28,29,30,31,32,33,34,35,36];
@@ -74,25 +54,8 @@ export class GameBoard extends Phaser.Scene {
 			   x_pos1=0;
 			 }
 		
-		let card_number=0;
-		let ranNums=[3,7,15,33,25,46,8,9,28,53,11,6,34,36,21,23,41,19,16,1,47,29,51,39,2,25,27,40,30,
-		              37,10,22,10,20,50,38,26]
-	   //display board
-			let x_pos=0;
-			let y_pos=0; 
-			this.cardSet=[] 
-		  for(var i=0;i<6;i++){
-			for(var j=0 ;j<6;j++){
-			   var generatecard=ranNums[card_number]
-				 this.card=new Card(this,405+x_pos,85+y_pos,'cards',generatecard).setOrigin(0, 0).setInteractive().setDataEnabled()
-				 this.cardSet.push(this.card)
-			   this.card.data.set('card_number', card_number);
-				x_pos+=65;
-				card_number++;
-			 }
-			   y_pos+=65;
-			   x_pos=0;
-			 }
+		//display card
+		this.decideCard()
 			 
 			 //add player chess
 			 let player1=new Player(this,405,85,'chess_red',1).setOrigin(0,0)
@@ -108,7 +71,7 @@ export class GameBoard extends Phaser.Scene {
 
 
 		
-		//this.userName=['switch','test3','test5','noviah']
+		this.userName=['switch','test3','test5','noviah']
 		this.getuserName()
 		console.log(this.userName)
 
@@ -139,7 +102,48 @@ export class GameBoard extends Phaser.Scene {
 	
 		   
 	}
+	//
+	decideCard(){
+	(async () => {
+		await client.hydrated();
+		const getUser = await Auth.currentAuthenticatedUser();
+		const name = getUser.username;
+		const result = await client.query({
+			query: gql(queries.getQw),
+			variables: {
+				username: name
+			},
+			fetchPolicy: 'network-only',
+		});
+		const roomid = result.data.getQw.roomID;
+		const result2 = await client.query({
+			query: gql(queries.getReadyPageTable),
+			variables: {
+				roomID: roomid
+			},
+			fetchPolicy: 'network-only',
+		});
+		const cardSet = result2.data.getReadyPageTable.cards;
+		let card_number=0;
+			let x_pos=0;
+			let y_pos=0; 
+			this.cardSet=[] 
+		  for(var i=0;i<6;i++){
+			for(var j=0 ;j<6;j++){
+			   var generatecard=cardSet[card_number]
+				 this.card=new Card(this,405+x_pos,85+y_pos,'cards',generatecard).setOrigin(0, 0).setInteractive().setDataEnabled()
+				 this.cardSet.push(this.card)
+			   this.card.data.set('card_number', card_number);
+				x_pos+=65;
+				card_number++;
+			 }
+			   y_pos+=65;
+			   x_pos=0;
+			 }
 	
+		
+	})();
+}
 	
 
 	
