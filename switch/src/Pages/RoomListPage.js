@@ -208,11 +208,7 @@ getStatus = async() => {
 
 }  
 
-//appsync get the playerCount in each room 
-// getPlayerCount = async () =>{
-//     var storePlayerCount = [];
-//     const result = await API.graphql(graphqlOperation(queries.getRoompage, {roomid : rID});
-// }
+
 handleRanDomRoom = async () =>{
     var storeRoom = [];
     const result = await API.graphql(graphqlOperation(queries.listRoompages));
@@ -263,6 +259,20 @@ handleCreateRoom = async (random) =>{
                     readyNum : 0
                     }}
                 ));
+                await API.graphql(graphqlOperation(mutations.createQw, 
+                    {
+                        input:{
+                            username : name,
+                            roomID : random
+                        }
+                    }));
+                    await API.graphql(graphqlOperation(mutations.updateQw, 
+                        {
+                            input:{
+                                username : name,
+                                roomID : random
+                            }
+                        }));
 }
 
 
@@ -304,6 +314,20 @@ handleCreateRoom = async (random) =>{
                                 players : updatedPlayers
                             }
                         }));
+                        await API.graphql(graphqlOperation(mutations.createQw, 
+                            {
+                                input:{
+                                    username : name,
+                                    roomID : roomnum
+                                }
+                            }));
+                            await API.graphql(graphqlOperation(mutations.updateQw, 
+                                {
+                                    input:{
+                                        username : name,
+                                        roomID : roomnum
+                                    }
+                                }));
             })();
                 const roomID = this.state.rID[i];
                 
@@ -318,24 +342,6 @@ handleCreateRoom = async (random) =>{
         }
     }
 
-    //render the room button only when the room id is available
-    // renderRoom(i){
-    //     if (this.state.rID[i]){
-    //         return(
-    //             <button className="room-button" onClick={(e) => {this.handleRoomClick(e,i)}}>
-    //                     Room {this.state.rID[i]} <br />
-    //                     {this.state.player_count[i]}/4 <br />
-    //                     {this.state.status[i]}
-    //             </button>
-    //         );
-    //     }
-    //     else {
-    //         return(
-    //             <button className="empty-room-button"></button>
-    //         )
-    //     }
-    // }
-    
 
     handleCreateClick (e){
         e.preventDefault();
@@ -412,6 +418,20 @@ handleCreateRoom = async (random) =>{
                                     players : updatedPlayers
                                 }
                             }));
+                            await API.graphql(graphqlOperation(mutations.createQw, 
+                                {
+                                    input:{
+                                        username : name,
+                                        roomID : this.state.inputNum
+                                    }
+                                }));
+                                await API.graphql(graphqlOperation(mutations.updateQw, 
+                                    {
+                                        input:{
+                                            username : name,
+                                            roomID : this.state.inputNum
+                                        }
+                                    }));
                         const ID = this.state.inputNum;
                         let path = {
                         pathname: '/room',
@@ -495,4 +515,6 @@ handleCreateRoom = async (random) =>{
 
 
 export default withRouter(RoomListPage);
+
+
 

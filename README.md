@@ -2,7 +2,7 @@
 ![](https://github.com/jariclnnf/the-switch-game/blob/master/img/WechatIMG123.png)
 
 
-http://ver01-switch.s3-website.us-east-2.amazonaws.com/
+http://switch-20190429040250-hostingbucket-switch.s3-website.us-east-2.amazonaws.com/
 
 Switch game rules
 

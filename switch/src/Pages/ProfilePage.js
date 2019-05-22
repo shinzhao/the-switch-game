@@ -6,35 +6,33 @@ import { Auth } from 'aws-amplify';
 import Validate from './FormValidation'
 import FormErrors from "./FormErrors";
 
+/**
+ * This component is the page for user profile.
+ * It will render if a "my account" button was clicked,
+ * and redirect to /profile.
+ */
 class ProfilePage extends Component {
-  state={
-    oldpassword: "",
-    newpassword: "",
-    confirmpassword: "",
-    errors: {
-      cognito: null,
-      blankfield: false,
-      passwordmatch: false
-    }
-  }
   constructor(){
     super();
     this.state=({
-      name: ''
-    })
-    this.handleBackClick = this.handleBackClick.bind(this);
-    this.handleGameRuleClick=this.handleGameRuleClick.bind(this);
-    
-  }
-  clearErrorState = () => {
-    this.setState({
+      name: '',
+      oldpassword: "",
+      newpassword: "",
+      confirmpassword: "",
       errors: {
         cognito: null,
         blankfield: false,
         passwordmatch: false
       }
-    });
+    })
+    this.handleBackClick = this.handleBackClick.bind(this);
+    this.handleGameRuleClick=this.handleGameRuleClick.bind(this);
   }
+
+  componentDidMount() {
+    this.getUserInfo();
+  }
+  
   clearErrorState = () => {
     this.setState({
       errors: {
@@ -45,11 +43,19 @@ class ProfilePage extends Component {
     });
   }
 
+  /**
+   * Handles the "back" button click, will redirect to room list page.
+   * @param {event} e 
+   */
   handleBackClick(e) {
     e.preventDefault();
     this.props.history.push('/room-list');
   }
 
+  /**
+   * Gets current authenticated user's username.
+   * Then, sets name state as the username gotten from Amplify.
+   */
   getUserInfo() {
     Auth.currentUserInfo().then((userInfo) => {
       const { username } = userInfo;
@@ -59,25 +65,21 @@ class ProfilePage extends Component {
     });
   }
 
-  //get score info from db
-  getScore() {
-
-  }
-
-  componentDidMount() {
-    this.getUserInfo();
-  }
-  
-  handlesubmit = async event =>{
+  /**
+   * Handles the "submit" button click.
+   * Changes password and redirects to the password confirmation page
+   * if there's no error with the input
+   * @param {event} event
+   */
+  handlesubmit = async event => {
     event.preventDefault();
     this.clearErrorState();
     const error = Validate(event, this.state);
     if(error){
       this.setState({
-        errors:{...this.state.eeror, ...error}
+        errors:{...this.state.error, ...error}
       });
     }
-    // AWS Cognito integration
     try {
       const user = await Auth.currentAuthenticatedUser();
       console.log(user);
@@ -86,14 +88,18 @@ class ProfilePage extends Component {
         this.state.oldpassword,
         this.state.newpassword
       );
-      this.props.history.push("changepasswordconfirmation")
+      this.props.history.push("/changepasswordconfirmation")
     }
     catch(error){
-      console.log(error)
-
+      console.log(error);
     }
   }
 
+  /**
+   * Handles input change.
+   * Sets the value entered by user in the input area to corresponding state
+   * @param {event} event
+   */
   onInputChange = event => {
     this.setState({
       [event.target.id]: event.target.value
@@ -101,11 +107,14 @@ class ProfilePage extends Component {
     document.getElementById(event.target.id).classList.remove("is-danger");
   }
 
+  /**
+   * Handles "game rule" button click, will redirect to game rule page
+   * @param {event} e
+   */
   handleGameRuleClick=(e)=>{
     e.preventDefault();
     this.props.history.push('/game-rule')
   }
-
   
   render() {
     return (
@@ -143,7 +152,6 @@ class ProfilePage extends Component {
                 </div>
                 </form>
                 </div>
-
         </div>
     )
 }

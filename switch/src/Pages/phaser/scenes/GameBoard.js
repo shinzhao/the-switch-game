@@ -33,6 +33,29 @@ export class GameBoard extends Phaser.Scene {
 	
 
 	create() {
+		(async () => {
+			await client.hydrated();
+			const getUser = await Auth.currentAuthenticatedUser();
+			const name = getUser.username;
+			const result = await client.query({
+				query: gql(queries.getQw),
+				variables: {
+					username: name
+				},
+				fetchPolicy: 'network-only',
+			});
+			const roomid = result.data.getQw.roomID;
+			const result2 = await client.query({
+				query: gql(queries.getReadyPageTable),
+				variables: {
+					roomID: roomid
+				},
+				fetchPolicy: 'network-only',
+			});
+			const cardSet = result2.data.getReadyPageTable.cards;
+			console.log('show me the cards in the game board : ' + cardSet);
+		})();
+	
 		this.gameBoard = [0,1,2,3,4,5,6,7,8,9,10,
 			11,12,13,14,15,16,17,18,19,20,21,22,
 			23,24,25,26,27,28,29,30,31,32,33,34,35,36];
@@ -50,7 +73,7 @@ export class GameBoard extends Phaser.Scene {
 			   y_pos1+=65;
 			   x_pos1=0;
 			 }
-			 
+		
 		let card_number=0;
 		let ranNums=[3,7,15,33,25,46,8,9,28,53,11,6,34,36,21,23,41,19,16,1,47,29,51,39,2,25,27,40,30,
 		              37,10,22,10,20,50,38,26]
@@ -282,7 +305,9 @@ async initCardData(card,x,y,theusername){
 			}
 		});
 	}	
+
 	
+
 
 		
 
