@@ -85,14 +85,16 @@ export class GameBoard extends Phaser.Scene {
 
 
 		
-		this.userName=['switch','test3','test5','noviah']
+		//this.userName=['switch','test3','test5','noviah']
+		this.getuserName()
+		console.log(this.userName)
 
 		//test 4 player mode
-		this.initCardData(-1,405,85,this.userName[0])
-		this.initCardData(-1,730,85,this.userName[1])
-		this.initCardData(-1,405,410,this.userName[2])
-		this.initCardData(-1,730,410,this.userName[3])
-		this.playername=this.add.text(500,50,this.userName[0]+' turn').setScale(1.5,1.5)	
+		// this.initCardData(-1,405,85,this.userName[0])
+		// this.initCardData(-1,730,85,this.userName[1])
+		// this.initCardData(-1,405,410,this.userName[2])
+		// this.initCardData(-1,730,410,this.userName[3])
+		// this.playername=this.add.text(500,50,this.userName[0]+' turn').setScale(1.5,1.5)	
 
 		//display player name
 		this.name1=this.add.text(20,70,this.userName[0])
@@ -100,7 +102,7 @@ export class GameBoard extends Phaser.Scene {
 		this.name3=this.add.text(20,370,this.userName[2])
 		this.name4=this.add.text(900,370,this.userName[3])
 	
-		this.clickedBox(ranNums)
+	//	this.clickedBox(ranNums)
 
 //decide poker hands
 		this.cardWeGet=[]
@@ -156,8 +158,7 @@ getuserName(){
 		const getPlayersInTheRoom = await API.graphql(graphqlOperation(queries.getRoompage,{
 				roomid : result
 		}))
-		
-		const userName = getPlayersInTheRoom.data.getRoompage.players;
+		this.userName = getPlayersInTheRoom.data.getRoompage.players;
 })();
 }
 
@@ -356,7 +357,7 @@ async updateScreen(){
 		this.player[3].setX(x4)
 		this.player[3].setY(y4)
 
-		this.playername.text=this.userName[result1.data.getQw.seat%4]+' turn'
+		//this.playername.text=this.userName[result1.data.getQw.seat%4]+' turn'
 
 		let arrange=result1.data.getQw.seat
 		let cardleft=result1.data.getQw.cardLeft
@@ -364,25 +365,25 @@ async updateScreen(){
 			if(result1.data.getQw.whichCard!=-1){
 					this.cardSet[result1.data.getQw.whichCard].setX(20+arrange*10)
 					this.cardSet[result1.data.getQw.whichCard].setY(100)
-					this.cardSet[result1.data.getQw.whichCard].setScale(0.8,0.8)
+					this.cardSet[result1.data.getQw.whichCard].setScale(0.1,0.1)
 					}
 			if(result2.data.getQw.whichCard!=-1){
 				this.cardSet[result2.data.getQw.whichCard].setX(900+arrange*10)
 				this.cardSet[result2.data.getQw.whichCard].setY(100)
-				this.cardSet[result2.data.getQw.whichCard].setScale(0.8,0.8)
+				this.cardSet[result2.data.getQw.whichCard].setScale(0.1,0.1)
 		 }
 		 if(result3.data.getQw.whichCard!=-1){
 			this.cardSet[result3.data.getQw.whichCard].setX(20+arrange*10)
 			this.cardSet[result3.data.getQw.whichCard].setY(400)
-			this.cardSet[result3.data.getQw.whichCard].setScale(0.8,0.8)
+			this.cardSet[result3.data.getQw.whichCard].setScale(0.1,0.1)
 	 }
 	 if(result4.data.getQw.whichCard!=-1){
 		this.cardSet[result4.data.getQw.whichCard].setX(900+arrange*10)
 		this.cardSet[result4.data.getQw.whichCard].setY(400)
-		this.cardSet[result4.data.getQw.whichCard].setScale(0.8,0.8)
+		this.cardSet[result4.data.getQw.whichCard].setScale(0.1,0.1)
 		}
 		
-		if(cardleft<=0){
+		if(cardleft<=28){
 			this.newBoard=this.add.image(400, 80, 'boardbg');
 			this.newBoard.setOrigin(0, 0).setScale(2.8,2.8);
 			this.playername.text='Game Over'
@@ -487,7 +488,7 @@ checkPH(the_card_get){
 	
 }
 	update(time, delta) {
-		 this.updateScreen()
+		 //this.updateScreen()
 	
 		
 	}
