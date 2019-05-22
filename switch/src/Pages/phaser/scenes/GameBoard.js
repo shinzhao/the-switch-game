@@ -56,24 +56,12 @@ export class GameBoard extends Phaser.Scene {
 		
 		//display card
 		this.decideCard()
-			 
-			 //add player chess
-			 let player1=new Player(this,405,85,'chess_red',1).setOrigin(0,0)
-			 let player2=new Player(this,730,85,'chess_blue',2).setOrigin(0,0)
-			 let player3=new Player(this,405,410,'chess_purple',3).setOrigin(0,0)
-			 let player4=new Player(this,730,410,'chess_orange',4).setOrigin(0,0)
-
-			 this.player=[]
-			 this.player.push(player1)
-			 this.player.push(player2)
-			 this.player.push(player3)
-			 this.player.push(player4)
-
-
-		
+			 		
 		this.userName=['switch','test3','test5','noviah']
-		this.getuserName()
+		//this.getuserName()
 		console.log(this.userName)
+
+		this.initiRoomInfo()
 
 		//test 4 player mode
 		// this.initCardData(-1,405,85,this.userName[0])
@@ -88,12 +76,10 @@ export class GameBoard extends Phaser.Scene {
 		this.name3=this.add.text(20,370,this.userName[2])
 		this.name4=this.add.text(900,370,this.userName[3])
 	
-	//	this.clickedBox(ranNums)
-
+	
+     // this.clickedBox()
 //decide poker hands
 		this.cardWeGet=[]
-		//this.mygetcard=[0,16,25,26,40,2,3,4,5,13,39]
-		//this.mygetcard.sort()
 		this.numOfEach=[]
 		this.spade=[]
 		this.club=[]
@@ -140,11 +126,63 @@ export class GameBoard extends Phaser.Scene {
 			   y_pos+=65;
 			   x_pos=0;
 			 }
-	
+			 //add player chess
+			 let player1=new Player(this,405,85,'chess_red',1).setOrigin(0,0)
+			 let player2=new Player(this,730,85,'chess_blue',2).setOrigin(0,0)
+			 let player3=new Player(this,405,410,'chess_purple',3).setOrigin(0,0)
+			 let player4=new Player(this,730,410,'chess_orange',4).setOrigin(0,0)
+
+			 this.player=[]
+			 this.player.push(player1)
+			 this.player.push(player2)
+			 this.player.push(player3)
+			 this.player.push(player4)
+		 
+			 
+
 		
 	})();
 }
 	
+initiRoomInfo(){
+	(async () => {
+		await client.hydrated();
+		const getUser = await Auth.currentAuthenticatedUser();
+		const name = getUser.username;
+		const result = await client.query({
+			query: gql(queries.getQw),
+			variables: {
+				username: name
+			},
+			fetchPolicy: 'network-only',
+		});
+		const roomid = result.data.getQw.roomID;
+		const result2 = await client.query({
+			query: gql(queries.getReadyPageTable),
+			variables: {
+				roomID: roomid
+			},
+			fetchPolicy: 'network-only',
+		});
+		const cardSet = result2.data.getReadyPageTable.cards;
+console.log('inital info'+cardSet)
+	
+	const getPlayersInTheRoom = await API.graphql(graphqlOperation(queries.getRoompage,{
+			roomid : roomid
+	}))
+
+	const userName = getPlayersInTheRoom.data.getRoompage.players;
+	console.log('initial info'+userName)
+	const thething = {
+		username : name,
+		userList:userName,
+		cardGet: cardSet
+			};
+const newThing = await API.graphql(graphqlOperation(mutations.updateQw, {input: thething}));
+
+	})();
+
+}
 
 	
 //check if the round is this user's round
@@ -169,25 +207,24 @@ export class GameBoard extends Phaser.Scene {
 			}
 			)
 		}
-	
 
 
-getuserName(){
-	(async () => {
-		const getUser = await Auth.currentAuthenticatedUser();
-		const name = getUser.username;
-		const getRoomID = await API.graphql(graphqlOperation(queries.getQw,{
-				username : name
-		}));
+// getuserName(){
+// 	(async () => {
+// 		const getUser = await Auth.currentAuthenticatedUser();
+// 		const name = getUser.username;
+// 		const getRoomID = await API.graphql(graphqlOperation(queries.getQw,{
+// 				username : name
+// 		}));
 		
-		const result = getRoomID.data.getQw.roomID;
-		console.log(result)
-		const getPlayersInTheRoom = await API.graphql(graphqlOperation(queries.getRoompage,{
-				roomid : result
-		}))
-		this.userName = getPlayersInTheRoom.data.getRoompage.players;
-})();
-}
+// 		const result = getRoomID.data.getQw.roomID;
+// 		console.log(result)
+// 		const getPlayersInTheRoom = await API.graphql(graphqlOperation(queries.getRoompage,{
+// 				roomid : result
+// 		}))
+// 		const userName = getPlayersInTheRoom.data.getRoompage.players;
+// })();
+// }
 
 
 //switch user between different round
@@ -279,6 +316,7 @@ async initCardData(card,x,y,theusername){
 	 const newThing = await API.graphql(graphqlOperation(mutations.updateQw, {input: thething}));
 	}
 
+	//update the user's current rank
 	async updateRank(){
 		const getUser = await Auth.currentAuthenticatedUser();
 		const name = getUser.username;
