@@ -58,7 +58,7 @@ export class GameBoard extends Phaser.Scene {
 		this.decideCard()
 			 		
 		this.userName=['switch','test3','test5','noviah']
-		//this.getuserName()
+		this.getuserName()
 		console.log(this.userName)
 
 		this.initiRoomInfo()
@@ -72,7 +72,7 @@ export class GameBoard extends Phaser.Scene {
 		// this.name4=this.add.text(900,370,this.userName[3])
 	
 	
-     // this.clickedBox()
+      this.clickedBox()
 //decide poker hands
 		this.cardWeGet=[]
 		this.numOfEach=[]
@@ -254,7 +254,7 @@ async round(x,y,cardNum,ifdecrease){
 		const cardleft=result1.data.getQw.cardLeft
 		console.log('the recent seat'+seat)
 		 if(x==this.player[seat%4].x||y==this.player[seat%4].y){
-			this.checkUserInfo(cardNum,this.userName[seat%4],x,y,seat,cardleft,ifdecrease,ranNums)
+			this.checkUserInfo(cardNum,userName[seat%4],x,y,seat,cardleft,ifdecrease,ranNums)
 		 }
 	})();
 }
@@ -549,7 +549,7 @@ checkPH(the_card_get){
 	
 }
 	update(time, delta) {
-		 //this.updateScreen()
+		 this.updateScreen()
 	
 		
 	}
