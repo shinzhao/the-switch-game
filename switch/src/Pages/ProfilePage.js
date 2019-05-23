@@ -137,7 +137,7 @@ class ProfilePage extends Component {
                     <h1>{this.state.name}</h1>
 
                 </div>
-                <p className="score">Win: | Lost: | Presentage: |</p>
+                {/* <p className="score">Win: | Lost: | Presentage: |</p> */}
               
                 <div className="passwordsetting">
                 <h1>Change Password</h1>

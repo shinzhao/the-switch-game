@@ -489,6 +489,8 @@ handleCreateRoom = async (random) =>{
                 <form>
                     <label className="room-num">Room #: <input onChange={this.inputChange} type="number" className="room-num-input" /></label>
                     <input type='button' value="ENTER" className="enter-button" onClick={this.handleEnterRoom} />
+                    <label className="userid">User ID:<input onChange={this.inputChange} type="string" className="username" /></label>
+                    <input type='button' value="ENTERID" className="enterid-button" onClick={this.handleEnterRoom} />
                 </form>
                 <button className="create-button" onClick={this.handleCreateClick}>Create New Room</button>
                 <table>
