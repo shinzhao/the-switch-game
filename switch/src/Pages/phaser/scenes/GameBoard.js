@@ -58,11 +58,18 @@ export class GameBoard extends Phaser.Scene {
 		this.decideCard()
 			 		
 		this.userName=['switch','test3','test5','noviah']
-		this.getuserName()
-		console.log(this.userName)
-
 		this.initiRoomInfo()
+		this.getuserName()
 
+
+		//test 4 player mode
+		this.initCardData(-1,405,85,this.userName[0])
+		this.initCardData(-1,730,85,this.userName[1])
+		this.initCardData(-1,405,410,this.userName[2])
+		this.initCardData(-1,730,410,this.userName[3])
+		this.playername=this.add.text(500,50,this.userName[0]+' turn').setScale(1.5,1.5)	
+
+		
 	
 
 		//display player name
@@ -72,7 +79,7 @@ export class GameBoard extends Phaser.Scene {
 		// this.name4=this.add.text(900,370,this.userName[3])
 	
 	
-      this.clickedBox()
+    this.clickedBox()
 //decide poker hands
 		this.cardWeGet=[]
 		this.numOfEach=[]
@@ -123,19 +130,18 @@ export class GameBoard extends Phaser.Scene {
 			 }
 			 //add player chess
 			 let player1=new Player(this,405,85,'chess_red',1).setOrigin(0,0)
-			 let player2=new Player(this,730,85,'chess_blue',2).setOrigin(0,0)
-			 let player3=new Player(this,405,410,'chess_purple',3).setOrigin(0,0)
-			 let player4=new Player(this,730,410,'chess_orange',4).setOrigin(0,0)
+			let player2=new Player(this,730,85,'chess_blue',2).setOrigin(0,0)
+			let player3=new Player(this,405,410,'chess_purple',3).setOrigin(0,0)
+			let player4=new Player(this,730,410,'chess_orange',4).setOrigin(0,0)
 
-			 this.player=[]
-			 this.player.push(player1)
-			 this.player.push(player2)
-			 this.player.push(player3)
-			 this.player.push(player4)
-		 
-
-		
+			this.player=[]
+			this.player.push(player1)
+			this.player.push(player2)
+			this.player.push(player3)
+			this.player.push(player4)
 	})();
+
+	
 }
 	
 
@@ -176,7 +182,9 @@ console.log('inital info'+cardSet)
 			};
 const newThing = await API.graphql(graphqlOperation(mutations.updateQw, {input: thething}));
 
+
 	})();
+
 
 }
 
@@ -214,12 +222,8 @@ getuserName(){
 		}));
 		
 		const userName = result.data.getQw.userList;
-			//test 4 player mode
-		this.initCardData(-1,405,85,userName[0])
-		this.initCardData(-1,730,85,userName[1])
-		this.initCardData(-1,405,410,userName[2])
-		this.initCardData(-1,730,410,userName[3])
-		this.playername=this.add.text(500,50,userName[0]+' turn').setScale(1.5,1.5)	
+		console.log('in initial '+userName[0])
+		
 
 })();
 }
@@ -242,7 +246,8 @@ async round(x,y,cardNum,ifdecrease){
 		});
 		const userName=result.data.getQw.userList
 		const ranNums=result.data.getQw.cardGet
-		var nameWeGot1 = userName[0];
+		console.log('in round'+userName)
+		var nameWeGot1 = this.userName[0];
 		const result1 = await client.query({
 			query: gql(queries.getQw),
 			variables: {
@@ -254,7 +259,7 @@ async round(x,y,cardNum,ifdecrease){
 		const cardleft=result1.data.getQw.cardLeft
 		console.log('the recent seat'+seat)
 		 if(x==this.player[seat%4].x||y==this.player[seat%4].y){
-			this.checkUserInfo(cardNum,userName[seat%4],x,y,seat,cardleft,ifdecrease,ranNums)
+			this.checkUserInfo(cardNum,this.userName[seat%4],x,y,seat,cardleft,ifdecrease,ranNums)
 		 }
 	})();
 }
@@ -263,15 +268,15 @@ async round(x,y,cardNum,ifdecrease){
 
 //move to next player
 async updateRound(theSeat,theCard){
-  const getUser = await Auth.currentAuthenticatedUser();
-		const name = getUser.username;
-		const result = await API.graphql(graphqlOperation(queries.getQw,{
-				username : name
-		}));
-		const userName = result.data.getQw.userList
+  // const getUser = await Auth.currentAuthenticatedUser();
+	// 	const name = getUser.username;
+	// 	const result = await API.graphql(graphqlOperation(queries.getQw,{
+	// 			username : name
+	// 	}));
+	// 	const userName = result.data.getQw.userList
 
 	const thething = {
-				username : userName[0],
+				username : this.userName[0],
 				seat:theSeat+1,
 				cardLeft:theCard
 					};
@@ -300,7 +305,7 @@ async initCardData(card,x,y,theusername){
 }
 	
 //when move, update data to database
-	async updateCardData(card,x,y,name,newCard){
+	async updateCardData(card,x,y,name){
 		const cardV = card;
 		const xV =x;
 		const yV = y;
@@ -358,13 +363,16 @@ async updateScreen(){
  
 		await client.hydrated();
 
-		const getUser = await Auth.currentAuthenticatedUser();
-		const name = getUser.username;
-		const result = await API.graphql(graphqlOperation(queries.getQw,{
-				username : name
-		}));
-		const userName = result.data.getQw.userList;
-		
+		// const getUser = await Auth.currentAuthenticatedUser();
+		// const name = getUser.username;
+		// const getRoomID = await API.graphql(graphqlOperation(queries.getQw,{
+		// 		username : name
+		// }));
+		// const result = getRoomID.data.getQw.roomID;
+		// const getPlayersInTheRoom = await API.graphql(graphqlOperation(queries.getRoompage,{
+		// 		roomid : result
+		// }))
+		// const userName = getPlayersInTheRoom.data.getRoompage.players;
 						
 		var nameWeGot1 = this.userName[0];
 		const result1 = await client.query({
@@ -418,7 +426,7 @@ async updateScreen(){
 		this.player[3].setX(x4)
 		this.player[3].setY(y4)
 
-		//this.playername.text=this.userName[result1.data.getQw.seat%4]+' turn'
+		this.playername.text=this.userName[result1.data.getQw.seat%4]+' turn'
 
 		let arrange=result1.data.getQw.seat
 		let cardleft=result1.data.getQw.cardLeft
@@ -444,7 +452,8 @@ async updateScreen(){
 		this.cardSet[result4.data.getQw.whichCard].setScale(0.1,0.1)
 		}
 		
-		if(cardleft<=28){
+		//show the result answer
+		if(cardleft<=0){
 			this.newBoard=this.add.image(400, 80, 'boardbg');
 			this.newBoard.setOrigin(0, 0).setScale(2.8,2.8);
 			this.playername.text='Game Over'
@@ -549,7 +558,7 @@ checkPH(the_card_get){
 	
 }
 	update(time, delta) {
-		 this.updateScreen()
+		this.updateScreen()
 	
 		
 	}
