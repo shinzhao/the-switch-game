@@ -3,9 +3,13 @@
 
 ## Team Members: 
 __Yinuo Huang__ _(product manager)_
+
 __Xin Zhao__ _(scrum master)_
+
 __Yueming Tang__ _(developer)_
+
 __David Huang__ _(developer)_
+
 __JinFeng Lin__ _(developer)_
 </br>
 </br>
