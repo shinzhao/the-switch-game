@@ -3,6 +3,7 @@ import Amplify from 'aws-amplify';
 import awsmobile from '../aws-exports';
 import { withAuthenticator } from 'aws-amplify-react';
 import RoomList from './RoomListPage';
+//import Game from './Pages/phaser/Game'
 
 Amplify.configure(awsmobile);
 

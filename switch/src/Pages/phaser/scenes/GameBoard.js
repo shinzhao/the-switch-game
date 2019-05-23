@@ -33,29 +33,9 @@ export class GameBoard extends Phaser.Scene {
 	
 
 	create() {
-		(async () => {
-			await client.hydrated();
-			const getUser = await Auth.currentAuthenticatedUser();
-			const name = getUser.username;
-			const result = await client.query({
-				query: gql(queries.getQw),
-				variables: {
-					username: name
-				},
-				fetchPolicy: 'network-only',
-			});
-			const roomid = result.data.getQw.roomID;
-			const result2 = await client.query({
-				query: gql(queries.getReadyPageTable),
-				variables: {
-					roomID: roomid
-				},
-				fetchPolicy: 'network-only',
-			});
-			const cardSet = result2.data.getReadyPageTable.cards;
-			console.log('show me the cards in the game board : ' + cardSet);
-		})();
 	
+		//console.log(this.cardSet)
+	  
 		this.gameBoard = [0,1,2,3,4,5,6,7,8,9,10,
 			11,12,13,14,15,16,17,18,19,20,21,22,
 			23,24,25,26,27,28,29,30,31,32,33,34,35,36];
@@ -74,16 +54,71 @@ export class GameBoard extends Phaser.Scene {
 			   x_pos1=0;
 			 }
 		
+		//display card
+		this.decideCard()
+			 		
+		this.userName=['switch','test3','test5','noviah']
+		this.initiRoomInfo()
+		this.getuserName()
+
+
+		//test 4 player mode
+		this.initCardData(-1,405,85,this.userName[0])
+		this.initCardData(-1,730,85,this.userName[1])
+		this.initCardData(-1,405,410,this.userName[2])
+		this.initCardData(-1,730,410,this.userName[3])
+		this.playername=this.add.text(500,50,this.userName[0]+' turn').setScale(1.5,1.5)	
+
+		
+	
+
+		//display player name
+		// this.name1=this.add.text(20,70,this.userName[0])
+		// this.name2=this.add.text(900,70,this.userName[1])
+		// this.name3=this.add.text(20,370,this.userName[2])
+		// this.name4=this.add.text(900,370,this.userName[3])
+	
+	
+    this.clickedBox()
+//decide poker hands
+		this.cardWeGet=[]
+		this.numOfEach=[]
+		this.spade=[]
+		this.club=[]
+		this.heart=[]
+		this.dia=[]
+	
+		   
+	}
+	//
+	decideCard(){
+	(async () => {
+		await client.hydrated();
+		const getUser = await Auth.currentAuthenticatedUser();
+		const name = getUser.username;
+		const result = await client.query({
+			query: gql(queries.getQw),
+			variables: {
+				username: name
+			},
+			fetchPolicy: 'network-only',
+		});
+		const roomid = result.data.getQw.roomID;
+		const result2 = await client.query({
+			query: gql(queries.getReadyPageTable),
+			variables: {
+				roomID: roomid
+			},
+			fetchPolicy: 'network-only',
+		});
+		const cardSet = result2.data.getReadyPageTable.cards;
 		let card_number=0;
-		let ranNums=[3,7,15,33,25,46,8,9,28,53,11,6,34,36,21,23,41,19,16,1,47,29,51,39,2,25,27,40,30,
-		              37,10,22,10,20,50,38,26]
-	   //display board
 			let x_pos=0;
 			let y_pos=0; 
 			this.cardSet=[] 
 		  for(var i=0;i<6;i++){
 			for(var j=0 ;j<6;j++){
-			   var generatecard=ranNums[card_number]
+			   var generatecard=cardSet[card_number]
 				 this.card=new Card(this,405+x_pos,85+y_pos,'cards',generatecard).setOrigin(0, 0).setInteractive().setDataEnabled()
 				 this.cardSet.push(this.card)
 			   this.card.data.set('card_number', card_number);
@@ -93,52 +128,65 @@ export class GameBoard extends Phaser.Scene {
 			   y_pos+=65;
 			   x_pos=0;
 			 }
-			 
 			 //add player chess
 			 let player1=new Player(this,405,85,'chess_red',1).setOrigin(0,0)
-			 let player2=new Player(this,730,85,'chess_blue',2).setOrigin(0,0)
-			 let player3=new Player(this,405,410,'chess_purple',3).setOrigin(0,0)
-			 let player4=new Player(this,730,410,'chess_orange',4).setOrigin(0,0)
+			let player2=new Player(this,730,85,'chess_blue',2).setOrigin(0,0)
+			let player3=new Player(this,405,410,'chess_purple',3).setOrigin(0,0)
+			let player4=new Player(this,730,410,'chess_orange',4).setOrigin(0,0)
 
-			 this.player=[]
-			 this.player.push(player1)
-			 this.player.push(player2)
-			 this.player.push(player3)
-			 this.player.push(player4)
+			this.player=[]
+			this.player.push(player1)
+			this.player.push(player2)
+			this.player.push(player3)
+			this.player.push(player4)
+	})();
 
-
-		
-		this.userName=['switch','test3','test5','noviah']
-
-		//test 4 player mode
-		this.initCardData(-1,405,85,this.userName[0])
-		this.initCardData(-1,730,85,this.userName[1])
-		this.initCardData(-1,405,410,this.userName[2])
-		this.initCardData(-1,730,410,this.userName[3])
-		this.playername=this.add.text(500,50,this.userName[0]+' turn').setScale(1.5,1.5)	
-
-		//display player name
-		this.name1=this.add.text(20,70,this.userName[0])
-		this.name2=this.add.text(900,70,this.userName[1])
-		this.name3=this.add.text(20,370,this.userName[2])
-		this.name4=this.add.text(900,370,this.userName[3])
 	
-		this.clickedBox(ranNums)
+}
+	
 
-//decide poker hands
-		this.cardWeGet=[]
-		//this.mygetcard=[0,16,25,26,40,2,3,4,5,13,39]
-		//this.mygetcard.sort()
-		this.numOfEach=[]
-		this.spade=[]
-		this.club=[]
-		this.heart=[]
-		this.dia=[]
+//inital the room information
+initiRoomInfo(){
+	(async () => {
+		await client.hydrated();
+		const getUser = await Auth.currentAuthenticatedUser();
+		const name = getUser.username;
+		const result = await client.query({
+			query: gql(queries.getQw),
+			variables: {
+				username: name
+			},
+			fetchPolicy: 'network-only',
+		});
+		const roomid = result.data.getQw.roomID;
+		const result2 = await client.query({
+			query: gql(queries.getReadyPageTable),
+			variables: {
+				roomID: roomid
+			},
+			fetchPolicy: 'network-only',
+		});
+		const cardSet = result2.data.getReadyPageTable.cards;
+console.log('inital info'+cardSet)
 	
-		   
-	}
-	
-	
+	const getPlayersInTheRoom = await API.graphql(graphqlOperation(queries.getRoompage,{
+			roomid : roomid
+	}))
+
+	const userName = getPlayersInTheRoom.data.getRoompage.players;
+	console.log('initial info'+userName)
+	const thething = {
+		username : name,
+		userList:userName,
+		cardGet: cardSet
+			};
+const newThing = await API.graphql(graphqlOperation(mutations.updateQw, {input: thething}));
+
+
+	})();
+
+
+}
 
 	
 //check if the round is this user's round
@@ -163,42 +211,42 @@ export class GameBoard extends Phaser.Scene {
 			}
 			)
 		}
-	
 
 
 getuserName(){
 	(async () => {
 		const getUser = await Auth.currentAuthenticatedUser();
 		const name = getUser.username;
-		const getRoomID = await API.graphql(graphqlOperation(queries.getQw,{
+		const result = await API.graphql(graphqlOperation(queries.getQw,{
 				username : name
 		}));
 		
-		const result = getRoomID.data.getQw.roomID;
-		console.log(result)
-		const getPlayersInTheRoom = await API.graphql(graphqlOperation(queries.getRoompage,{
-				roomid : result
-		}))
+		const userName = result.data.getQw.userList;
+		console.log('in initial '+userName[0])
 		
-		const userName = getPlayersInTheRoom.data.getRoompage.players;
+
 })();
 }
 
 
 //switch user between different round
-async round(x,y,cardNum,ifdecrease,ranNums){
+async round(x,y,cardNum,ifdecrease){
 	(async () => { 
-		// const getUser = await Auth.currentAuthenticatedUser();
-		// const name = getUser.username;
-		// const getRoomID = await API.graphql(graphqlOperation(queries.getQw,{
-		// 		username : name
-		// }));
-		// const result = getRoomID.data.getQw.roomID;
-		// const getPlayersInTheRoom = await API.graphql(graphqlOperation(queries.getRoompage,{
-		// 		roomid : result
-		// }))
-		// const userName = getPlayersInTheRoom.data.getRoompage.players;
-    // await client.hydrated();
+		await client.hydrated();
+
+		const getUser = await Auth.currentAuthenticatedUser();
+		const name = getUser.username;
+
+		const result = await client.query({
+			query: gql(queries.getQw),
+			variables: {
+				username: name
+			},
+			fetchPolicy: 'network-only',
+		});
+		const userName=result.data.getQw.userList
+		const ranNums=result.data.getQw.cardGet
+		console.log('in round'+userName)
 		var nameWeGot1 = this.userName[0];
 		const result1 = await client.query({
 			query: gql(queries.getQw),
@@ -222,14 +270,10 @@ async round(x,y,cardNum,ifdecrease,ranNums){
 async updateRound(theSeat,theCard){
   // const getUser = await Auth.currentAuthenticatedUser();
 	// 	const name = getUser.username;
-	// 	const getRoomID = await API.graphql(graphqlOperation(queries.getQw,{
+	// 	const result = await API.graphql(graphqlOperation(queries.getQw,{
 	// 			username : name
 	// 	}));
-	// 	const result = getRoomID.data.getQw.roomID;
-	// 	const getPlayersInTheRoom = await API.graphql(graphqlOperation(queries.getRoompage,{
-	// 			roomid : result
-	// 	}))
-	// 	const userName = getPlayersInTheRoom.data.getRoompage.players;
+	// 	const userName = result.data.getQw.userList
 
 	const thething = {
 				username : this.userName[0],
@@ -261,7 +305,7 @@ async initCardData(card,x,y,theusername){
 }
 	
 //when move, update data to database
-	async updateCardData(card,x,y,name,newCard){
+	async updateCardData(card,x,y,name){
 		const cardV = card;
 		const xV =x;
 		const yV = y;
@@ -274,6 +318,7 @@ async initCardData(card,x,y,theusername){
 	 const newThing = await API.graphql(graphqlOperation(mutations.updateQw, {input: thething}));
 	}
 
+	//update the user's current rank
 	async updateRank(){
 		const getUser = await Auth.currentAuthenticatedUser();
 		const name = getUser.username;
@@ -288,16 +333,16 @@ async initCardData(card,x,y,theusername){
 
 
 	//click the card and make it move
-	clickedBox(ranNums){
+	clickedBox(){
 		this.input.on('gameobjectdown', (pointer, gameObject) => {
 			for(var i=0;i<36;i++){
 				if(this.gameBoard[i] == i ){
 						if(gameObject.data.get('card_number') == i){
-								this.round(gameObject.x,gameObject.y,i,0,ranNums)
+								this.round(gameObject.x,gameObject.y,i,0)
 								console.log(this.cardWeGet)
 								break;
 						}else if(gameObject.data.get('card_number') == 53){
-							this.round(gameObject.x,gameObject.y,-1,1,ranNums)
+							this.round(gameObject.x,gameObject.y,-1,1)
 								break;
 						}
 					}	
@@ -389,24 +434,25 @@ async updateScreen(){
 			if(result1.data.getQw.whichCard!=-1){
 					this.cardSet[result1.data.getQw.whichCard].setX(20+arrange*10)
 					this.cardSet[result1.data.getQw.whichCard].setY(100)
-					this.cardSet[result1.data.getQw.whichCard].setScale(0.8,0.8)
+					this.cardSet[result1.data.getQw.whichCard].setScale(0.1,0.1)
 					}
 			if(result2.data.getQw.whichCard!=-1){
 				this.cardSet[result2.data.getQw.whichCard].setX(900+arrange*10)
 				this.cardSet[result2.data.getQw.whichCard].setY(100)
-				this.cardSet[result2.data.getQw.whichCard].setScale(0.8,0.8)
+				this.cardSet[result2.data.getQw.whichCard].setScale(0.1,0.1)
 		 }
 		 if(result3.data.getQw.whichCard!=-1){
 			this.cardSet[result3.data.getQw.whichCard].setX(20+arrange*10)
 			this.cardSet[result3.data.getQw.whichCard].setY(400)
-			this.cardSet[result3.data.getQw.whichCard].setScale(0.8,0.8)
+			this.cardSet[result3.data.getQw.whichCard].setScale(0.1,0.1)
 	 }
 	 if(result4.data.getQw.whichCard!=-1){
 		this.cardSet[result4.data.getQw.whichCard].setX(900+arrange*10)
 		this.cardSet[result4.data.getQw.whichCard].setY(400)
-		this.cardSet[result4.data.getQw.whichCard].setScale(0.8,0.8)
+		this.cardSet[result4.data.getQw.whichCard].setScale(0.1,0.1)
 		}
 		
+		//show the result answer
 		if(cardleft<=0){
 			this.newBoard=this.add.image(400, 80, 'boardbg');
 			this.newBoard.setOrigin(0, 0).setScale(2.8,2.8);
@@ -512,7 +558,7 @@ checkPH(the_card_get){
 	
 }
 	update(time, delta) {
-		 this.updateScreen()
+		this.updateScreen()
 	
 		
 	}
