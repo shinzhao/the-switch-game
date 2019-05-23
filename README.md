@@ -1,4 +1,4 @@
-![](https://github.com/jariclnnf/the-switch-game/blob/master/d8aa48f2296d3ffff7d3f63582d972c5.png)
+![](https://github.com/shinzhao/the-switch-game/blob/master/5fe2089b560c78ae893ef22c3ac7d23c.png)
 
 
 ## Team Members: 
