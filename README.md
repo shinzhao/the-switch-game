@@ -1,12 +1,38 @@
-![](https://github.com/jariclnnf/the-switch-game/blob/master/img/fccd59114cefce930cd45f094201a50a.png)
-![](https://github.com/jariclnnf/the-switch-game/blob/master/img/WechatIMG123.png)
+![](https://github.com/jariclnnf/the-switch-game/blob/master/d8aa48f2296d3ffff7d3f63582d972c5.png)
 
 
+## Team Members: 
+__Yinuo Huang__ _(product manager)_
+__Xin Zhao__ _(scrum master)_
+__Yueming Tang__ _(developer)_
+__David Huang__ _(developer)_
+__JinFeng Lin__ _(developer)_
+</br>
+</br>
+
+## Tools Used:
+1. _Gatsby_
+2. _AWS cognito_
+3. _AWS appsync_
+
+## Website
 http://switch-20190429040250-hostingbucket-switch.s3-website.us-east-2.amazonaws.com/
 
-Switch game rules
+## Documentation
 
-4-person rule
+___
+
+## Installation needs
+1.  ```npm install```
+
+
+## Testing:
+1. ```npm jest``` 
+2. ```npm install --save react-testing-library jest-dom```
+3. ```npm i puppeteer```
+
+
+## Game rules
 
 Ready to work
 52 cards (no size king) & 4 different pieces
