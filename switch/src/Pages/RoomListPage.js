@@ -15,7 +15,6 @@ import gql from 'graphql-tag';
 import { Table } from 'react-bootstrap';
 
 
-
 /**
  * A string for Appsync subscription to create a room
  * @constant {string}
@@ -27,24 +26,24 @@ import { Table } from 'react-bootstrap';
     }
   }
 
+  `
 /**
  * A string for Appsync subscription to update the room
  * @constant {string}
  */
 
-  `
   const subtoRoomData2 = `
   subscription{
     onUpdateRoompage{
         roomid players
     }
   }
-
+`
 /**
  * A string for Appsync subscription to delete the room
  * @constant {string}
  */
-  `
+  
   const subtoRoomData3 = `
   subscription{
     onDeleteRoompage{
