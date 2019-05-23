@@ -27,6 +27,7 @@ class ProfilePage extends Component {
     })
     this.handleBackClick = this.handleBackClick.bind(this);
     this.handleGameRuleClick=this.handleGameRuleClick.bind(this);
+    this.handleMyaccountClick=this.handleMyaccountClick.bind(this);
   }
 
   componentDidMount() {
@@ -50,6 +51,10 @@ class ProfilePage extends Component {
   handleBackClick(e) {
     e.preventDefault();
     this.props.history.push('/room-list');
+  }
+  handleMyaccountClick(e){
+    e.preventDefault();
+    this.props.history.push('/my-account');
   }
 
   /**
@@ -121,7 +126,7 @@ class ProfilePage extends Component {
         <div className="profile">
           <button className="profile-back-button" onClick={this.handleBackClick}>Back</button>
           <button className="Game-rule-button" onClick={this.handleGameRuleClick}>Game Rule</button>
-          
+          <button className="profilepage-prifile-button" onClick={this.handleMyaccountClick}>My Account</button>
                 <img
                     src="https://www.shareicon.net/download/2015/09/18/103157_man_512x512.png"
                     alt="profile-img"

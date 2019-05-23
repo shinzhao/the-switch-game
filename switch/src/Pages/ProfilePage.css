@@ -13,7 +13,7 @@
   width: auto;
   position: relative;
   top: 8em;
-  left: 16%;
+  left: 16.5%;
 }
 
 .profile-back-button {
@@ -29,7 +29,7 @@
   -webkit-transition-duration: 0.4s;
   transition-duration: 0.4s;
 }
-.Game-rule-button, .Profile-button {
+.Game-rule-button {
   position: relative;
   left: 2%;
   bottom: 5em;
@@ -42,8 +42,20 @@
   -webkit-transition-duration: 0.4s;
   transition-duration: 0.4s;
 }
-
-.profile-back-button:hover, .Game-rule-button:hover, .Profile-button:hover {
+.profilepage-prifile-button{
+  position: relative;
+  left: 70%;
+  bottom: 5.5em;
+  background-color: #e7e7e7;
+  color: black;
+  border-radius: 8px;
+  border-color: #e7e7e7;
+  font-size: 100%;
+  padding: 0.7% 1%;
+  -webkit-transition-duration: 0.4s;
+  transition-duration: 0.4s;
+}
+.profile-back-button:hover, .Game-rule-button:hover, .profilepage-prifile-button:hover {
   background-color: rgb(93, 106, 134);
   color: white;
   border-color:rgb(93, 106, 134);
