@@ -15,6 +15,10 @@ import { SelectMFAType } from 'aws-amplify-react/dist/Widget';
 import { type } from 'os';
 
 
+/**
+ * A string for Appsync subscription to update the room
+ * @constant {string}
+ */
   const subtoRoomData2 = `
   subscription{
     onUpdateReadyPageTable{
@@ -23,7 +27,11 @@ import { type } from 'os';
   }
   `
  
-
+/**
+ * This component is the page for ready room.
+ * It will render after the user was entered into the room,
+ * and redirect to /room.
+ */
 class RoomPage extends React.Component {
     constructor() {
         super();
@@ -73,6 +81,10 @@ class RoomPage extends React.Component {
         this.subU.unsubscribe();
 
       }
+   /**
+     * Gets the number of people readied in the current room from the database
+     * and set it to num_ready state.
+     */
     async setReadyNum(){
         const data = this.props.location.query;
         const getData = await API.graphql(graphqlOperation(queries.getReadyPageTable,{
@@ -82,7 +94,11 @@ class RoomPage extends React.Component {
         this.setState({
             num_ready : readyNumber
         })
-    }
+    } 
+  /**
+     * Gets the boolean value whether or not the game is started by room master from the database,
+     * and set it to showGame state.
+     */
     async setGameStart(){
         const data = this.props.location.query;
         const getData = await API.graphql(graphqlOperation(queries.getReadyPageTable,{
@@ -93,6 +109,10 @@ class RoomPage extends React.Component {
             showGame : start
         })
     }
+  /**
+     * Gets the ready status of other three players in the current room from the database
+     * and set it to str state.
+     */
     async setReadyStatus(){
         const data = this.props.location.query;
         const getPlayers = await API.graphql(graphqlOperation(queries.getReadyPageTable,{
@@ -107,6 +127,9 @@ class RoomPage extends React.Component {
             str : temp
         })
     }
+  /**
+     * Set the roomOwner state to true if the user is the first one in the array from the database.
+     */
     async setRoomOwner(){
         const getUser = await Auth.currentAuthenticatedUser();
         const name = getUser.username;
@@ -123,6 +146,9 @@ class RoomPage extends React.Component {
         }
 
     }
+   /**
+     * Gets the current room info after 1 second.
+     */
     async waitAndGetList() {
         console.log('Just~~~~~~~~');
         await this.sleep(250);
@@ -132,10 +158,17 @@ class RoomPage extends React.Component {
         this.setReadyStatus()
        
       }
+   /**
+     * Returns a promise.
+     * @param {number} ms 
+     * @returns {Promise}
+     */
       sleep(ms) {
         return new Promise(resolve => setTimeout(resolve, ms))
       }
-      
+    /**
+     * Gets the list of players in the current room.
+     */  
     
     getPlayersByID(){
         (async () => {
@@ -159,6 +192,9 @@ class RoomPage extends React.Component {
 
         })();
     }
+   /**
+     * Sets the playersList state to the array of players
+     */
     async setPlayers(){
         const data = this.props.location.query;
         console.log('check at fun ' + data);
@@ -175,6 +211,11 @@ class RoomPage extends React.Component {
          
         })();
     }
+   /**
+     * Handles the "back" button click.
+     * The info of the user who clicked "back" button will be removed from the database of this room.
+     * @param {event} e 
+     */
     handleBackClick(e) {
         e.preventDefault();
         this.setState({
@@ -266,7 +307,11 @@ class RoomPage extends React.Component {
         this.props.history.push('/room-list')
     }
 
-  
+  /**
+     * Handles the "start" buttton click, which only the room master has.
+     * It will set GameStart attribute in the database of this room to be true.
+     * @param {event} e 
+     */
 
     async handleStartClick(e) {
         e.preventDefault();
@@ -282,7 +327,14 @@ class RoomPage extends React.Component {
                 GameStart : true 
             }}));
     }
-
+/**
+     * Handles the "ready" butotn click, which the three players in the room have.
+     * Updates the current room info in the database.
+     * If the current isReady state for the user is true, 
+     * then it will set isReady state to false and decrease readyNum state by 1.
+     * Otherwise, it will set isReady state to true and increase readyNum state by 1.
+     * @param {event} e 
+     */
     async handleReadyClick(e) {
         e.preventDefault();
         
@@ -367,7 +419,10 @@ class RoomPage extends React.Component {
        
     }
     }
-
+/**
+     * This function will show "ready" button if the current isReady state is false.
+     * Otherwise, it will show "unready" button.
+     */
     showReadyButton() {
     if(this.state.roomOwner == false){    
         if (this.state.isReady == true) {
@@ -383,7 +438,11 @@ class RoomPage extends React.Component {
         }
     }
     }
-
+ /**
+     * This function checks if the user is room master and
+     * if num_ready state is equal to 3, which means all players are ready to start gaming.
+     * Otherwise, the "start" button will be disabled.
+     */
     showStartButton() {
         if(this.state.num_ready == 3 && this.state.roomOwner == true) {
             return (
@@ -396,7 +455,11 @@ class RoomPage extends React.Component {
             )
         }
     }
-
+/**
+     * If parameter i is equal to 0, the function will return a card for displaying room master's info.
+     * Otherwise, it will return a card for displaying a player's info.
+     * @param {number} i - index 
+     */
     //only show button under the player's own card
     showPlayer(i) {
         if(i == 0){

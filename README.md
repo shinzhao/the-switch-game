@@ -153,13 +153,3 @@ When the two scored 20 points or more after the end of the same game, the highes
 If it is even, then play another game.
 
 Note: After playing another game, it is possible that another player gets a high score and gets the highest score in the game.
-
-2-person rule
-
-25 cards in 5*5
-
-Two players face each other, and the pieces are placed on the leftmost card in the first row in front of them.
-
-10 points for each player with the highest card number
-
-40 points for the winner of this game
