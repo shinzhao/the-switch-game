@@ -11,7 +11,7 @@ __JinFeng Lin__ _(developer)_
 </br>
 
 ## Tools Used:
-1. _Gatsby_
+1. _Phaser_
 2. _AWS cognito_
 3. _AWS appsync_
 
