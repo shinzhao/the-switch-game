@@ -14,10 +14,6 @@ __JinFeng Lin__ _(developer)_
 </br>
 </br>
 
-## Tools Used:
-1. _Phaser_
-2. _AWS cognito_
-3. _AWS appsync_
 
 ## Website
 http://switch-20190429040250-hostingbucket-switch.s3-website.us-east-2.amazonaws.com/
@@ -25,6 +21,11 @@ http://switch-20190429040250-hostingbucket-switch.s3-website.us-east-2.amazonaws
 ## Documentation
 
 ___
+
+## Tools Used:
+1. _Phaser_
+2. _AWS cognito_
+3. _AWS appsync_
 
 ## Installation needs
 1.  ```npm install```
@@ -35,7 +36,7 @@ ___
 2. ```npm install --save react-testing-library jest-dom```
 3. ```npm i puppeteer```
 
-
+___
 ## Game rules
 
 Ready to work
